@@ -8,6 +8,7 @@ set background=dark
 
 set nowritebackup
 set nobackup
+set noswapfile
 
 set clipboard+=unnamed
 
@@ -57,7 +58,7 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
  autocmd vimenter * NERDTree
-
+let g:NERDTreeShowHidden=1
 
 ""lnterface looking
 Bundle 'bling/vim-airline'
