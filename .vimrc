@@ -10,19 +10,26 @@ set nowritebackup
 set nobackup
 set noswapfile
 
+set wildmenu
 set clipboard+=unnamed
 
-set whichwrap=b,s,[,],<,>
+set whichwrap=b,s,h,l,[,],<,>
 set backspace=indent,eol,start
 
 set mouse=a
+set title
 
 set number
 set cursorline
 set cursorcolumn
+set list
+set listchars=tab:>\,extends:<
+set showmatch
 
 set autoindent
+set smartindent
 set expandtab
+set smarttab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
