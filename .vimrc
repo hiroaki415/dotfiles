@@ -1,6 +1,6 @@
 ""setting for my vim
 "@hiroaki
-
+"
 ""primary
 set encoding=utf-8
 syntax on
@@ -23,7 +23,7 @@ set number
 set cursorline
 set cursorcolumn
 set list
-set listchars=tab:>\,extends:<
+set listchars=tab:>-,trail:-
 set showmatch
 
 set autoindent
@@ -45,7 +45,6 @@ set smartcase
 set wrapscan
 set incsearch
 set hlsearch
-
 
 ""setting for Vundle
 set nocompatible
