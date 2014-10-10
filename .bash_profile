@@ -1,1 +1,1 @@
-export PATH=$PATH:/home/waffle/bin
+export PATH=$PATH:$HOME/bin
