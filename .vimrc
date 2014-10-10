@@ -63,12 +63,12 @@ Bundle 'Raimondi/delimitMate'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
- autocmd vimenter * NERDTree
+autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden=1
 
 ""lnterface looking
 Bundle 'bling/vim-airline'
- let g:airline_enable_branch = 0
+let g:airline_enable_branch = 0
 
 Bundle 'altercation/vim-colors-solarized'
 let g:solarized_termtrans = 1
