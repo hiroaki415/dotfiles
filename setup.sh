@@ -4,7 +4,7 @@ ln -sf ~/dotfiles/.vimrc ~/.vimrc
 ln -sf ~/dotfiles/.gvimrc ~/.gvimrc
 
 mkdir ~/.vim
-mkdir ~/.vim/budle
+mkdir ~/.vim/bundle
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/vundle
 
 
