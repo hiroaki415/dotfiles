@@ -39,12 +39,14 @@ set shiftwidth=4
 au BufNewFile,BufRead * set iminsert=0
 au BufNewFile,BufRead * set tabstop=4 shiftwidth=4
 
+
 ""setting for search
 set ignorecase
 set smartcase
 set wrapscan
 set incsearch
 set hlsearch
+
 
 ""setting for Vundle
 set nocompatible
