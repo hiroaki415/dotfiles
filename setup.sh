@@ -8,7 +8,8 @@ ln -sf ~/dotfiles/.gvimrc ~/.gvimrc
 echo "symlink making done"
 
 echo "setup for vundle..."
-if [ -e ~/.vim/bundle/vundle ]:then
+if [ -e ~/.vim/bundle/vundle ];
+then
     echo "vundle is already exist!"
 else
     mkdir ~/.vim
@@ -16,10 +17,6 @@ else
     git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/vundle
     echo "setup vundle done"
 fi
-
-echo "making symlink for emacs..."
-ln -sf ~/dotfiles/.emacs ~/.emacs
-echo "symlink making done"
 
 echo "making symlink for bash..."
 ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
