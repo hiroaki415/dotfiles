@@ -18,6 +18,13 @@ if exist %HOMEDRIVE%%HOMEPATH%\.vim\bundle\vundle goto SKIPVUNDLE
         goto VUNDLEDONE
 :VUNDLEDONE
 
+echo making symlink for emasc...
+mklink %HOMEDRIVE%%HOMEPATH%\.emacs %HOMEDRIVE%%HOMEPATH%\dotfiles\.emacs
+echo symlink making done
+
+echo setting env for emacs...
+setx HOME "%HOMEDRIVE%%HOMEPATH%"
+echo setting env done
 
 echo All Done!
 exit /b
