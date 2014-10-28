@@ -15,12 +15,6 @@
 (show-paren-mode 1)
 (setq show-paren-style 'mixed)
 
-(defun electric-pair ()
-  "If at end of line, insert character pair without surrounding spaces.
-Otherwise, just insert the typed character."
-  (interacive)
-  (if (eolp) (let (parens-require-spaces) (insert -pair)) (self-insert-command 1)))
-
 (column-number-mode 1)
 (line-number-mode 1)
 (global-hl-line-mode)
@@ -58,3 +52,10 @@ Otherwise, just insert the typed character."
 (powerline-default-theme)
 
 (load-theme 'solarized-dark t)
+
+(if window-system (progn
+    (set-frame-parameter nil 'alpha 80)
+    ))
+
+(require 'yasnippet)
+(yas-global-mode 1)
