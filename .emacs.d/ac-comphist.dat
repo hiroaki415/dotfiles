@@ -1,4 +1,14 @@
-((("direx:jump-to-directory-other-window" .
+((("getenv" .
+   [0 0 0 1 0 1])
+  ("concat" .
+   [2 0 0 0 0 0])
+  ("expand-file-name" .
+   [0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
+  ("system-configuration" .
+   [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("starting-match" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0 0])
+  ("direx:jump-to-directory-other-window" .
    [0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
   ("global-set-key" .
    [0 0 0 0 0 0 0 0 0 0 1 0 0 0])
