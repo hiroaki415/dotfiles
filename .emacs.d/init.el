@@ -68,4 +68,23 @@
       popwin:special-display-config)
 (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
 
+(cond (window-system
+       (set-face-attribute 'default nil
+                           :family "Ricty"
+                           :height 100)
+       (set-fontset-font (frame-parameter nil 'font)
+                         'japanese-jisx0208
+                         '("Ricty" . "unicode-bmp")
+                         )
+       (set-fontset-font (frame-parameter nil 'font)
+                         'katakana-jisx0201
+                         '("Ricty" . "unicode-bmp")
+                         )
+       (setq face-font-rescale-alist
+             '(
+               (".*Ricty.*" . 1.0)
+               (".*Ricty.*"    . 1.1)
+               ))
+       ))
+
 (provide 'init)
