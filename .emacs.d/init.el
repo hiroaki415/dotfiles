@@ -1,3 +1,6 @@
+;;setting for emacs
+;;@hiroaki
+
 (set-language-environment "Japanese")
 
 (set-default-coding-systems 'utf-8)
@@ -33,6 +36,7 @@
 (mouse-wheel-mode t)
 (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 1)))
 (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up 1)))
+(setq x-select-enable-clipboard t)
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -45,7 +49,7 @@
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
 
-(require 'smartparens-config)
+(require 'smartparens)
 (smartparens-global-mode t)
 
 (require 'powerline)
@@ -71,7 +75,7 @@
 (cond (window-system
        (set-face-attribute 'default nil
                            :family "Ricty"
-                           :height 100)
+                           :height 120)
        (set-fontset-font (frame-parameter nil 'font)
                          'japanese-jisx0208
                          '("Ricty" . "unicode-bmp")
