@@ -116,4 +116,14 @@
        )
 )
 
+(cond
+ ((eq system-type 'gnu/linux)
+  (require 'mozc)
+  (setq default-input-method "japanese-mozc")
+  )
+ ((eq system-type 'windows-nt)
+  ;;do nothing, under construction
+  )
+)
+
 (provide 'init)
