@@ -52,8 +52,8 @@ set hlsearch
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/dotfiles/.vim/bundle/vundle/
+call vundle#rc('~/dotfiles/.vim/bundle')
 
 Bundle 'gmarik/vundle'
 
