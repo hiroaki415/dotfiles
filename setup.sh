@@ -2,10 +2,29 @@
 
 echo "=== Setup Dotfiles for Linux! ==="
 
+if   [ -e /etc/debian_version ] ||
+     [ -e /etc/debian_release ]; then
+    apt-get install vim emacs fcitx-mozc ibus-mozc emacs-mozc emacs-mozc-bin
+elif [ -e /etc/fedora-release ] ||
+     [ -e /etc/redhat-release ]; then
+    yum install vim emacs fcitx-mozc ibus-mozc emacs-mozc emacs-mozc-bin
+fi
+
 if [ "$(id -u)" != "0" ]; then
     echo "\033[1mWARNING: this script must be run by root user\033[0m"
     echo "\033[1mex) >>> sudo ./setup.sh\033[0m"
 else
+
+    echo "installing applications..."
+    if   [ -e /etc/debian_version ] ||
+	 [ -e /etc/debian_release ]; then
+	apt-get install vim emacs mozc emacs-mozc emacs-mozc-bin
+    elif [ -e /etc/fedora-release ] ||
+	 [ -e /etc/redhat-release ]; then
+	yum install vim emacs mozc emacs-mozc emacs-mozc-bin
+    fi
+    echo "install done"
+    
     echo "making symlink for vim..."
     ln -sf ~/dotfiles/.vimrc ~/.vimrc
     ln -sf ~/dotfiles/.gvimrc ~/.gvimrc

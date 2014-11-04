@@ -1,46 +1,60 @@
-((("echo" .
-   [2 0 0 0])
-  ("package" .
-   [2 0 0 0 0 0 0])
-  ("getenv" .
-   [0 0 0 1 0 1])
-  ("concat" .
-   [2 0 0 0 0 0])
-  ("expand-file-name" .
-   [0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
-  ("system-configuration" .
-   [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
-  ("starting-match" .
-   [0 0 0 0 0 0 0 0 1 0 0 0 0 0])
-  ("direx:jump-to-directory-other-window" .
-   [0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
-  ("global-set-key" .
-   [0 0 0 0 0 0 0 0 0 0 1 0 0 0])
-  ("require" .
-   [3 0 8 2 0 0 0])
-  ("defun" .
-   [0 0 0 1 1])
-  ("setq" .
-   [1 0 2 1])
-  ("auto-complete" .
-   [1 0 0 0 0 0 0 0 0 0 0 0 0])
-  ("smartparens-config" .
-   [0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0])
-  ("auto-complete-config" .
-   [0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
-  ("powerline" .
-   [0 0 0 0 1 0 0 0 0])
-  ("yasnippet" .
-   [0 0 1 0 0 0 0 0 0])
-  ("popwin" .
-   [1 0 0 0 0 0])
-  ("direx" .
-   [1 0 0 0 0])
-  ("cond" .
-   [3 0 1 0])
-  ("system-type" .
-   [0 0 1 0 0 0 3 0 0 0 0])
+((("windows-nt" .
+   [1 0 0 0 0 0 0 0 0 0])
   ("gnu/linux" .
    [1 0 0 0 0 0 0 0 0])
-  ("windows-nt" .
-   [1 0 0 0 0 0 0 0 0 0])))
+  ("system-type" .
+   [0 0 1 0 0 0 3 0 0 0 0])
+  ("cond" .
+   [3 0 1 0])
+  ("direx" .
+   [1 0 0 0 0])
+  ("popwin" .
+   [1 0 0 0 0 0])
+  ("yasnippet" .
+   [0 0 1 0 0 0 0 0 0])
+  ("powerline" .
+   [0 0 0 0 1 0 0 0 0])
+  ("auto-complete-config" .
+   [0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("smartparens-config" .
+   [0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("auto-complete" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("setq" .
+   [1 0 2 1])
+  ("defun" .
+   [0 0 0 1 1])
+  ("require" .
+   [3 0 8 2 0 0 0])
+  ("global-set-key" .
+   [0 0 0 0 0 0 0 0 0 0 1 0 0 0])
+  ("direx:jump-to-directory-other-window" .
+   [0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("starting-match" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0 0])
+  ("system-configuration" .
+   [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("expand-file-name" .
+   [0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
+  ("concat" .
+   [2 0 0 0 0 0])
+  ("getenv" .
+   [0 0 0 1 0 1])
+  ("package" .
+   [2 0 0 0 0 0 0])
+  ("echo" .
+   [7 0 0 0])
+  ("then" .
+   [1 0 0 0])
+  ("install" .
+   [2 0 0 0 0 0 0])
+  ("apt-get" .
+   [1 0 0 0 0 0 0])
+  ("emacs" .
+   [2 0 0 0 0])
+  ("emacs-mozc" .
+   [1 0 0 0 0 0 1 0 0 0])
+  ("emacs-mozc-bin" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("yum" .
+   [1 0 0])))
