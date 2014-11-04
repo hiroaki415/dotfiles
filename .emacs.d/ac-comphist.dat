@@ -1,4 +1,6 @@
-((("windows-nt" .
+((("ibus-mozc" .
+   [0 0 1 0 0 0 0 0 0])
+  ("windows-nt" .
    [1 0 0 0 0 0 0 0 0 0])
   ("gnu/linux" .
    [1 0 0 0 0 0 0 0 0])
