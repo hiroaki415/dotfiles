@@ -58,7 +58,7 @@
 (load-theme 'solarized-dark t)
 
 (if window-system (progn
-    (set-frame-parameter nil 'alpha 80)
+    (set-frame-parameter nil 'alpha 90)
     ))
 
 (require 'yasnippet)
@@ -72,45 +72,48 @@
       popwin:special-display-config)
 (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
 
-(if (eq system-type 'linux')
-  (cond (window-system
-    (set-face-attribute 'default nil
-                        :family "Ricty"
-                        :height 100)
-    (set-fontset-font (frame-parameter nil 'font)
-                      'japanese-jisx0208
-                      '("Ricty" . "unicode-bmp")
-                      )
-    (set-fontset-font (frame-parameter nil 'font)
-                      'katakana-jisx0201
-                      '("Ricty" . "unicode-bmp")
-                      )
-    (setq face-font-rescale-alist
-          '(
-            (".*Ricty.*" . 1.0)
-            (".*Ricty.*"    . 1.1)
-            ))
-    ))
-)
-(if (eq system-type 'windows-nt')
-  (cond (window-system
-    (set-face-attribute 'default nil
-                        :family "Consolas"
-                        :height 100)
-    (set-fontset-font (frame-parameter nil 'font)
-                      'japanese-jisx0208
-                      '("Consolas" . "unicode-bmp")
-                      )
-    (set-fontset-font (frame-parameter nil 'font)
-                      'katakana-jisx0201
-                      '("Consolas" . "unicode-bmp")
-                      )
-    (setq face-font-rescale-alist
-          '(
-            (".*Consolas.*" . 1.0)
-            (".*Consolas.*"    . 1.1)
-            ))
-    ))
+(cond ((eq system-type 'gnu/linux)
+       (cond (window-system
+	      (set-face-attribute 'default nil
+				  :family "Ricty"
+				  :height 100)
+	      (set-fontset-font (frame-parameter nil 'font)
+				'japanese-jisx0208
+				'("Ricty" . "unicode-bmp")
+				)
+	      (set-fontset-font (frame-parameter nil 'font)
+				'katakana-jisx0201
+				'("Ricty" . "unicode-bmp")
+				)
+	      (setq face-font-rescale-alist
+		    '(
+		      (".*Ricty.*" . 1.0)
+		      (".*Ricty.*"    . 1.1)
+		      ))
+	      )
+	     )
+       )
+      ((eq system-type 'windows-nt)
+       (cond (window-system
+	      (set-face-attribute 'default nil
+				  :family "Consolas"
+				  :height 100)
+	      (set-fontset-font (frame-parameter nil 'font)
+				'japanese-jisx0208
+				'("Consolas" . "unicode-bmp")
+				)
+	      (set-fontset-font (frame-parameter nil 'font)
+				'katakana-jisx0201
+				'("Consolas" . "unicode-bmp")
+				)
+	      (setq face-font-rescale-alist
+		    '(
+		      (".*Consolas.*" . 1.0)
+		      (".*Consolas.*"    . 1.1)
+		      ))
+	      )
+	     )
+       )
 )
 
 (provide 'init)
