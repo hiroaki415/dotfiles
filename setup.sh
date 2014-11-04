@@ -2,23 +2,27 @@
 
 echo "=== Setup Dotfiles for Linux! ==="
 
-echo "making symlink for vim..."
-ln -sf ~/dotfiles/.vimrc ~/.vimrc
-ln -sf ~/dotfiles/.gvimrc ~/.gvimrc
-echo "symlink making done"
+if [ "$(id -u)" != "0" ]; then
+    echo "\033[1mWARNING: this script must be run by root user\033[0m"
+    echo "\033[1mex) >>> sudo ./setup.sh\033[0m"
+else
+    echo "making symlink for vim..."
+    ln -sf ~/dotfiles/.vimrc ~/.vimrc
+    ln -sf ~/dotfiles/.gvimrc ~/.gvimrc
+    echo "symlink making done"
 
-echo "making symlink for emacs..."
-ln -sf ~/dotfiles/.emacs.d ~/.emacs.d
-echo "symlink making done"
+    echo "making symlink for emacs..."
+    ln -sf ~/dotfiles/.emacs.d ~/.emacs.d
+    echo "symlink making done"
 
-echo "setup for vundle..."
-git clone https://github.com/gmarik/Vundle.vim.git ~/dotfiles/.vim/bundle/vundle
-vim +BundleInstall +qall
-echo "setup vundle done"
+    echo "setup for vundle..."
+    git clone https://github.com/gmarik/Vundle.vim.git ~/dotfiles/.vim/bundle/vundle
+    vim +BundleInstall +qall
+    echo "setup vundle done"
 
-echo "making symlink for bash..."
-ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
-echo "symlink making done"
-
+    echo "making symlink for bash..."
+    ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
+    echo "symlink making done"
+fi
 
 echo "All Done!"
