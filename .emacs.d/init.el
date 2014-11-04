@@ -1,11 +1,18 @@
-;;setting for emacs
-;;@hiroaki
+;;; package --- Summary
+;;; Commentary:
+;;; this is a setting file for Emacs
+;;;
+;;; @hiroaki
+
+;; very efficient plugin "helm.el", do check it out
 
 (set-language-environment "Japanese")
+;;; Code:
+;;; Japanese UTF-8
 
 (set-default-coding-systems 'utf-8)
 (setq default-file-name-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8)
 (setq default-terminal-coding-system 'utf-8)
 (setq default-keyboard-coding-system 'utf-8)
 
@@ -128,3 +135,4 @@
 )
 
 (provide 'init)
+;;; init.el ends here
