@@ -10,12 +10,15 @@
 ;;; Code:
 ;;; Japanese UTF-8
 
+
+;;encoding
 (set-default-coding-systems 'utf-8)
 (setq default-file-name-coding-system 'utf-8)
 (setq buffer-file-coding-system 'utf-8)
 (setq default-terminal-coding-system 'utf-8)
 (setq default-keyboard-coding-system 'utf-8)
 
+;;primary look and feel
 (setq inhibit-startup-message t)
 
 (setq kill-whole-line t)
@@ -35,6 +38,7 @@
 
 (global-font-lock-mode t)
 
+;;input control
 (setq indent-line-function 'indent-relative-maybe)
 (global-set-key "\C-m" 'newline-and-indent)
 (global-set-key "\C-m" 'indent-new-comment-line)
@@ -45,40 +49,54 @@
 (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up 1)))
 (setq x-select-enable-clipboard t)
 
+
+;;; plugins settings below
+
+;;package.el
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
+;;flycheck.el
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;;auto-complete.el
 (require 'auto-complete)
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
 
+;;smartparens.el
 (require 'smartparens)
 (smartparens-global-mode t)
 
+;;powerline.el
 (require 'powerline)
 (powerline-default-theme)
 
+;;solarized colortheme
 (load-theme 'solarized-dark t)
 
 (if window-system (progn
     (set-frame-parameter nil 'alpha 90)
     ))
 
+;;yasnippet.el
 (require 'yasnippet)
 (yas-global-mode 1)
 
+;;popwin.el for direx
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 
+;;direx.el
 (require 'direx)
 (push '(direx:direx-mode :position left :width 25 :dedicated t)
       popwin:special-display-config)
 (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
 
+;;font setting
+;;CAUTION!: you should install RictyFont
 (cond ((eq system-type 'gnu/linux)
        (cond (window-system
 	      (set-face-attribute 'default nil
@@ -123,6 +141,7 @@
        )
 )
 
+;;input method for mozc
 (cond
  ((eq system-type 'gnu/linux)
   (require 'mozc)
