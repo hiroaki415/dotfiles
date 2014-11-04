@@ -160,10 +160,14 @@
   (setq mozc-candidate-style 'overlay)
   )
  ((eq system-type 'windows-nt)
-  ;;do nothing, under construction
+  ;;CAUTION: this setting requires "gnupack" ver Emacs
+  (set-language-info "Japanese" 'input-method "W32-IME")
+  (setq w32-ime-buffer-switch-p nil)
+  (setq w32-ime-mode-line-state-indicator-list '("-" "[JPN]" "[US]"))
+  (setq-default w32-ime-mode-line-state-indicator "[US]")
+  (w32-ime-initialize)
   )
 )
-
 
 (provide 'init)
 ;;; init.el ends here
