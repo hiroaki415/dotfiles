@@ -13,9 +13,9 @@ EmacsやVimなどのテキストエディタ向け設定ファイルを集めた
 gitやシェルの操作の際にはsudoさんを呼ぶこと  
 
 
-`   $ git clone https://github.com/hiroaki415/dotfiles.git ~/dotfiles`  
-`   $ cd ~/dotfiles`  
-`   $ ./setup.sh`  
+    $ git clone https://github.com/hiroaki415/dotfiles.git ~/dotfiles  
+    $ cd ~/dotfiles  
+    $ ./setup.sh  
 
 
 ○Mac(Unix)の場合  
