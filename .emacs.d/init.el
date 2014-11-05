@@ -135,16 +135,16 @@
 				  :height 100)
 	      (set-fontset-font (frame-parameter nil 'font)
 				'japanese-jisx0208
-				'("Consolas" . "unicode-bmp")
+				'("メイリオ" . "unicode-bmp")
 				)
 	      (set-fontset-font (frame-parameter nil 'font)
 				'katakana-jisx0201
-				'("Consolas" . "unicode-bmp")
+				'("メイリオ" . "unicode-bmp")
 				)
 	      (setq face-font-rescale-alist
 		    '(
-		      (".*Consolas.*" . 1.0)
-		      (".*Consolas.*"    . 1.1)
+		      (".*Source Code Pro.*" . 1.0)
+		      (".*メイリオ.*"    . 1.1)
 		      ))
 	      )
 	     )
