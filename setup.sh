@@ -34,6 +34,10 @@ else
     echo "making symlink for bash..."
     ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
     echo "symlink making done"
+
+    echo "changing permission..."
+    find ~/dotfiles -type f | xargs chmod a+w
+    echo "permission change done"
 fi
 
 echo "All Done!"
