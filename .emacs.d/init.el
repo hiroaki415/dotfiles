@@ -110,7 +110,7 @@
 (cond ((eq system-type 'gnu/linux)
        (cond (window-system
 	      (set-face-attribute 'default nil
-				  :family "Ricty"
+				  :family "Source Code Pro"
 				  :height 100)
 	      (set-fontset-font (frame-parameter nil 'font)
 				'japanese-jisx0208
@@ -131,7 +131,7 @@
       ((eq system-type 'windows-nt)
        (cond (window-system
 	      (set-face-attribute 'default nil
-				  :family "Consolas"
+				  :family "Source Code Pro"
 				  :height 100)
 	      (set-fontset-font (frame-parameter nil 'font)
 				'japanese-jisx0208
