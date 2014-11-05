@@ -28,7 +28,7 @@ gitやシェルの操作の際にはsudoさんを呼ぶこと
 クローン後はsetup.batを管理者権限で打つこと  
 ただしVimのプラグインは初回起動時に手動でやる必要がある  
 Vim起動後、(たぶんエラーメッセージが出るのでとばして)":BundleInstall"と打てば全部かってに追加される、終わったら再起動  
-   $ git clone https://github.com/hiroaki415/dotfiles.git ~/dotfiles  
+    $ git clone https://github.com/hiroaki415/dotfiles.git ~/dotfiles  
 ※EmacsはIMEの関係でgnupack版がｵﾇﾇﾒ  
 
 
