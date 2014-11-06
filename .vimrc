@@ -72,7 +72,7 @@ let g:NERDTreeShowHidden=1
 Bundle 'bling/vim-airline'
 let g:airline_enable_branch = 0
 
-Bundle 'matthewtodd/vim-twilight'
+Bundle 'flazz/vim-colorschemes'
 color twilight
 
 
