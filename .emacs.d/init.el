@@ -114,16 +114,16 @@
 				  :height 100)
 	      (set-fontset-font (frame-parameter nil 'font)
 				'japanese-jisx0208
-				'("Ricty" . "unicode-bmp")
+				'("TakaoPGothic" . "unicode-bmp")
 				)
 	      (set-fontset-font (frame-parameter nil 'font)
 				'katakana-jisx0201
-				'("Ricty" . "unicode-bmp")
+				'("TakaoPGothic" . "unicode-bmp")
 				)
 	      (setq face-font-rescale-alist
 		    '(
-		      (".*Ricty.*" . 1.0)
-		      (".*Ricty.*"    . 1.1)
+		      (".*Source Code Pro.*" . 1.0)
+		      (".*TakaoPGothic.*"    . 1.1)
 		      ))
 	      )
 	     )
