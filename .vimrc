@@ -72,8 +72,9 @@ let g:NERDTreeShowHidden=1
 Bundle 'bling/vim-airline'
 let g:airline_enable_branch = 0
 
-Bundle 'flazz/vim-colorschemes'
-color twilight
+Bundle 'altercation/vim-colors-solarized'
+let g:solarized_termtrans=1
+colorscheme solarized
 
 
 ""for python

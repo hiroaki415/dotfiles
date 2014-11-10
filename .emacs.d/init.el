@@ -81,7 +81,7 @@
 
 
 ;;solarized colortheme
-(load-theme 'twilight t)
+(load-theme 'solarized-dark t)
 
 (if window-system (progn
     (set-frame-parameter nil 'alpha 90)
