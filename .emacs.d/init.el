@@ -79,7 +79,6 @@
 (require 'powerline)
 (powerline-default-theme)
 
-
 ;;solarized colortheme
 (load-theme 'solarized-dark t)
 
