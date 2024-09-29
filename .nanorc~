@@ -13,7 +13,7 @@ include "/usr/share/nano/python.nanorc"
 include "/usr/share/nano/tex.nanorc"
 include "/usr/share/nano/sh.nanorc"
 #include "/usr/share/nano/*"
-#include "~/.nano/*"
+include "~/.nano/*"
 
 # Color
 set titlecolor white,green
