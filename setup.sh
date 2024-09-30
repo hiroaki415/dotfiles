@@ -1,6 +1,6 @@
 # nano
 ln -s $PWD/.nanorc ~/.nanorc
-echo 'include "/usr/share/nano/*.nanorc"' >> $PWD/.nanorc
+
 
 # vim
 ln -s $PWD/.vimrc ~/.vimrc
