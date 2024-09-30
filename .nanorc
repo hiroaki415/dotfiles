@@ -1,24 +1,30 @@
-# Settings
-set autoindent
-set backup
+# Non-default settings
+set atblanks
 set cutfromcursor
-set linenumbers
-set multibuffer
-set zap
 #set nohelp
+set softwrap
+set suspend
+set tabsize 4
+set tabstospaces
+set speller "aspell -x -c"
+set constantshow
+set linenumbers
+set casesensitive
+set historylog
+set positionlog
+set zap
+set autoindent
+set indicator
+set minibar
 
-# syntax highlight
-include "/usr/share/nano/c.nanorc"
-include "/usr/share/nano/python.nanorc"
-include "/usr/share/nano/tex.nanorc"
-include "/usr/share/nano/sh.nanorc"
-#include "/usr/share/nano/*"
-#include "~/.nano/*"
+# Enable and set a working backup directory
+#set backup
+#set backupdir "~/.cache/nano/backups/"
 
-# Color
-set titlecolor white,green
-set numbercolor white,green
-set selectedcolor white,green
-#set statuscolor white,green
-#set keycolor white,green
-#set functioncolor white,green
+# Shortcut key bindings
+bind ^C copy main       # CTRC+C - Copy
+bind ^V paste all       # CTRL+V - Past
+bind ^F whereis all     # CTRL+F - Find
+bind ^S savefile main   # CTRL+S - Save
+
+include "/usr/share/nano/*.nanorc"
