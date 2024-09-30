@@ -28,4 +28,4 @@ bind ^F whereis all     # CTRL+F - Find
 bind ^S savefile main   # CTRL+S - Save
 
 include "/usr/share/nano/*.nanorc"
-#include "C:\ProgramData\chocolatey\lib\nano-win\tools\syntax\*.nanorc"
+include "C:\ProgramData\chocolatey\lib\nano-win\tools\syntax\*.nanorc"
