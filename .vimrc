@@ -108,10 +108,15 @@ let NERDTreeShowHidden=1
 
 " colorscheme
 set background=dark
-
-colorscheme peaksea
-hi Normal ctermfg=252 ctermbg=NONE cterm=NONE
-hi NonText ctermfg=69 ctermbg=NONE cterm=NONE
+if has("win64")
+    colorscheme pablo
+elseif has("win32")
+    colorscheme pablo
+else
+    colorscheme peaksea
+    hi Normal ctermfg=252 ctermbg=NONE cterm=NONE
+    hi NonText ctermfg=69 ctermbg=NONE cterm=NONE
+endif
 
 " colorscheme solarized
 " let g:solarized_termtrans=0

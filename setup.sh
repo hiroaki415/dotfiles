@@ -39,7 +39,7 @@ echo ""
 
 # vim
 echo "setting vimrc..."
-. ./vim_plugins.vim
+. ./vim_plugins.sh
 if ! [ -d ~/.vim_runtime ]; then
     git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
     sh ~/.vim_runtime/install_awesome_vimrc.sh
@@ -69,7 +69,7 @@ for plugin in "${myplugins[@]}"; do
         pi_arr=(${plugin//// })
         if ! [ -d ~/.vim_runtime/my_plugins/${pi_arr[0]} ]; then
             ARR=(${//,/ })
-            git clone git://github.com/$plugin.git ~/.vim_runtime/my_plugins/${pi_arr[0]}
+            git clone https://github.com/$plugin ~/.vim_runtime/my_plugins/${pi_arr[0]}
         fi
     else
         echo "$plugin repository does not exist in Github.com"
