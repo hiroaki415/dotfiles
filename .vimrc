@@ -82,7 +82,7 @@ set splitright
 "     set rtp+=~/.vim/bundle/Vundle.vim
 "     call vundle#begin('~/.vim/bundle')
 " endif
-" 
+
 " Plugin 'VundleVim/Vundle.vim'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'airblade/vim-gitgutter'
@@ -90,16 +90,17 @@ set splitright
 " Plugin 'tpope/vim-surround'
 " Plugin 'tpope/vim-commentary'
 " Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-scripts/peksea'
+" Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'vim-scripts/peaksea'
 " Plugin 'altercation/vim-colors-solarized' 
-" 
+
 " call vundle#end()
 " filetype plugin indent on
 
 
 " nnoremap for NERDTree
-let g:NERDTreeWinPos="left"
-let NERDTreeShowHidden=1
+let g:NERDTreeWinPos = "left"
+let NERDTreeShowHidden = 1
 " nnoremap <leader>n :NERDTreeFocus<CR>
 " nnoremap <C-n> :NERDTree<CR>
 " noremap <C-t> :NERDTreeToggle<CR>
@@ -107,9 +108,10 @@ let NERDTreeShowHidden=1
 
 
 " colorscheme
-set background=dark
+" set background = dark
 if has("win64")
     colorscheme pablo
+    set shell=powershell
 elseif has("win32")
     colorscheme pablo
 else
@@ -118,6 +120,20 @@ else
     hi NonText ctermfg=69 ctermbg=NONE cterm=NONE
 endif
 
-" colorscheme solarized
-" let g:solarized_termtrans=0
 
+" ayu_dark
+" deus
+" selenized_black
+let g:lightline = {
+    \ 'colorscheme': 'ayu_dark',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+    \   'right': [ [ 'lineinfo' ],
+    \              [ 'percent' ],
+    \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'FugitiveHead'
+    \ },
+    \ }
