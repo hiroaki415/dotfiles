@@ -10,6 +10,8 @@ echo "setting bashrc..."
 if ! [ -d ~/.bash_it ]; then
     git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
     bash ~/.bash_it/install.sh
+    sed -i 's/bobby/oh-my-posh/' ~/.bashrc
+    sed -i '$aeval "$(oh-my-posh init bash --config ~/slimfat.omp.json)"' ~/.bashrc
 else
     echo "Bash-it is already installed."
     read -p "Do you want to update Bash-it? (y/N): " yn

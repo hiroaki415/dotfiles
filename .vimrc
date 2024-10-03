@@ -121,17 +121,14 @@ else
 endif
 
 
-" ayu_dark
-" deus
-" selenized_black
 let g:lightline = {
-    \ 'colorscheme': 'ayu_dark',
+    \ 'colorscheme': 'deus',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
     \   'right': [ [ 'lineinfo' ],
     \              [ 'percent' ],
-    \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+    \              [ 'filetype', 'fileencoding', 'fileformat' ] ]
     \ },
     \ 'component_function': {
     \   'gitbranch': 'FugitiveHead'
