@@ -92,7 +92,7 @@ set splitright
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'vim-scripts/peaksea'
-" Plugin 'altercation/vim-colors-solarized' 
+" Plugin 'altercation/vim-colors-solarized'
 
 " call vundle#end()
 " filetype plugin indent on

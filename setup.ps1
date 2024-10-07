@@ -53,5 +53,5 @@ New-Item -ItemType SymbolicLink -Path $path -Value $target
 
 
 Write-Host ""
-Write-Host "Press Any Key to Continue..."
+Write-Host "Press Any Key to Finish..."
 $host.UI.RawUI.ReadKey()
