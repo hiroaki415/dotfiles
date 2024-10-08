@@ -33,17 +33,16 @@ if (-! (Test-Path "~/.vim_runtime")) {
     }
 }
 
-####
-# need to write script here to install plugins...
-####
 $filename = "$HOME\dotfiles\vim_plugins.txt"
 $file = New-Object System.IO.StreamReader($filename, [System.Text.Encoding]::GetEncoding("utf-8"))
 while (($plugin = $file.ReadLine()) -ne $null)
 {
-    $response=$(curl -s -o /dev/null -w "%{http_code}" "https://api.github.com/repos/$plugin")
+    $pi_arr = $plugin.split(" ")
+    $response=$(curl -s -o /dev/null -w "%{http_code}" "https://api.github.com/repos/$($pi_arr[0])/$($pi_arr[1])")
     if ( $response -eq 200 ) {
-        $pi_arr = $plugin.split("/")
-        git clone "https://github.com/$plugin" "$HOME/.vim_runtime/my_plugins/$($pi_arr[1])/"
+        git clone "https://github.com/$($pi_arr[0])/$($pi_arr[1])" "$HOME/.vim_runtime/my_plugins/$($pi_arr[1])/"
+    } else {
+        Write-Host "$plugin repository does not exist in Github.com"
     }
 }
 $file.Close()
