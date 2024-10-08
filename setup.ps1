@@ -36,6 +36,18 @@ if (-! (Test-Path "~/.vim_runtime")) {
 ####
 # need to write script here to install plugins...
 ####
+$filename = "$HOME\dotfiles\vim_plugins.txt"
+$file = New-Object System.IO.StreamReader($filename, [System.Text.Encoding]::GetEncoding("utf-8"))
+while (($plugin = $file.ReadLine()) -ne $null)
+{
+    $response=$(curl -s -o /dev/null -w "%{http_code}" "https://api.github.com/repos/$plugin")
+    if ( $response -eq 200 ) {
+        $pi_arr = $plugin.split("/")
+        git clone "https://github.com/$plugin" "$HOME/.vim_runtime/my_plugins/$($pi_arr[1])/"
+    }
+}
+$file.Close()
+
 
 $target = Join-Path -Path (Get-Location)  -ChildPath "awesome_vimrc_win.vim"
 $path = "~/_vimrc"
