@@ -41,7 +41,6 @@ echo ""
 
 # vim
 echo "setting vimrc..."
-. ./vim_plugins.sh
 if ! [ -d ~/.vim_runtime ]; then
     git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
     sh ~/.vim_runtime/install_awesome_vimrc.sh
@@ -65,18 +64,18 @@ else
     esac
 fi
 
-for plugin in "${myplugins[@]}"; do
-    response=$(curl -s -o /dev/null -w "%{http_code}" "https://api.github.com/repos/$plugin")
+cat ~/dotfiles/vim_plugins.txt | while read plugin
+do
+    pi_arr=($plugin)
+    echo "https://api.github.com/repos/${pi_arr[0]}/${pi_arr[1]}"
+    response=$(curl -s -o /dev/null -w "%{http_code}" "https://api.github.com/repos/${pi_arr[0]}/${pi_arr[1]}")
     if [ $response -eq 200 ]; then
-        pi_arr=(${plugin//// })
-        if ! [ -d ~/.vim_runtime/my_plugins/${pi_arr[0]} ]; then
-            ARR=(${//,/ })
-            git clone https://github.com/$plugin ~/.vim_runtime/my_plugins/${pi_arr[0]}
-        fi
+        git clone "https://github.com/${pi_arr[0]}/${pi_arr[1]}" "$HOME/.vim_runtime/my_plugins/${pi_arr[1]}"
     else
         echo "$plugin repository does not exist in Github.com"
     fi
 done
+
 echo "You have set up vimrc."
 echo ""
 echo "Set up all dotfiles successfully"
