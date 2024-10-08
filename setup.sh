@@ -12,12 +12,20 @@ if ! [ -d ~/.bash_it ]; then
     bash ~/.bash_it/install.sh
     sed -i 's/bobby/oh-my-posh/' ~/.bashrc
     sed -i '$asource "$HOME"/dotfiles/.bashrc' ~/.bashrc
+    source ~/.bashrc
+    cp ~/dotfiles/shit_profile_latest.bash_it ~/.bash_it/profiles/
+    bash-it profile load shit_profile_latest
+    source ~/.bashrc
 else
     echo "Bash-it is already installed."
     read -p "Do you want to update Bash-it? (y/N): " yn
     case "$yn" in
         [yY])
-            bash-it update stable;;
+            bash-it update stable
+            source ~/.bashrc
+            cp ~/dotfiles/shit_profile_latest.bash_it ~/.bash_it/profiles/
+            bash-it profile load shit_profile_latest
+            source ~/.bashrc;;
         [nN])
             echo "";; # do nothing
         *)
