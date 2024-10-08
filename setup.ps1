@@ -1,6 +1,20 @@
 #Requires -RunAsAdministrator
 
 
+# chocolatey
+if (-! (Test-Path "C:\ProgramData\chocolatey\bin\choco.exe")) {
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+}
+$input = Read-Host  "Do you want to update latest choco packges? (y/N): "
+switch -Wildcard ($input) {
+    "[yY]" {
+        choco install $HOME/dotfiles/choco_packages_latest.config
+    }
+    "[nN]" {} # do nothing
+    default {} # do nothing
+}
+
+
 # nano
 Write-Host "setting up nanorc..."
 $target = Join-Path -Path (Get-Location) -ChildPath ".nanorc"
