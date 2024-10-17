@@ -3,7 +3,7 @@ oh-my-posh init pwsh --config $env:POSH_THEMES_PATH/$theme | Invoke-Expression
 
 
 # disable system startup service of nginx
-$NGINX_DIR = "C:\tools\nginx-1.27.2"
+$NGINX_DIR = Get-ChildItem -Path "C:\tools" -Directory | Where-Object { $_.Name -match "^nginx-\d+\.\d+\.\d+$" }
 function nginx {
     $exePath = "$NGINX_DIR\nginx.exe"
     $startInfo = New-Object System.Diagnostics.ProcessStartInfo
