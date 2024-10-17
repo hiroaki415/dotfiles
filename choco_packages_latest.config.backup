@@ -25,9 +25,6 @@
   <package id="make" />
   <package id="nano" />
   <package id="nano-win" />
-  <package id="nginx" />
-  <package id="nodejs" />
-  <package id="nodejs.install" />
   <package id="nssm" />
   <package id="oh-my-posh" />
   <package id="python" />
