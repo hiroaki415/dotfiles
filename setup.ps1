@@ -18,7 +18,7 @@ switch -Wildcard ($input) {
 # PowerShell
 Write-Host "setting up PowerShell..."
 $source = Join-Path -Path (Get-Location) -ChildPath "Profile.ps1"
-$dest = "$HOME/OneDrive/Documents/PowerShell/Profile.ps1"
+$dest = "$HOME/Documents/PowerShell/Profile.ps1"
 if (Test-Path $dest) {
     Remove-Item -Path $dest
     Copy-Item -Path $source -Destination $dest

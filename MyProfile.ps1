@@ -29,3 +29,9 @@ function start-nginx {
     $process = [System.Diagnostics.Process]::Start($startInfo)
     Write-Host "Nginx started in the background with PID: $($process.Id)"
 }
+
+
+$BUNDLETOOL_DIR = "$HOME\AppData\Local\Android\Sdk\platform-tools\bundletool.jar"
+function bundletool {
+  java -jar $BUNDLETOOL_DIR $args
+}
