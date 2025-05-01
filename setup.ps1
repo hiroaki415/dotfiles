@@ -8,7 +8,7 @@ if (-! (Test-Path "C:\ProgramData\chocolatey\bin\choco.exe")) {
 $input = Read-Host  "Do you want to update latest choco packges? (y/N): "
 switch -Wildcard ($input) {
     "[yY]" {
-        choco install $HOME/dotfiles/choco_packages_latest.config
+        choco install $HOME/dotfiles/choco_packages_latest.config -y
     }
     "[nN]" {} # do nothing
     default {} # do nothing
@@ -21,8 +21,8 @@ $source = Join-Path -Path (Get-Location) -ChildPath "Profile.ps1"
 $dest = "$HOME/Documents/PowerShell/Profile.ps1"
 if (Test-Path $dest) {
     Remove-Item -Path $dest
-    Copy-Item -Path $source -Destination $dest
 }
+Copy-Item -Path $source -Destination $dest
 
 
 # nano
@@ -30,7 +30,7 @@ Write-Host "setting up nanorc..."
 $target = Join-Path -Path (Get-Location) -ChildPath ".nanorc"
 $path = "$HOME/.nanorc"
 
-if (Test-Path $target) {
+if (Test-Path $path) {
     Remove-Item -Path $path
 }
 New-Item -ItemType SymbolicLink -Path $path -Value $target
@@ -74,7 +74,7 @@ $file.Close()
 
 $target = Join-Path -Path (Get-Location)  -ChildPath "awesome_vimrc_win.vim"
 $path = "$HOME/_vimrc"
-if (Test-Path $target) {
+if (Test-Path $path) {
     Remove-Item -Path $path
 }
 New-Item -ItemType SymbolicLink -Path $path -Value $target
