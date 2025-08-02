@@ -1,0 +1,7 @@
+install NeoVim
+
+install Nvchad
+
+run NeoVim
+
+copy options.lua to proper dir

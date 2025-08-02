@@ -17,7 +17,7 @@ switch -Wildcard ($input) {
 
 # PowerShell
 Write-Host "setting up PowerShell..."
-$source = Join-Path -Path (Get-Location) -ChildPath "Profile.ps1"
+$source = Join-Path -Path (Get-Location) -ChildPath "PowerShell\Profile.ps1"
 $dest = "$HOME/Documents/PowerShell/Profile.ps1"
 if (Test-Path $dest) {
     Remove-Item -Path $dest
@@ -27,9 +27,8 @@ Copy-Item -Path $source -Destination $dest
 
 # nano
 Write-Host "setting up nanorc..."
-$target = Join-Path -Path (Get-Location) -ChildPath ".nanorc"
-$path = "$HOME/.nanorc"
-
+$target = Join-Path -Path (Get-Location) -ChildPath "nano\.nanorc"
+$path = "$HOME\.nanorc"
 if (Test-Path $path) {
     Remove-Item -Path $path
 }
@@ -37,7 +36,6 @@ New-Item -ItemType SymbolicLink -Path $path -Value $target
 
 
 # vim
-$target = Join-Path -Path (Get-Location) -ChildPath ".vim_runtime"
 if (-! (Test-Path "$HOME/.vim_runtime")) {
     git clone --depth=1 https://github.com/amix/vimrc.git $HOME/.vim_runtime
 }else{
@@ -57,7 +55,14 @@ if (-! (Test-Path "$HOME/.vim_runtime")) {
     }
 }
 
-$filename = "$HOME\dotfiles\vim_plugins.txt"
+$target = Join-Path -Path (Get-Location)  -ChildPath "Vim\awesome_vimrc.vim"
+$path = "$HOME/_vimrc"
+if (Test-Path $path) {
+    Remove-Item -Path $path
+}
+New-Item -ItemType SymbolicLink -Path $path -Value $target
+
+$filename = "$HOME\dotfiles\Vim\vim_plugins.txt"
 $file = New-Object System.IO.StreamReader($filename, [System.Text.Encoding]::GetEncoding("utf-8"))
 while (($plugin = $file.ReadLine()) -ne $null)
 {
@@ -70,14 +75,6 @@ while (($plugin = $file.ReadLine()) -ne $null)
     }
 }
 $file.Close()
-
-
-$target = Join-Path -Path (Get-Location)  -ChildPath "awesome_vimrc_win.vim"
-$path = "$HOME/_vimrc"
-if (Test-Path $path) {
-    Remove-Item -Path $path
-}
-New-Item -ItemType SymbolicLink -Path $path -Value $target
 
 
 # $target = Get-Item $Env:HOMEPATH

@@ -13,7 +13,7 @@ if ! [ -d ~/.bash_it ]; then
     sed -i 's/bobby/oh-my-posh/' ~/.bashrc
     sed -i '$asource "$HOME"/dotfiles/.bashrc' ~/.bashrc
     source ~/.bashrc
-    cp ~/dotfiles/shit_profile_latest.bash_it ~/.bash_it/profiles/
+    cp ~/dotfiles/bash/shit_profile_latest.bash_it ~/.bash_it/profiles/
     bash-it profile load shit_profile_latest
     source ~/.bashrc
 else
@@ -23,7 +23,7 @@ else
         [yY])
             bash-it update stable
             source ~/.bashrc
-            cp ~/dotfiles/shit_profile_latest.bash_it ~/.bash_it/profiles/
+            cp ~/dotfiles/bash/shit_profile_latest.bash_it ~/.bash_it/profiles/
             bash-it profile load shit_profile_latest
             source ~/.bashrc;;
         [nN])
@@ -39,9 +39,9 @@ echo ""
 # nano
 echo "setting nanorc..."
 if ! [ -L ~/.nanorc ]; then
-    ln -s ~/dotfiles/.nanorc ~/.nanorc
+    ln -s ~/dotfiles/nano/.nanorc ~/.nanorc
 else
-    ln -nfs ~/dotfiles/.nanorc ~/.nanorc
+    ln -nfs ~/dotfiles/nano/.nanorc ~/.nanorc
 fi
 echo "You have set up nanorc."
 echo ""
@@ -71,6 +71,8 @@ else
             echo "";; # do nothing
     esac
 fi
+
+ln -s ~/dotfiles/Vim/awesome_vimrc.vim ~/.vimrc
 
 cat ~/dotfiles/vim_plugins.txt | while read plugin
 do
