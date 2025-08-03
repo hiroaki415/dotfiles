@@ -1,5 +1,5 @@
 --  ~/.config/nvim/lua/options.lua
--- $HOME\AppData\Local\nvim\init.lua
+-- $HOME\AppData\Local\nvim\lua\options.lua
 
 require "nvchad.options"
 

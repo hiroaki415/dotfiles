@@ -13,11 +13,22 @@ end
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
+vim.cmd [[colorscheme tokyonight]]
 
-if vim.g.neovide then
+
+if vim.g.neovide == nil then
+ 
+    vim.cmd [[
+        highlight Normal guibg=none
+        highlight NonText guibg=none
+        highlight Normal ctermbg=none
+        highlight NonText ctermbg=none
+    ]]
+
+elseif vim.g.neovide then
 
     -- Display
-    vim.o.guifont = "CaskaydiaMono Nerd Font Mono:h14" -- text below applies for VimScript
+    vim.o.guifont = "JetBrainsMono Nerd Font Mono:h14" -- text below applies for VimScript
     vim.opt.linespace = 0
     vim.g.neovide_scale_factor = 1.0
     vim.g.neovide_text_gamma = 0.0

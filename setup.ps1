@@ -17,8 +17,8 @@ switch -Wildcard ($input) {
 
 # PowerShell
 Write-Host "setting up PowerShell..."
-$source = Join-Path -Path (Get-Location) -ChildPath "PowerShell\Profile.ps1"
-$dest = "$HOME/Documents/PowerShell/Profile.ps1"
+$source = "$HOME\dotfiles\PowerShell\Profile.ps1"
+$dest = "$HOME\Documents\PowerShell\Profile.ps1"
 if (Test-Path $dest) {
     Remove-Item -Path $dest
 }
@@ -27,7 +27,7 @@ Copy-Item -Path $source -Destination $dest
 
 # nano
 Write-Host "setting up nanorc..."
-$target = Join-Path -Path (Get-Location) -ChildPath "nano\.nanorc"
+$target = "$HOME\dotfiles\nano\.nanorc"
 $path = "$HOME\.nanorc"
 if (Test-Path $path) {
     Remove-Item -Path $path
@@ -55,8 +55,8 @@ if (-! (Test-Path "$HOME/.vim_runtime")) {
     }
 }
 
-$target = Join-Path -Path (Get-Location)  -ChildPath "Vim\awesome_vimrc.vim"
-$path = "$HOME/_vimrc"
+$target = "$HOME\dotfiles\Vim\awesome_vimrc.vim"
+$path = "$HOME\_vimrc"
 if (Test-Path $path) {
     Remove-Item -Path $path
 }
@@ -77,8 +77,7 @@ while (($plugin = $file.ReadLine()) -ne $null)
 $file.Close()
 
 
-# $target = Get-Item $Env:HOMEPATH
-# $target = Join-Path -Path $target -ChildPath "vimfiles\bundle\Vundle.vim"
+# $target = "$HOME\dotfiles\vimfiles\bundle\Vundle.vim"
 # git clone https://github.com/VundleVim/Vundle.vim.git $target
 
 # vim +PluginInstall +qall

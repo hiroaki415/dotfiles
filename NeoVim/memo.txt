@@ -3,5 +3,8 @@ install NeoVim
 install Nvchad
 
 run NeoVim
+run :MasonInstallAll command after lazy.nvim finishes downloading plugins.
 
-copy options.lua to proper dir
+copy options.lua, core.lua to proper dir
+# path is written at head of source
+# symlink is also available istead of copy

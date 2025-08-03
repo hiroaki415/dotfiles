@@ -11,9 +11,9 @@ if ! [ -d ~/.bash_it ]; then
     git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
     bash ~/.bash_it/install.sh
     sed -i 's/bobby/oh-my-posh/' ~/.bashrc
-    sed -i '$asource "$HOME"/dotfiles/.bashrc' ~/.bashrc
+    sed -i '$asource "$HOME"/dotfiles/Bash/.bashrc' ~/.bashrc
     source ~/.bashrc
-    cp ~/dotfiles/bash/shit_profile_latest.bash_it ~/.bash_it/profiles/
+    cp ~/dotfiles/Bash/shit_profile_latest.bash_it ~/.bash_it/profiles/
     bash-it profile load shit_profile_latest
     source ~/.bashrc
 else
@@ -23,7 +23,7 @@ else
         [yY])
             bash-it update stable
             source ~/.bashrc
-            cp ~/dotfiles/bash/shit_profile_latest.bash_it ~/.bash_it/profiles/
+            cp ~/dotfiles/Bash/bash/shit_profile_latest.bash_it ~/.bash_it/profiles/
             bash-it profile load shit_profile_latest
             source ~/.bashrc;;
         [nN])
