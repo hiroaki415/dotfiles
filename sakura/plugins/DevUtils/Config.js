@@ -1,13 +1,13 @@
-function ConfigReader() {
+function Config() {
 
-    this.getCTypeConfigs = function(ctype) {
+    this.config = null;
 
+    this.read = function() {
         var fso = new ActiveXObject('Scripting.FileSystemObject');
         var home = getHomeDir();
         var file = fso.OpenTextFile(home + '\\AppData\\Roaming\\sakura\\sakura.ini', 1);
-        var body = file.ReadAll();
+        this.config = file.ReadAll();
         file.Close();
-
     };
 
     this.getLineComment function(ctype) {
