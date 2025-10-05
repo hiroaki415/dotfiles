@@ -9,5 +9,5 @@ Url=
 Author=hiro
 
 [Command]
-C[1]=DevUtils.js
-C[1].Label=TestDev
+C[1]=TestCommand.js
+C[1].Label=TestCommand
