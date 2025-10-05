@@ -6,7 +6,8 @@ file.Close();
 
 eval(loadModuleRaw);
 eval(loadModule('../DevUtils/Cursor.js'));
-eval(loadModule('../DevUtils/DevUtils.js'));
+eval(loadModule('../DevUtils/TextAnalyzer.js'));
+eval(loadModule('../DevUtils/Utility.js'));
 
 
 function SuperTab() {
@@ -21,9 +22,9 @@ function SuperTab() {
         if (cur.isBeginOfLine() === false && /[\w_]/.test(cur.getPrevChar())) {
             Editor.Complete();
         } else {
-            var nestDep = getNestDepth(originCur.line - 1);
+            var nestDep = TextAnalyzer.getNestDepth(originCur.line - 1);
             var moveNum = (nestDep - originCur.col >= 0) ? nestDep - originCur.col + 1: tabw
-            cur.insertText(getRepeatedStr(' ', moveNum));
+            cur.insertText(Utility.getRepeatedStr(' ', moveNum));
             cur.loadProperty(originCur, moveNum);
         }
     } else {

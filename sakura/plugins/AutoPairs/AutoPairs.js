@@ -7,7 +7,7 @@ eval(loadModuleRaw);
 eval(loadModule('../DevUtils/Cursor.js'));
 
 
-function AutoPairs (open, close) {
+function AutoPairs (openStr, closeStr) {
 
     Editor.AddRefUndoBuffer();
     var cur = new Cursor();
@@ -17,13 +17,13 @@ function AutoPairs (open, close) {
         var originCur = cur.getProperty();
 
         cur.move(originCur.toLine, originCur.toCol, 0);
-        cur.insertText(close);
+        cur.insertText(closeStr);
         cur.move(originCur.fromLine, originCur.fromCol, 0);
-        cur.insertText(open);
-        cur.loadProperty(originCur, open.length);
+        cur.insertText(openStr);
+        cur.loadProperty(originCur, openStr.length);
 
     } else {
-        cur.insertText(open + close);
+        cur.insertText(openStr + closeStr);
         cur.moveLeft();
     }
 
@@ -40,13 +40,13 @@ function AutoPairs (open, close) {
         case 1:  //Pairs
             AutoPairs('(', ')');
             break;
-        case 2:  //SquareBrckets
+        case 2:  //SquareBrackets
             AutoPairs('[', ']');
             break;
-        case 3:  //CurlyBrckets
+        case 3:  //CurlyBrackets
             AutoPairs('{', '}');
             break;
-        case 4:  //AngleBrckets
+        case 4:  //AngleBrackets
             AutoPairs('<', '>');
             break;
         case 5:  //SingleQuotes
