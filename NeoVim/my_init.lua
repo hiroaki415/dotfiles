@@ -1,6 +1,6 @@
 -- config for each systems
 if jit and jit.os == "Windows" then
-    vim.o.shell = "powershell.exe"
+    vim.o.shell = "pwsh.exe"
 elseif jit.os == "Linux" then
     -- do nothing
 elseif jit.os == "OSX" then

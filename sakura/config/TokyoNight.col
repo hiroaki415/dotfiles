@@ -1,0 +1,81 @@
+﻿; テキストエディタ色設定 Ver3
+;
+;8e76f7    Red         This keyword, HTML elements, Regex group symbol, CSS units, Terminal Red
+;649eff    Orange      Number and Boolean constants, Language support constants
+;68afe0    Yellow      Function parameters, Regex character sets, Terminal Yellow
+;c2c9cf    Beige       Parameters inside functions (semantic highlighting only)
+;6ace9e    Green       Strings, CSS class names
+;cada73    AquaMarine  Object literal keys, Markdown links, Terminal Green
+;f8f9b4    LightCyan   Regex literal strings
+;dec32a    Cyan        Language support functions, CSS HTML elements
+;ffcf7d    Sky         Object properties, Regex quantifiers and flags, Markdown headings, Terminal Cyan, Markdown code, Import/export keywords
+;f7a27a    Blue        Function names, CSS property names, Terminal Blue
+;f79abb    Purple      Control Keywords, Storage Types, Regex symbols and operators, HTML Attributes, Terminal Magenta
+;f5cac0    White       Variables, Class names, Terminal White
+;d6b1a9                Editor Foreground
+;cea59a                Markdown Text, HTML Text
+;895f56    Gray        Comments
+;684841                Terminal Black
+;3b2824                Editor Background (Storm)
+;261b1a    Black       Editor Background (Night)
+
+
+[SakuraColor]
+C[BRC]=1,1,8e76f7,261b1a,0  ;対括弧の強調表示
+C[CAR]=1,0,f5cac0,261b1a,0  ;カーソル
+C[CBK]=1,0,f5cac0,3b2824,0  ;カーソル行の背景色
+C[CMT]=1,0,684841,261b1a,0  ;コメント
+C[CTL]=1,0,00ffff,261b1a,0  ;コントロールコード
+C[CVL]=1,0,684841,261b1a,0  ;カーソル位置の縦線
+C[DFA]=1,0,d20000,ffd0a2,0  ;DIFF差分表示（追加）
+C[DFC]=1,0,006f00,c0fdbd,0  ;DIFF差分表示（変更）
+C[DFD]=1,0,006ad5,ace9ff,0  ;DIFF差分表示（削除）
+C[EBK]=0,0,000000,895f56,0  ;偶数業の背景色
+C[EOF]=1,0,684841,000000,0  ;EOF
+C[EOL]=1,0,684841,261b1a,0  ;EOL
+C[FN2]=1,0,f5cac0,f8f9b4,0  ;検索文字列
+C[FN3]=1,0,f5cac0,6ace9e,0
+C[FN4]=1,0,f5cac0,649eff,0
+C[FN5]=1,0,f5cac0,8e76f7,0
+C[FND]=1,0,f5cac0,68afe0,0  ;検索文字列
+C[HDC]=0,0,6ace9e,261b1a,0  ;ヒアドキュメント
+C[IME]=1,0,8e76f7,261b1a,0  ;カーソル(IME ON)
+C[KW1]=1,0,8e76f7,261b1a,0  ;強調キーワード
+C[KW2]=1,0,649eff,261b1a,0
+C[KW3]=1,0,68afe0,261b1a,0
+C[KW4]=1,0,6ace9e,261b1a,0
+C[KW5]=1,0,cada73,261b1a,0
+C[KW6]=1,0,f8f9b4,261b1a,0
+C[KW7]=1,0,dec32a,261b1a,0
+C[KW8]=1,0,ffcf7d,261b1a,0
+C[KW9]=1,0,f7a27a,261b1a,0
+C[KWA]=1,0,f79abb,261b1a,0
+C[LNO]=1,0,684841,261b1a,0  ;行番号
+C[MOD]=1,1,8e76f7,261b1a,0  ;行番号(変更行)
+C[MRK]=1,0,8e76f7,c08000,0  ;ブックマーク
+C[NOT]=0,0,684841,261b1a,0  ;ノート線
+C[NUM]=1,0,649eff,261b1a,0  ;数字
+C[PGV]=1,0,000000,895f56,0  ;表示範囲(ミニマップ)
+C[RAP]=1,0,8e76f7,261b1a,0  ;折り返し記号
+C[RK1]=1,0,8e76f7,261b1a,0  ;正規表現キーワード
+C[RK2]=1,0,649eff,261b1a,0
+C[RK3]=1,0,68afe0,261b1a,0
+C[RK4]=1,0,6ace9e,261b1a,0
+C[RK5]=1,0,cada73,261b1a,0
+C[RK6]=1,0,f8f9b4,261b1a,0
+C[RK7]=1,0,dec32a,261b1a,0
+C[RK8]=1,0,ffcf7d,261b1a,0
+C[RK9]=1,0,f7a27a,261b1a,0
+C[RKA]=1,0,f79abb,261b1a,0
+C[RUL]=1,0,895f56,261b1a,0  ;ルーラー
+C[SEL]=1,0,f5cac0,895f56,0  ;選択行
+C[SPC]=0,0,684841,261b1a,0  ;半角空白
+C[SQT]=1,0,6ace9e,261b1a,0  ;シングルクォーテーション文字列
+C[TAB]=1,0,684841,261b1a,0  ;TAB記号
+C[TXT]=1,0,f5cac0,261b1a,0  ;テキスト
+C[UND]=1,0,684841,261b1a,0  ;カーソル行のアンダーライン
+C[URL]=1,0,f7a27a,261b1a,1  ;URL
+C[VER]=0,0,684841,261b1a,0  ;指定桁縦線
+C[WQT]=1,0,6ace9e,261b1a,0  ;ダブルクォーテーション文字列
+C[ZEN]=1,0,684841,261b1a,0  ;日本語空白
+

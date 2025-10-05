@@ -1,0 +1,1 @@
+Import-Module $HOME\dotfiles\PowerShell\MyProfile.psm1

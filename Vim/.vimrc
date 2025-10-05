@@ -111,7 +111,7 @@ let NERDTreeShowHidden = 1
 " set background = dark
 if has("win64")
     colorscheme pablo
-    set shell=powershell
+    set shell=pwsh
 elseif has("win32")
     colorscheme pablo
 else

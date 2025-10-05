@@ -1,40 +1,6 @@
 #Requires -RunAsAdministrator
 
 
-# chocolatey
-if (-! (Test-Path "C:\ProgramData\chocolatey\bin\choco.exe")) {
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-}
-$input = Read-Host  "Do you want to update latest choco packges? (y/N): "
-switch -Wildcard ($input) {
-    "[yY]" {
-        choco install $HOME/dotfiles/choco_packages_latest.config -y
-    }
-    "[nN]" {} # do nothing
-    default {} # do nothing
-}
-
-
-# PowerShell
-Write-Host "setting up PowerShell..."
-$target = "$HOME\dotfiles\PowerShell\Microsoft.PowerShell_profile.ps1"
-$path = "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-if (Test-Path $path) {
-    Remove-Item -Path $dest
-}
-New-Item -ItemType SymbolicLink -Path $path -Value $target
-
-
-# nano
-Write-Host "setting up nanorc..."
-$target = "$HOME\dotfiles\nano\.nanorc"
-$path = "$HOME\.nanorc"
-if (Test-Path $path) {
-    Remove-Item -Path $path
-}
-New-Item -ItemType SymbolicLink -Path $path -Value $target
-
-
 # vim
 if (-! (Test-Path "$HOME/.vim_runtime")) {
     git clone --depth=1 https://github.com/amix/vimrc.git $HOME/.vim_runtime
@@ -81,13 +47,3 @@ $file.Close()
 # git clone https://github.com/VundleVim/Vundle.vim.git $target
 
 # vim +PluginInstall +qall
-
-
-# fonts
-Install-GoogleFont -Name 'Noto Sans Japanese'
-Install-GoogleFont -Name 'Noto Serif Japanese'
-
-
-Write-Host ""
-Write-Host "Press Any Key to Finish..."
-$host.UI.RawUI.ReadKey()

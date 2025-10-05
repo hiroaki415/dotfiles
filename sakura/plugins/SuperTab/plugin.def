@@ -1,0 +1,15 @@
+;プラグイン定義ファイルv1
+[Plugin]
+Id=SuperTab
+Name=SuperTab
+Description=SuperTab
+Type=wsh
+Version=1.0
+Url=
+Author=hiro
+
+[Command]
+C[1]=SuperTab.js
+C[1].Label=SuperTab
+C[2]=SuperTab.js
+C[2].Label=SuperTab

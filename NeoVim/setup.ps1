@@ -1,20 +1,21 @@
 #Requires -RunAsAdministrator
 
 
+#NeoVim
 if (-! (Test-Path "$ENV:USERPROFILE\AppData\Local\nvim")) {
     git clone https://github.com/NvChad/starter $ENV:USERPROFILE\AppData\Local\nvim && nvim
 }
 
-$source = "$HOME\dotfiles\NeoVim\core.lua"
-$dest = "$HOME\AppData\Local\nvim\lua\plugins\core.lua"
-if (Test-Path $dest) {
+$target = "$HOME\dotfiles\NeoVim\core.lua"
+$path = "$HOME\AppData\Local\nvim\lua\plugins\core.lua"
+if (Test-Path $path) {
     Remove-Item -Path $dest
 }
-Copy-Item -Path $source -Destination $dest
+New-Item -ItemType SymbolicLink -Path $path -Value $target
 
-$source = "$HOME\dotfiles\NeoVim\options.lua"
-$dest = "$HOME\AppData\Local\nvim\lua\options.lua"
-if (Test-Path $dest) {
+$target = "$HOME\dotfiles\NeoVim\options.lua"
+$path = "$HOME\AppData\Local\nvim\lua\options.lua"
+if (Test-Path $path) {
     Remove-Item -Path $dest
 }
-Copy-Item -Path $source -Destination $dest
+New-Item -ItemType SymbolicLink -Path $path -Value $target
