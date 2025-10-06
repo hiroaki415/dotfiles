@@ -1,0 +1,6 @@
+﻿Title: C# for
+AfterSearch: <[^>]+>
+
+for (<...>) {
+	<code>
+}
