@@ -131,7 +131,7 @@ function Cursor() {
 
     this.getPrevChar = function() {
         var chr = null;
-        if (this.isBeginOfLine !== true) {
+        if (this.isBeginOfLine() === false) {
             var originCur = this.getProperty();
             this.moveLeft();
             this.move(this.line, this.col + 1, 1);
@@ -143,7 +143,7 @@ function Cursor() {
 
     this.getNextChar = function() {
         var chr = null;
-        if (this.isEndOfLine !== true) {
+        if (this.isEndOfLine() === false) {
             var originCur = this.getProperty();
             this.moveRight();
             this.move(this.line, this.col + 1, 1);

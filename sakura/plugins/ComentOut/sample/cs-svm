@@ -1,6 +1,0 @@
-﻿Title: C# static void Main
-AfterSearch: <[^>]+>
-
-public static void Main(String[] args) {
-	<code>
-}

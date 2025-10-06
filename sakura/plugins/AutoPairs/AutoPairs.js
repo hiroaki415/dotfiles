@@ -1,15 +1,20 @@
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var file = fso.OpenTextFile('../DevUtils/LoadModule.js', 1);
+var pluginDir = Plugin.GetPluginDir();
+var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
+var file = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js', 1);
 var loadModuleRaw = file.ReadAll();
 file.Close();
+file = null;
+fso = null;
 
 eval(loadModuleRaw);
-eval(loadModule('../DevUtils/Cursor.js'));
+eval(loadModule('/plugins/DevUtils/Decorator.js'));
+eval(loadModule('/plugins/DevUtils/Cursor.js'));
+eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
 function AutoPairs (openStr, closeStr) {
 
-    Editor.AddRefUndoBuffer();
     var cur = new Cursor();
 
     if (cur.isSelected) {
@@ -27,8 +32,6 @@ function AutoPairs (openStr, closeStr) {
         cur.moveLeft();
     }
 
-    Editor.SetUndoBuffer();
-
 }
 
 
@@ -38,22 +41,22 @@ function AutoPairs (openStr, closeStr) {
 
     switch (cmd) {
         case 1:  //Pairs
-            AutoPairs('(', ')');
+            CommandDecorator(AutoPairs)('(', ')');
             break;
         case 2:  //SquareBrackets
-            AutoPairs('[', ']');
+            CommandDecorator(AutoPairs)('[', ']');
             break;
         case 3:  //CurlyBrackets
-            AutoPairs('{', '}');
+            CommandDecorator(AutoPairs)('{', '}');
             break;
         case 4:  //AngleBrackets
-            AutoPairs('<', '>');
+            CommandDecorator(AutoPairs)('<', '>');
             break;
         case 5:  //SingleQuotes
-            AutoPairs("'", "'");
+            CommandDecorator(AutoPairs)("'", "'");
             break;
         case 6:  //DoubleQuotes
-            AutoPairs('"', '"');
+            CommandDecorator(AutoPairs)('"', '"');
             break;
     }
 
