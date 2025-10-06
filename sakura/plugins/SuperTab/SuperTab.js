@@ -1,26 +1,29 @@
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var file = fso.OpenTextFile('../DevUtils/LoadModule.js', 1);
+var pluginDir = Plugin.GetPluginDir();
+var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
+var file = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js', 1);
 var loadModuleRaw = file.ReadAll();
 file.Close();
-
+file = null;
+fso = null;
 
 eval(loadModuleRaw);
-eval(loadModule('../DevUtils/Cursor.js'));
-eval(loadModule('../DevUtils/TextAnalyzer.js'));
-eval(loadModule('../DevUtils/Utility.js'));
+eval(loadModule('/plugins/DevUtils/Decorator.js'));
+eval(loadModule('/plugins/DevUtils/Cursor.js'));
+eval(loadModule('/plugins/DevUtils/TextAnalyzer.js'));
+eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
 function SuperTab() {
 
-    Editor.AddRefUndoBuffer();
-
     var cur = new Cursor();
     var originCur = cur.getProperty();
-    var tabw = ChangeTabWidth(0);
+    var tabw = Editor.ChangeTabWidth(0);
 
     if (cur.isSelected === 0) {
         if (cur.isBeginOfLine() === false && /[\w_]/.test(cur.getPrevChar())) {
             Editor.Complete();
+            cur.read();
         } else {
             var nestDep = TextAnalyzer.getNestDepth(originCur.line - 1);
             var moveNum = (nestDep - originCur.col >= 0) ? nestDep - originCur.col + 1: tabw
@@ -32,13 +35,9 @@ function SuperTab() {
         cur.loadProperty(originCur, tabw);
     }
 
-    Editor.SetUndoBuffer();
-
 }
 
 function ShiftTab() {
-
-    Editor.AddRefUndoBuffer();
 
     var cur = new Cursor();
     var originCur = cur.getProperty();
@@ -52,18 +51,17 @@ function ShiftTab() {
     }
     cur.loadProperty(originCur, -tabw);
 
-    Editor.SetUndoBuffer();
-
 }
+
 
 (function() {
     var cmd = Plugin.GetCommandNo();
     switch (cmd) {
     case 1:
-        SuperTab();
+        CommandDecorator(SuperTab)();
         break;
     case 2:
-        ShiftTab();
+        CommandDecorator(ShiftTab)();
         break;
     }
 })();
