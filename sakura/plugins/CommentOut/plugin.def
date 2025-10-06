@@ -1,0 +1,15 @@
+;プラグイン定義ファイルv1
+[Plugin]
+Id=CommentOut
+Name=CommentOut
+Description=CommentOut
+Type=wsh
+Version=1.0
+Url=
+Author=hiro
+
+[Command]
+C[1]=CommentOut.js
+C[1].Label=CommentOut
+C[2]=CommentOut.js
+C[2].Label=UnComment

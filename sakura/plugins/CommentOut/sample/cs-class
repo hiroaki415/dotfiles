@@ -1,0 +1,6 @@
+﻿Title: C# class
+AfterSearch: <[^>]+>
+
+class <name> {
+	<code>
+}

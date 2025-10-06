@@ -1,0 +1,7 @@
+﻿Title: C# static int Main
+AfterSearch: <[^>]+>
+
+public static int Main(String[] args) {
+	<code>
+	return <ret>;
+}

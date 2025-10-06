@@ -1,0 +1,6 @@
+﻿Title: C# region
+AfterSearch: <[^>]+>
+
+#region <comment>
+
+#endregion
