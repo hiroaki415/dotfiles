@@ -10,7 +10,7 @@ Utility.getHomeDir = function() {
 Utility.getRootDir = function() {
     var fso = new ActiveXObject('Scripting.FileSystemObject');
     var pluginDir = Plugin.GetPluginDir();
-    var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir))
+    var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
     fso = null;
     return root;
 };
