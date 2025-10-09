@@ -13,6 +13,8 @@ eval(loadModule('/plugins/DevUtils/Cursor.js'));
 eval(loadModule('/plugins/DevUtils/TextAnalyzer.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
 
+var redrawFlagST = true;
+
 
 function SuperTab() {
 
@@ -22,6 +24,7 @@ function SuperTab() {
 
     if (cur.isSelected === 0) {
         if (cur.isBeginOfLine() === false && /[\w_]/.test(cur.getPrevChar())) {
+            redrawFlagST = false;
             Editor.Complete();
             cur.read();
         } else {
@@ -58,10 +61,10 @@ function ShiftTab() {
     var cmd = Plugin.GetCommandNo();
     switch (cmd) {
     case 1:
-        CommandDecorator(SuperTab)();
+        CommandDecorator(SuperTab, redrawFlagST)();
         break;
     case 2:
-        CommandDecorator(ShiftTab)();
+        CommandDecorator(ShiftTab, redrawFlagST)();
         break;
     }
 })();

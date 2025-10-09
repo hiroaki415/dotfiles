@@ -1,8 +1,8 @@
 ;プラグイン定義ファイルv1
 [Plugin]
-Id=SnipSakura
-Name=SnipSakura
-Description=SnipSakura
+Id=Snip$akura
+Name=Snip$akura
+Description=Snip$akura
 Type=wsh
 Version=1.0
 Url=
@@ -10,4 +10,4 @@ Author=hiro
 
 [Command]
 C[1]=SnipSakura.js
-C[1].Label=SnipSakura
+C[1].Label=Snip$akura
