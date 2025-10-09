@@ -110,6 +110,16 @@ function Cursor() {
         this.read();
     };
 
+    this.deleteWithoutBack = function() {
+        Editor.Delete(0);
+        this.read();
+    };
+
+    this.deleteBack = function() {
+        Editor.DeleteBack(0);
+        this.read();
+    };
+
     this.indent = function() {
         Editor.IndentTab(0);
         this.read();
@@ -120,13 +130,21 @@ function Cursor() {
         this.read();
     };
 
-    this.isBeginOfLine = function() {
-        return this.col === 1;
+    this.isBeginOfLine = function(line) {
+        if (typeof(line) === "undefined") { line = this.line; }
+        return line === 1;
     };
 
-    this.isEndOfLine = function() {
-        var str = Editor.GetLineStr(0).replace(/[\r\n]/g, "");
-        return this.col === (str.length + 1);
+    this.isEndOfLine = function(line) {
+        if (typeof(line) === "undefined") { line = this.line; }
+        var lineStr = Editor.GetLineStr(line).replace(/[\r\n]/g, "");
+        return this.line === (lineStr.length + 1);
+    };
+    
+    this.beginWith = function(line, str) {
+        if (typeof(line) === "undefined") { line = this.line; }
+        var lineStr = Editor.GetLineStr(line).replace(/[\r\n]/g, "");
+        return lineStr.substring(0, str.length) === str;
     };
 
     this.getPrevChar = function() {

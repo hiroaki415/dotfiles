@@ -26,7 +26,7 @@ function Config() {
 
         this.parseRaw();
 
-        TraceOut(this.types['C/C++']['szTypeExts']);
+//        TraceOut(this.types['C/C++']['szTypeExts']);
 
     };
 

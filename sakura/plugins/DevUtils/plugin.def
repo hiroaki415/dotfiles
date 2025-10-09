@@ -11,3 +11,52 @@ Author=hiro
 [Command]
 C[1]=TestCommand.js
 C[1].Label=TestCommand
+
+[Option]
+O[1].Section=Option
+O[1].Label=Comment Slash(//)
+O[1].Key=CommentSlash
+O[1].Type=Str
+O[1].Default=c,cpp,cxx,cc,cp,c++,h,hpp,hxx,hh,hp,h++,rc,hm,java,jav,dpr,pas,js
+
+O[2].Section=Option
+O[2].Label=Comment Sharp(#)
+O[2].Key=CommentSharp
+O[2].Type=Str
+O[2].Default=cgi,pl,pm,py
+
+O[3].Section=Option
+O[3].Label=Comment Quote(')
+O[3].Key=CommentQuote(')
+O[3].Type=Str
+O[3].Default=bas,frm,cls,ctl,pag,dob,dsr,vb
+
+O[4].Section=Option
+O[4].Label=Comment REM
+O[4].Key=CommentREM
+O[4].Type=Str
+O[4].Default=bat
+
+O[5].Section=Option
+O[5].Label=Comment Hyphen(--)
+O[5].Key=CommentHyphen
+O[5].Type=Str
+O[5].Default=sql,plsql
+
+O[6].Section=Option
+O[6].Label=Comment SemiColon(;)
+O[6].Key=CommentSemiColon
+O[6].Type=Str
+O[6].Default=asm,ini,inf,cnf,kwd,col,def
+
+O[7].Section=Option
+O[7].Label=Comment Percent(%)
+O[7].Key=CommentPercent
+O[7].Type=Str
+O[7].Default=tex,ltx,sty,bib,log,blg,aux,bbl,toc,lof,lot,idx,ind,glo
+
+O[8].Section=Option
+O[8].Label=Comment Asterisk(*)
+O[8].Key=CommentAsterisk
+O[8].Type=Str
+O[8].Default=cbl,cpy,pco,cob
