@@ -13,52 +13,96 @@ eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 function Config() {
 
-    this.raw = null;
-    this.types = {};
+    this._dict = {};
 
     this.load = function() {
-        var root = Utility.getRootDir();
+        var iniPath = Editor.ExpandParameter('$I');
         var fso = new ActiveXObject('Scripting.FileSystemObject');
-        var file = fso.OpenTextFile(root + '/sakura.ini', 1);
-        this.raw = file.ReadAll();
+        var file = fso.OpenTextFile(iniPath, 1);
+        var raw = file.ReadAll();
         file.Close();
         file = null;
+        fso = null;
 
-        this.parseRaw();
-
-//        TraceOut(this.types['C/C++']['szTypeExts']);
+        this._parseRaw(raw);
 
     };
 
-    this.parseRaw = function(ctype) {
+    this._parseRaw = function(raw) {
 
-        var lines = this.raw.split(/\r\n/);
-        var type = {szTypeName:'dummy'};
+        var lines = raw.split(/\r\n/);
+        var currentBlock = null;
+        var blockDict = {};
 
         for (var i in lines) {
 
-            if (/\[Types\(\d+\)\]/.test(lines[i])) {
-                this.types[type.szTypeName] = type;
-                type = {szTypeName:'dummy'};
+            if (/^\[.*\]$/.test(lines[i])) {
+                if (currentBlock !== null) { this._dict[currentBlock] = blockDict; }
+                currentBlock = lines[i];
+                blockDict = {};
+                continue;
             }
 
             var index = lines[i].indexOf("=");
             var key = lines[i].substring(0, index);
-            var value = lines[i].substring(index + 1);
+            var valueArr = lines[i].substring(index + 1).split(',');
 
-            if (false) {
-                //
-            } else {
-                type[key] = value;
-            }
+            blockDict[key] = valueArr;
 
-            if (Number(i) === (lines.length - 1) ) { this.types[type.szTypeName] = type; }
+            if (Number(i) === (lines.length - 1) ) { this._dict[currentBlock] = blockDict; }
 
         }
     };
 
-    this.getLineComment = function(ctype) {
+    this.getLineCommentDelimiter = function() {
+
+        var ext = Editor.ExpandParameter('$b');
+
+        for (var i = 0;  i < Math.pow(2, 8);  i++) {
+            var exts = this._dict['[Types(' + i + ')]']['szTypeExts'];
+            if (Utility.existsInArray(ext, exts)) {
+                return this._dict['[Types(' + i + ')]']['szLineComment'][0];
+            }
+            if (typeof(this._dict['[Types(' + (i + 1) + ')]']) === "undefined") { break; }
+        }
+
+        return '';
 
     };
+
+    this.getBlockCommentFrom = function() {
+
+        var ext = Editor.ExpandParameter('$b');
+
+        for (var i = 0;  i < Math.pow(2, 8);  i++) {
+            var exts = this._dict['[Types(' + i + ')]']['szTypeExts'];
+            if (Utility.existsInArray(ext, exts)) {
+                return this._dict['[Types(' + i + ')]']['szBlockCommentFrom'][0];
+            }
+            if (typeof(this._dict['[Types(' + (i + 1) + ')]']) === "undefined") { break; }
+        }
+
+        return '';
+
+    };
+
+    this.getBlockCommentTo = function() {
+
+        var ext = Editor.ExpandParameter('$b');
+
+        for (var i = 0;  i < Math.pow(2, 8);  i++) {
+            var exts = this._dict['[Types(' + i + ')]']['szTypeExts'];
+            if (Utility.existsInArray(ext, exts)) {
+                return this._dict['[Types(' + i + ')]']['szBlockCommentTo'][0];
+            }
+            if (typeof(this._dict['[Types(' + (i + 1) + ')]']) === "undefined") { break; }
+        }
+
+        return '';
+
+    };
+
+
+    this.load();
 
 }

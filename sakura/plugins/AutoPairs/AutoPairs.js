@@ -17,7 +17,7 @@ function AutoPairs (openStr, closeStr) {
 
     var cur = new Cursor();
 
-    if (cur.isSelected) {
+    if (cur.stateSelection === cur.stateEnum.selected ) {
 
         var originCur = cur.getProperty();
 

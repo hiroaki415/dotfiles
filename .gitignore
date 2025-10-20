@@ -1,3 +1,7 @@
+*.exe
+*.obj
+
 /sakura/sakura.ini
+/sakura/plugin.chm
 /sakura/plugins/*.ini
 /sakura/macro/RecKey.mac

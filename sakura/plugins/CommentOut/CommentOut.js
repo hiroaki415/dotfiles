@@ -10,76 +10,45 @@ fso = null;
 eval(loadModuleRaw);
 eval(loadModule('/plugins/DevUtils/Decorator.js'));
 eval(loadModule('/plugins/DevUtils/Cursor.js'));
+eval(loadModule('/plugins/DevUtils/Config.js'));
+eval(loadModule('/plugins/DevUtils/Utility.js'));
 
-
-function getLineCommentToken() {
-
-    var ext = Editor.ExpandParameter('$b');
-
-    var typeSlash = Plugin.GetOption('Option','CommentSlash').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return '//';}
-    }
-
-    var typeSharp = Plugin.GetOption('Option','CommentSharp').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return '#';}
-    }
-
-    var typeQuote = Plugin.GetOption('Option','CommentQuote').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return '\'';}
-    }
-
-    var typeREM = Plugin.GetOption('Option','CommentREM').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return 'REM ';}
-    }
-
-    var typeHyphen = Plugin.GetOption('Option','CommentHyphen').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return '--';}
-    }
-
-    var typeSemiColon = Plugin.GetOption('Option','CommentSemiColon').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return ';';}
-    }
-
-    var typePercent = Plugin.GetOption('Option','CommentPercent').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return '%';}
-    }
-
-    var typeAsterisk = Plugin.GetOption('Option','CommentAsterisk').split(",");
-    for (var key in typeSlash) {
-        if (typeSlash[key] === ext) { return '*';}
-    }
-
-}
 
 function CommentOut() {
 
     var cur = new Cursor();
     var originCur = cur.getProperty();
 
-    var token = getLineCommentToken();
+    var offset = 0;
 
-    if (cur.isSelected === 0) {
-        if (cur.beginWith(0, token) === false) {
-            cur.move(originCur.line, 1, 0);
-            cur.insertText(token);
-            cur.loadProperty(originCur, token.length);
+    if (cur.stateSelection === cur.stateEnum.notSelected) {
+        if (cur.isCommentLine() === false) {
+            var nestDep = cur.getNestDepth();
+            var offset = originCur.col > (nestDep + 1) ? cur.comDelim.length + 1 : 0
+            cur.move(originCur.line, nestDep + 1, 0);
+            cur.insertText(cur.comDelim + ' ');
+            cur.loadProperty(originCur, offset);
         } else {
             UnComment();
         }
     } else {
-        if (cur.beginWith(originCur.line, token) === false) {
+
+        var comFlag = true;
+        var nestDeps = [];
+        for (var i = originCur.fromLine;  i <= originCur.toLine;  i++) {
+            comFlag = comFlag || cur.isCommentLine(i);
+            if (cur.isBlankLine(i) === false) { nestDeps.push(cur.getNestDepth(i)); }
+        }
+
+        if (cur.isCommentLine(originCur.line) === false) {
+            var minDep = Utility.getMinInArray(nestDeps);
             for (var i = originCur.fromLine;  i <= originCur.toLine;  i++) {
-                cur.move(i, 1, 0);
-                cur.insertText(token);
+                if (cur.isBlankLine(i) === false) { 
+                    cur.move(i, minDep + 1, 0);
+                    cur.insertText(cur.comDelim + ' ');
+                }
             }
-            cur.loadProperty(originCur, token.length);
+            cur.loadProperty(originCur);
         } else {
             UnComment();
         }
@@ -91,23 +60,15 @@ function UnComment() {
     var cur = new Cursor();
     var originCur = cur.getProperty();
 
-    var token = getLineCommentToken();
-
-    if (cur.isSelected === 0) {
-        if (cur.beginWith(0, token) === true) {
-            cur.move(originCur.line, 1, 0);
-            for (var i = 0; i < token.length; i++) { cur.deleteWithoutBack(); }
-            cur.loadProperty(originCur, -token.length);
-        }
+    if (cur.stateSelection === cur.stateEnum.notSelected) {
+        cur.deleteCommentDelimiter(originCur.line);
     } else {
         for (var i = originCur.fromLine;  i <= originCur.toLine;  i++) {
-            cur.move(i, 1, 0);
-            if (cur.beginWith(i, token) === true) {
-                for (var j = 0; j < token.length; j++) { cur.deleteWithoutBack(); }
-            }
+            cur.deleteCommentDelimiter(i);
         }
-        cur.loadProperty(originCur, -token.length);
+        cur.loadProperty(originCur);
     }
+
 }
 
 

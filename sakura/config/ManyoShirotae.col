@@ -1,0 +1,81 @@
+﻿; テキストエディタ色設定 Ver3
+
+
+;Man'yo Shirotae Colorscheme
+;
+;B G R     Name         Assignment
+;595857    Sumi         Text
+;6b57d0    Imayou       Function
+;3f3d9e    Suou         UpperCamelCase
+;1c38d3    Hiiro        Keyword
+;a3a19e    Suzu         Comment
+;a2a3a3    Usuzumi      Selected Back Ground
+;d1d3e8    Haizakura    Cursor Back Ground
+;e3e5ea    Soshoku      Main Back Ground
+;0161eb    Shuiro       Number
+;0098f3    Kincha       Operator
+;5c9b83    Matsuba      String
+;afa300    Asagi        UPPER_SNAKE_CASE
+;a2501e    Ruri         Control Flow
+;964167    Shoubu       Type
+
+
+[SakuraColor]
+C[BRC]=1,1,1c38d3,d1d3e8,0  ;対括弧の強調表示
+C[CAR]=1,0,575859,e3e5ea,0  ;カーソル
+C[CBK]=1,0,575859,d1d3e8,0  ;カーソル行の背景色
+C[CMT]=1,0,a3a19e,e3e5ea,0  ;コメント
+C[CTL]=1,0,0098f3,e3e5ea,0  ;コントロールコード
+C[CVL]=1,0,a3a19e,e3e5ea,0  ;カーソル位置の縦線
+C[DFA]=1,0,d20000,ffd0a2,0  ;DIFF差分表示（追加）
+C[DFC]=1,0,006f00,c0fdbd,0  ;DIFF差分表示（変更）
+C[DFD]=1,0,006ad5,ace9ff,0  ;DIFF差分表示（削除）
+C[EBK]=0,0,000000,d1d3e8,0  ;偶数業の背景色
+C[EOF]=1,0,a3a19e,e3e5ea,0  ;EOF
+C[EOL]=1,0,a3a19e,e3e5ea,0  ;EOL
+C[FN2]=1,0,575859,afa300,0  ;検索文字列
+C[FN3]=1,0,575859,5c9b83,0  ;  |
+C[FN4]=1,0,575859,0161eb,0  ;  |
+C[FN5]=1,0,575859,6b57d0,0  ;  |
+C[FND]=1,0,575859,0098f3,0  ;検索文字列
+C[HDC]=0,0,5c9b83,e3e5ea,0  ;ヒアドキュメント
+C[IME]=1,0,1c38d3,e3e5ea,0  ;カーソル(IME ON)
+C[KW1]=1,0,1c38d3,e3e5ea,0  ;強調キーワード
+C[KW2]=1,0,a2501e,e3e5ea,0  ;  |
+C[KW3]=1,0,964167,e3e5ea,0  ;  |
+C[KW4]=1,0,0161eb,e3e5ea,0  ;  |
+C[KW5]=1,0,0098f3,e3e5ea,0  ;  |
+C[KW6]=1,0,575859,e3e5ea,0  ;  |
+C[KW7]=1,0,575859,e3e5ea,0  ;  |
+C[KW8]=1,0,575859,e3e5ea,0  ;  |
+C[KW9]=1,0,575859,e3e5ea,0  ;  |
+C[KWA]=1,0,575859,e3e5ea,0  ;強調キーワード
+C[LNO]=1,0,a3a19e,e3e5ea,0  ;行番号
+C[MOD]=1,1,1c38d3,e3e5ea,0  ;行番号(変更行)
+C[MRK]=1,0,1c38d3,afa300,0  ;ブックマーク
+C[NOT]=0,0,a3a19e,e3e5ea,0  ;ノート線
+C[NUM]=1,0,0161eb,e3e5ea,0  ;数字
+C[PGV]=1,0,000000,a2a3a3,0  ;表示範囲(ミニマップ)
+C[RAP]=1,0,1c38d3,e3e5ea,0  ;折り返し記号
+C[RK1]=1,0,3f3d9e,e3e5ea,0  ;正規表現キーワード
+C[RK2]=1,0,6b57d0,e3e5ea,0  ;  |
+C[RK3]=1,0,afa300,e3e5ea,0  ;  |
+C[RK4]=1,0,575859,e3e5ea,0  ;  |
+C[RK5]=1,0,575859,e3e5ea,0  ;  |
+C[RK6]=1,0,575859,e3e5ea,0  ;  |
+C[RK7]=1,0,575859,e3e5ea,0  ;  |
+C[RK8]=1,0,575859,e3e5ea,0  ;  |
+C[RK9]=1,0,575859,e3e5ea,0  ;  |
+C[RKA]=1,0,575859,e3e5ea,0  ;正規表現キーワード
+C[RUL]=1,0,a3a19e,e3e5ea,0  ;ルーラー
+C[SEL]=1,0,a2a3a3,a2a3a3,0  ;選択行
+C[SPC]=0,0,a3a19e,e3e5ea,0  ;半角空白
+C[SQT]=1,0,5c9b83,e3e5ea,0  ;シングルクォーテーション文字
+C[TAB]=1,0,a3a19e,e3e5ea,0  ;TAB記号
+C[TXT]=1,0,575859,e3e5ea,0  ;テキスト
+C[UND]=1,0,a3a19e,e3e5ea,0  ;カーソル行のアンダーライン
+C[URL]=1,0,a2501e,e3e5ea,1  ;URL
+C[VER]=0,0,a3a19e,e3e5ea,0  ;指定桁縦線
+C[WQT]=1,0,5c9b83,e3e5ea,0  ;ダブルクォーテーション文字列
+C[ZEN]=1,0,a3a19e,e3e5ea,0  ;日本語空白
+

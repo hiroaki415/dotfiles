@@ -10,4 +10,12 @@ Author=hiro
 
 [Command]
 C[1]=SnipSakura.js
-C[1].Label=Snip$akura
+C[1].Label=ExpandSnippet
+C[2]=SnipSakura.js
+C[2].Label=JumpNext
+C[3]=SnipSakura.js
+C[3].Label=JumpPrev
+
+[Plug]
+ComplementGlobal=CompSakura.js
+ComplementGlobal.Label=CompSakura

@@ -1,6 +1,0 @@
-﻿Title: JavaScript function
-AfterSearch: <[^>]+>
-
-function <name>(<args>) {
-	<code>
-}
