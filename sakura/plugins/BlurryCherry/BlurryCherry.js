@@ -10,21 +10,23 @@ fso = null;
 eval(loadModuleRaw);
 eval(loadModule('/plugins/DevUtils/Decorator.js'));
 eval(loadModule('/plugins/DevUtils/Cursor.js'));
-eval(loadModule('/plugins/DevUtils/Config.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
-function testCommand() {
-    // Write Test Script Here
-    // Editor.MessageBox('Hello World!');
-    // Editor.StatusMsg('Hello World!');
-    // Editor.TraceOut('Hello World!');
+function BlurryCherry () {
 
-    var conf = new Config();
+    var alpha = Plugin.GetOption("Option", "alpha");
 
-    MessageBox(conf.getLineCommentDelimiter());
+    alpha = Math.max(alpha, 25)
+    alpha = Math.min(alpha, 255)
+
+    var title = Editor.ExpandParameter('$A');
+    var pluginDir = Plugin.GetPluginDir();
+    var shell = new ActiveXObject("WScript.Shell");
+    // shell.Run(pluginDir + '/SetTransparency.exe "' + title + '" acrylic', 0, true);
+    shell.Run(pluginDir + '/SetTransparency.exe "' + title + '" ' + alpha, 0, true);
 
 }
 
 
-CommandDecorator(testCommand)();
+BlurryCherry();

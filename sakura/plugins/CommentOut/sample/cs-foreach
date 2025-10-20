@@ -1,6 +1,0 @@
-﻿Title: C# foreach
-AfterSearch: <[^>]+>
-
-foreach (var <var> in <enum>) {
-	<code>
-}

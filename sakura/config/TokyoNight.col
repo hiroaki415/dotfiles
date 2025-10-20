@@ -1,23 +1,23 @@
 ﻿; テキストエディタ色設定 Ver3
 ;
-;8e76f7    Red         This keyword, HTML elements, Regex group symbol, CSS units, Terminal Red
-;649eff    Orange      Number and Boolean constants, Language support constants
-;68afe0    Yellow      Function parameters, Regex character sets, Terminal Yellow
-;c2c9cf    Beige       Parameters inside functions (semantic highlighting only)
-;6ace9e    Green       Strings, CSS class names
-;cada73    AquaMarine  Object literal keys, Markdown links, Terminal Green
-;f8f9b4    LightCyan   Regex literal strings
-;dec32a    Cyan        Language support functions, CSS HTML elements
-;ffcf7d    Sky         Object properties, Regex quantifiers and flags, Markdown headings, Terminal Cyan, Markdown code, Import/export keywords
-;f7a27a    Blue        Function names, CSS property names, Terminal Blue
-;f79abb    Purple      Control Keywords, Storage Types, Regex symbols and operators, HTML Attributes, Terminal Magenta
-;f5cac0    White       Variables, Class names, Terminal White
-;d6b1a9                Editor Foreground
-;cea59a                Markdown Text, HTML Text
-;895f56    Gray        Comments
-;684841                Terminal Black
-;3b2824                Editor Background (Storm)
-;261b1a    Black       Editor Background (Night)
+;8e76f7    Red         予約語 This keyword, HTML elements, Regex group symbol, CSS units, Terminal Red
+;649eff    Orange      数  字 Number and Boolean constants, Language support constants 
+;68afe0    Yellow      検  索 Function parameters, Regex character sets, Terminal Yellow
+;c2c9cf    Beige              Parameters inside functions (semantic highlighting only)
+;6ace9e    Green       文字列 Strings, CSS class names
+;cada73    AquaMarine         Object literal keys, Markdown links, Terminal Green
+;f8f9b4    LightCyan          Regex literal strings
+;dec32a    Cyan               Language support functions, CSS HTML elements
+;ffcf7d    Sky         色  々 Object properties, Regex quantifiers and flags, Markdown headings, Terminal Cyan, Markdown code, Import/export keywords
+;f7a27a    Blue        大文字 Function names, CSS property names, Terminal Blue
+;f79abb    Purple      予約語 Control Keywords, Storage Types, Regex symbols and operators, HTML Attributes, Terminal Magenta
+;f5cac0    White              Variables, Class names, Terminal White
+;d6b1a9                       Editor Foreground
+;cea59a                       Markdown Text, HTML Text
+;895f56    Gray               Comments
+;684841                       Terminal Black
+;3b2824                       Editor Background (Storm)
+;261b1a    Black              Editor Background (Night)
 
 
 [SakuraColor]
