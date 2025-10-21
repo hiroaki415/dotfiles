@@ -3,5 +3,6 @@
 
 /sakura/sakura.ini
 /sakura/plugin.chm
+/sakura/plugin.chw
 /sakura/plugins/*.ini
 /sakura/macro/RecKey.mac
