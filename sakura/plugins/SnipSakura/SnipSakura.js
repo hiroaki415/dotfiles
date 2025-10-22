@@ -8,6 +8,7 @@ file = null;
 fso = null;
 
 eval(loadModuleRaw);
+eval(loadModule('/plugins/SnipSakura/lib/SnipElement.js'));
 eval(loadModule('/plugins/SnipSakura/lib/SnipRegex.js'));
 eval(loadModule('/plugins/DevUtils/Decorator.js'));
 eval(loadModule('/plugins/DevUtils/Cursor.js'));
@@ -38,13 +39,17 @@ function JumpPrev() {
     var cur = new Cursor();
     // cur.jumpMatch(/(\$\d+)|(\$\{\d+\:.+\})|(\$\{\d+\|.+(.+\,)+.+\|\})/, false);
 
-    var str = '${TM_CURRENT_LINE/fg/dfg/g}'
-    var regex = new RegExp('^' + SnipRegex.variable + '$');
-    if ((match = regex.exec(str)) !== null) {
-        MessageBox('match!');
-    } else {
-        MessageBox('failed...');
-    }
+    // var str = '${TM_CURRENT_LINE/fg/dfg/g}'
+    // var regex = new RegExp('^' + SnipRegex.variable + '$');
+    // if ((match = regex.exec(str)) !== null) {
+    //     MessageBox('match!');
+    // } else {
+    //     MessageBox('failed...');
+    // }
+
+    var se = new SnipElement('${CLIPBOARD/sdf/sdf/g}');
+    MessageBox(se.getType());
+
     // TraceOut(SnipRegex.variable);
 
 }

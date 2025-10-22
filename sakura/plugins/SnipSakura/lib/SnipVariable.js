@@ -157,7 +157,7 @@ var SnipVariable = {
                     getVal: function(){
                         var today = new Date();
                         var date = today.getDate();
-                        return (day < 10 ? '0' : '') + day;
+                        return (date < 10 ? '0' : '') + date;
                     }
                 },
                 {
