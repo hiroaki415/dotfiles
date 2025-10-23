@@ -47,8 +47,8 @@ function JumpPrev() {
     //     MessageBox('failed...');
     // }
 
-    var se = new SnipElement('${CLIPBOARD/sdf/sdf/g}');
-    MessageBox(se.getType());
+    var se = new SnipElement('${76:gs sesysres rtts4}');
+    MessageBox(se.getDefaultField());
 
     // TraceOut(SnipRegex.variable);
 
