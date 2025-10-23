@@ -28,7 +28,7 @@ _sr = SnipRegex;
 SnipRegex.format = "(" +
                       '\\$'+_sr.reInt + "|" + '\\$\\{'+_sr.reInt+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':'+"("+'\\/upcase'+"|"+'\\/downcase'+"|"+'\\/capitalize'+"|" +
-                                            +'\\/camelcase'+"|"+'\\/pascalcase'+")"+'\\}' + "|" +
+                                                  +'\\/camelcase'+"|"+'\\/pascalcase'+")"+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':\\+'+_sr.reIf+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':\\?'+_sr.reIf+':'+_sr.reElse+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':\\-'+_sr.reElse+'\\}' + "|" + '\\$\\{'+_sr.reInt+':'+_sr.reElse+'\\}' +
@@ -51,5 +51,18 @@ SnipRegex.variable = "(" +
                       '\\$\\{'+_sr.reVar+':'+_sr.reAny+'\\}' + "|" +
                       '\\$\\{'+_sr.reVar+_sr.transform+'\\}' +
                       ")";
+
+_sr = SnipRegex;
+
+
+SnipRegex.haveID = "(" + _sr.tabstop + "|" +  _sr.placeholder + "|" + _sr.choice + ")";
+SnipRegex.haveTransform = "(" +
+                              '\\$\\{'+_sr.reInt+_sr.transform+'\\}' + "|" +
+                              '\\$\\{'+_sr.reVar+_sr.transform+'\\}' +
+                              ")";
+SnipRegex.haveDefaultField = "(" + 
+                              SnipRegex.placeholder + "|" +
+                              '\\$\\{'+_sr.reVar+':'+_sr.reAny+'\\}' +
+                              ")";
 
 _sr = null;

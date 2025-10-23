@@ -43,3 +43,19 @@ SnipFuncs.parseRawText = function(rawText) {
     return elements;
 
 };
+
+SnipFuncs.escapeMarkers = function(text) {
+    return text
+        .replace(/\\\\/g, "__ESC_BACKSLASH__")
+        .replace(/\\\$/g, "__ESC_DOLLAR__")
+        .replace(/\\\{/g, "__ESC_LBRACE__")
+        .replace(/\\\}/g, "__ESC_RBRACE__");
+};
+
+SnipFuncs.restoreMarkers = function(text) {
+    return text
+        .replace(/__ESC_DOLLAR__/g, "$")
+        .replace(/__ESC_LBRACE__/g, "{")
+        .replace(/__ESC_RBRACE__/g, "}")
+        .replace(/__ESC_BACKSLASH__/g, "\\");
+};
