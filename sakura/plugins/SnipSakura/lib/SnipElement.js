@@ -17,6 +17,10 @@ function SnipElement(rawText) {
 
     this.rawText = rawText;
 
+
+    this.choices = [];
+    this.evalutedVariable;
+
     this.typeEnum = {
         tabstop: 'tabstop',
         placeholder: 'placeholder',
@@ -113,10 +117,6 @@ function SnipElement(rawText) {
     this.getDefaultField = function() {
         if (RegExp('^'+SnipRegex.haveDefaultField+'$').test(this.rawText)) {
 
-            var match = null;
-            var regex = null;
-            var lastIndex = 0;
-
             var regex = new RegExp(':', 'g');
             var match = regex.exec(this.rawText);
             var lastIndex = regex.lastIndex;
@@ -171,13 +171,13 @@ function SnipElement(rawText) {
                 return '';
                 break;
             case this.typeEnum.placeholder:
-                // return ???
+                return this.getDefaultField();
                 break;
             case this.typeEnum.choice:
                 return '_CHOICE_';
                 break;
             case this.typeEnum.variable:
-                // return ???
+                return this.evalutedVariable;
                 break;
             case this.typeEnum.text:
                 return this.rawText;

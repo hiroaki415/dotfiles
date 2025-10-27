@@ -21,9 +21,9 @@ function AutoPairs (openStr, closeStr) {
 
         var originCur = cur.getProperty();
 
-        cur.move(originCur.toLine, originCur.toCol, 0);
+        cur.move(originCur.lineTo, originCur.colTo, 0);
         cur.insertText(closeStr);
-        cur.move(originCur.fromLine, originCur.fromCol, 0);
+        cur.move(originCur.lineFrom, originCur.colFrom, 0);
         cur.insertText(openStr);
         cur.loadProperty(originCur, openStr.length);
 

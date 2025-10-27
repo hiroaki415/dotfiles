@@ -35,14 +35,14 @@ function CommentOut() {
 
         var comFlag = true;
         var nestDeps = [];
-        for (var i = originCur.fromLine;  i <= originCur.toLine;  i++) {
+        for (var i = originCur.lineFrom;  i <= originCur.lineTo;  i++) {
             comFlag = comFlag || cur.isCommentLine(i);
             if (cur.isBlankLine(i) === false) { nestDeps.push(cur.getNestDepth(i)); }
         }
 
         if (cur.isCommentLine(originCur.line) === false) {
             var minDep = Utility.getMinInArray(nestDeps);
-            for (var i = originCur.fromLine;  i <= originCur.toLine;  i++) {
+            for (var i = originCur.lineFrom;  i <= originCur.lineTo;  i++) {
                 if (cur.isBlankLine(i) === false) { 
                     cur.move(i, minDep + 1, 0);
                     cur.insertText(cur.comDelim + ' ');
@@ -63,7 +63,7 @@ function UnComment() {
     if (cur.stateSelection === cur.stateEnum.notSelected) {
         cur.deleteCommentDelimiter(originCur.line);
     } else {
-        for (var i = originCur.fromLine;  i <= originCur.toLine;  i++) {
+        for (var i = originCur.lineFrom;  i <= originCur.lineTo;  i++) {
             cur.deleteCommentDelimiter(i);
         }
         cur.loadProperty(originCur);

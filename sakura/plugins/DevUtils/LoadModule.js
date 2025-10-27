@@ -1,11 +1,19 @@
 function loadModule(path) {
+
     var fso = new ActiveXObject('Scripting.FileSystemObject');
     var pluginDir = Plugin.GetPluginDir();
     var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
-    var file = fso.OpenTextFile(root + path, 1);
-    var code = file.ReadAll();
-    file.Close();
-    file = null;
     fso = null;
-    return code;
+
+    var stream = new ActiveXObject("ADODB.Stream");
+    stream.Type = 2;
+    stream.charset = '_autodetect_all';
+    stream.Open();
+    stream.LoadFromFile(root + '/' + path);
+    var source = stream.ReadText(-1);
+    stream.Close();
+    stream = null;
+
+    return source;
+
 }

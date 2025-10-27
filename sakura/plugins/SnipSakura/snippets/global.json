@@ -1,6 +1,6 @@
 {
     "サンプル": {
-        "prefix": "\sakura_sample",
+        "prefix": "#sakura_sample",
         "body": ["サンプル", "$0"],
         "description": "これはサンプルです。"
     }

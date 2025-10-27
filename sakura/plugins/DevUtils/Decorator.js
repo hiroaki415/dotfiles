@@ -10,6 +10,8 @@ function CommandDecorator(func) {
         Editor.ReDraw(0);
         Editor.SetUndoBuffer();
 
+        if (typeof(result) === 'string') { Editor.StatusMsg(result); }
+
         return result;
     };
 }

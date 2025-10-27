@@ -8,6 +8,7 @@ function Enter-VSDevShell {
     Enter-VsDevShell bd50a617
 }
 
+
 # disable system startup service of nginx
 $NGINX_DIR = Get-ChildItem -Path "${env:USERPROFILE}\AppData\Local\Microsoft\WinGet\Packages\nginxinc.nginx_Microsoft.Winget.Source_8wekyb3d8bbwe" -Directory | Where-Object { $_.Name -match "^nginx-\d+\.\d+\.\d+$" }
 function nginx {

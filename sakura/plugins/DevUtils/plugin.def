@@ -8,6 +8,10 @@ Version=1.0
 Url=
 Author=hiro
 
+[Plug]
+SmartIndent=KeyEventListener.js
+SmartIndent.Label=KeyEventListener
+
 [Command]
 C[1]=TestCommand.js
 C[1].Label=TestCommand

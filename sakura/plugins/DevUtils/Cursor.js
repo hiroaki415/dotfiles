@@ -23,12 +23,12 @@ function Cursor() {
         selectedAsBox: 2
     };
 
-    this.fromLine = 0;
-    this.fromCol = 0;
-    this.toLine = 0;
-    this.toCol = 0;
+    this.lineFrom = 0;
+    this.colFrom = 0;
+    this.lineTo = 0;
+    this.colTo = 0;
 
-    this.selectedStr = null;
+    this.selectedText = null;
 
     this.viewTop = 0;
 
@@ -55,24 +55,24 @@ function Cursor() {
 
         if (this.stateSelection !== this.stateEnum.notSelected) {
 
-            var fLine = Editor.GetSelectLineFrom();
-            var fCol = Editor.GetSelectColmFrom();
-            var tLine = Editor.GetSelectLineTo();
-            var tCol = Editor.GetSelectColmTo();
+            var lineF = Editor.GetSelectLineFrom();
+            var colF = Editor.GetSelectColmFrom();
+            var lineT = Editor.GetSelectLineTo();
+            var colT = Editor.GetSelectColmTo();
 
-            this.fromLine = Editor.LayoutToLogicLineNum(fLine);
-            this.fromCol = Editor.LineColumnToIndex(fLine, fCol);
-            this.toLine = Editor.LayoutToLogicLineNum(tLine);
-            this.toCol = Editor.LineColumnToIndex(tLine, tCol);
+            this.lineFrom = Editor.LayoutToLogicLineNum(lineF);
+            this.colFrom = Editor.LineColumnToIndex(lineF, colF);
+            this.lineTo = Editor.LayoutToLogicLineNum(lineT);
+            this.colTo = Editor.LineColumnToIndex(lineT, colT);
 
-            this.selectedStr = Editor.GetSelectedString(0);
+            this.selectedText = Editor.GetSelectedString(0);
 
         } else {
-            this.fromLine = 0;
-            this.fromCol = 0;
-            this.toLine = 0;
-            this.toCol = 0;
-            this.selectedStr = null;
+            this.lineFrom = 0;
+            this.colFrom = 0;
+            this.lineTo = 0;
+            this.colTo = 0;
+            this.selectedText = null;
         }
 
         this.viewTop = Editor.GetViewTop();
@@ -112,21 +112,21 @@ function Cursor() {
         if (prop.stateSelection === prop.stateEnum.notSelected) {
             this.move(prop.line, prop.col + offsetCol, 0);
         } else {
-            if (prop.fromLine !== prop.toLine) {
-                if (prop.line === prop.fromLine) {
-                    this.move(prop.toLine, prop.toCol + offsetCol, 0);
-                    this.move(prop.fromLine, prop.fromCol + offsetCol, 1);
+            if (prop.lineFrom !== prop.lineTo) {
+                if (prop.line === prop.lineFrom) {
+                    this.move(prop.lineTo, prop.colTo + offsetCol, 0);
+                    this.move(prop.lineFrom, prop.colFrom + offsetCol, 1);
                 } else {
-                    this.move(prop.fromLine, prop.fromCol + offsetCol, 0);
-                    this.move(prop.toLine, prop.toCol + offsetCol, 1);
+                    this.move(prop.lineFrom, prop.colFrom + offsetCol, 0);
+                    this.move(prop.lineTo, prop.colTo + offsetCol, 1);
                 }
             } else {
-                if (prop.col === prop.fromCol) {
-                    this.move(prop.toLine, prop.toCol + offsetCol, 0);
-                    this.move(prop.fromLine, prop.fromCol + offsetCol, 1);
+                if (prop.col === prop.colFrom) {
+                    this.move(prop.lineTo, prop.colTo + offsetCol, 0);
+                    this.move(prop.lineFrom, prop.colFrom + offsetCol, 1);
                 } else {
-                    this.move(prop.fromLine, prop.fromCol + offsetCol, 0);
-                    this.move(prop.toLine, prop.toCol + offsetCol, 1);
+                    this.move(prop.lineFrom, prop.colFrom + offsetCol, 0);
+                    this.move(prop.lineTo, prop.colTo + offsetCol, 1);
                 }
             }
         }
@@ -151,6 +151,38 @@ function Cursor() {
     this.deleteBack = function() {
         Editor.DeleteBack(0);
         this.read();
+    };
+
+    this.deleteLine = function(line) {
+        if (typeof(line) === 'undefined') { line = this.line; }
+
+        var originCur = this.getProperty();
+
+        this.move(line, 1);
+        Editor.DeleteLine();
+
+        if (originCur.line > line) {
+            originCur.line = originCur.line -1;
+            if (originCur.stateSelection !== originCur.stateEnum.notSelected) {
+                originCur.lineFrom = originCur.lineFrom -1;
+                originCur.lineTo = originCur.lineTo -1;
+            }
+        }
+
+        this.loadProperty(originCur);
+
+    };
+
+    this.clearLine = function(line) {
+        if (typeof(line) === 'undefined') { line = this.line; }
+
+        var originCur = this.getProperty();
+
+        this.move(line, this.getLineText(line).length + 1);
+        Editor.LineDeleteToStart();
+
+        this.loadProperty(originCur);
+
     };
 
     this.indent = function() {
@@ -180,6 +212,19 @@ function Cursor() {
         }
     };
 
+
+    this.isEqualTo = function(prop) {
+        var ret = true;
+        ret = ret && this.line === prop.line;
+        ret = ret && this.col === prop.col;
+        if (this.stateSelection !== this.stateEnum.notSelected) {
+            ret = ret && this.lineFrom === prop.lineFrom;
+            ret = ret && this.colFrom === prop.colFrom;
+            ret = ret && this.lineTo === prop.lineTo;
+            ret = ret && this.colTo === prop.colTo;
+        }
+        return ret;
+    };
 
     this.isFirstLine = function() {
         return this.line === 1;
@@ -218,78 +263,46 @@ function Cursor() {
     };
 
 
-    this.jumpMatch = function(regex, afterCursor) {
-        if (typeof(afterCursor) === 'undefined') { afterCursor = true; }
+    this.searchNext = function(str, option) {
+        if (typeof(option) === 'undefined') { option = 0; }
+        Editor.SearchNext(str, option);
+        this.read();
+        var tmpCur = this.getProperty();
+        Editor.CancelMode(0);
+        Editor.SearchClearMark();
+        this.loadProperty(tmpCur);
+    };
 
-        var originCur = this.getProperty();
-        var targetCur = this.getProperty();
-        var lineStr = null;
-        var match = null;
-
-        if (afterCursor) {
-            var condition = function(i) { return i <= Editor.GetLineCount(0); }
-            var nextVal = function(i) { return i + 1; }
-        } else {
-            var condition = function(i) { return i >= 1; }
-            var nextVal = function(i) { return i - 1; }
-        }
-
-        for (var i = this.line; condition(i); i = nextVal(i)) {
-
-            if (this.line === i) {
-                lineStr = this.getLineAfterCursor().substring(1);
-            } else {
-                this.move(i, 1, 0)
-                lineStr = this.getLine();
-            }
-
-            match = regex.exec(lineStr);
-
-            if (match) {
-
-                targetCur.line = this.line;
-                targetCur.fromLine = this.line;
-                targetCur.toLine = this.line;
-
-                targetCur.col = match.index + 1;
-                targetCur.fromCol = match.index + 1;
-                targetCur.toCol = match.index + match[0].length + 1;
-
-                targetCur.stateSelection = this.stateEnum.selected;
-
-                targetCur.viewTop = this.viewTop;
-
-                this.loadProperty(targetCur);
-                break;
-
-            }
-
-        }
-
-        if (match === null) { this.loadProperty(originCur); }
-
+    this.searchPrev = function(str, option) {
+        if (typeof(option) === 'undefined') { option = 0; }
+        Editor.SearchPrev(str, option);
+        this.read();
+        var tmpCur = this.getProperty();
+        Editor.CancelMode(0);
+        Editor.SearchClearMark();
+        this.loadProperty(tmpCur);
     };
 
 
     this.getCurrentWord = function() {
         var originCur = this.getProperty();
         this.selectCurrentWord();
-        var word = this.selectedStr;
+        var word = this.selectedText;
         this.loadProperty(originCur);
         return word;
     }
 
-    this.getLine = function(line) {
+    this.getLineText = function(line) {
         if (typeof(line) === 'undefined') { line = this.line; }
         return Editor.GetLineStr(line).replace(/[\r\n]/g, '');
     }
 
-    this.getLineAfterCursor = function() {
+    this.getLineTextAfterCursor = function() {
         var lineStr = Editor.GetLineStr(this.line).replace(/[\r\n]/g, '');
         return lineStr.substring(this.col - 1);
     }
 
-    this.getLineBeforeCursor = function() {
+    this.getLineTextBeforeCursor = function() {
         var lineStr = Editor.GetLineStr(this.line).replace(/[\r\n]/g, '');
         return lineStr.substring(0, this.col - 1);
     }
@@ -308,7 +321,7 @@ function Cursor() {
             var originCur = this.getProperty();
             this.moveLeft();
             this.move(this.line, this.col + 1, 1);
-            chr = this.selectedStr;
+            chr = this.selectedText;
             this.loadProperty(originCur);
         }
         return chr;
@@ -320,7 +333,7 @@ function Cursor() {
             var originCur = this.getProperty();
             this.moveRight();
             this.move(this.line, this.col - 1, 1);
-            chr = this.selectedStr;
+            chr = this.selectedText;
             this.loadProperty(originCur);
         }
         return chr;
@@ -328,7 +341,7 @@ function Cursor() {
 
     this.getWordList = function(line) {
         if (typeof(line) === 'undefined') { line = this.line; }
-        var words = Utility.deleteNullOrEmpty(this.getLine().split(' '));
+        var words = Utility.deleteNullOrEmpty(this.getLineText().split(' '));
         return words;
     };
 

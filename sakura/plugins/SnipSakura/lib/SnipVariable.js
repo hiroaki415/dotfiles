@@ -20,14 +20,14 @@ var SnipVariable = {
                     token: 'TM_SELECTED_TEXT',
                     getVal: function(){
                         var cur = new Cursor();
-                        return cur.seletedStr;
+                        return cur.seletedText;
                     }
                 },
                 {
                     token: 'TM_CURRENT_LINE',
                     getVal: function(){
                         var cur = new Cursor();
-                        return cur.getLine();
+                        return cur.getLineText();
                     }
                 },
                 {

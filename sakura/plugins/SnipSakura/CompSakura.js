@@ -8,6 +8,7 @@ file = null;
 fso = null;
 
 eval(loadModuleRaw);
+eval(loadModule('/plugins/SnipSakura/lib/SnipLoader.js'));
 eval(loadModule('/plugins/DevUtils/Cursor.js'));
 
 
@@ -16,7 +17,7 @@ function CompSakura () {
     var word = Complement.GetCurrentWord();
     var cur = new Cursor();
 
-    if (word === '_X_' && /\{\d+\|.+(.+\,)+.+\|\}/.test(cur.selectedStr)) {
+    if (word === '_CHOICE_' && /\{\d+\|.+(.+\,)+.+\|\}/.test(cur.selectedStr)) {
 
         var selStr = cur.selectedStr
         var start = selStr.indexOf('|') + 1;
@@ -26,33 +27,8 @@ function CompSakura () {
 
     } else {
 
-        var ext = Editor.ExpandParameter('$b');
-
-        var fso = new ActiveXObject("Scripting.FileSystemObject");
-        var folder = fso.GetFolder(Plugin.GetPluginDir() + '/snippets');
-        var files = new Enumerator(folder.Files);
-
-        for (; !files.atEnd(); files.moveNext()) {
-
-            var file = files.item();
-            var regexFile = new RegExp(
-                '(^' + ext + '_*[a-zA-Z0-9_]*\.(json)|(JSON)|(txt)|(TXT)|(code\-snippets))|' +
-                '(^global_*[a-zA-Z0-9_]*\.(json)|(JSON)|(txt)|(TXT)|(code\-snippets))'
-            );
-
-            if (regexFile.test(file.Name)) {
-                var snippets = eval('(' + loadModule('/plugins/SnipSakura/snippets/' + file.Name) + ')');
-                var prefix = null;
-                var regexSnip = new RegExp('^' + word + ".*");
-                for (key in snippets){
-                    prefix = snippets[key].prefix.replace(/[^a-zA-Z0-9_]/g, "");
-                    if (regexSnip.test(prefix)) { Complement.AddList(prefix + ':snip$'); }
-                }
-            }
-
-        }
-
-        fso = null;
+        var prefixes = SnipLoader.getPrefixesBeginWith(word);
+        for (key in prefixes) { Complement.AddList('<' + prefixes[key] + '>:snip$'); }
 
     }
 

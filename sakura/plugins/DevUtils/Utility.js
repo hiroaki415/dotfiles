@@ -15,6 +15,17 @@ Utility.getRootDir = function() {
     return root;
 };
 
+Utility.getLineCode = function() {
+    switch (Editor.GetLineCode()) {
+        case 0:
+            return '\r\n';
+        case 1:
+            return '\r';
+        case 2:
+            return '\n';
+    }
+};
+
 Utility.getRepeatedStr = function(str, rep) {
     var ret = '';
     for (var i = 0; i < rep; i++) { ret += str; }
