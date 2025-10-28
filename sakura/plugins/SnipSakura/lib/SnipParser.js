@@ -9,6 +9,7 @@ fso = null;
 
 eval(loadModuleRaw);
 eval(loadModule('/plugins/SnipSakura/lib/SnipElement.js'));
+eval(loadModule('/plugins/SnipSakura/lib/SnipEscape.js'));
 eval(loadModule('/plugins/SnipSakura/lib/SnipRegex.js'));
 eval(loadModule('/plugins/SnipSakura/lib/SnipVariable.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
@@ -50,32 +51,15 @@ function SnipParser(normSnip, nestDepth) {
 
     };
 
-    this.escapeMarkers = function(text) {
-        return text
-            .replace(/\\\\/g, '__ESC_BACKSLASH__')
-            .replace(/\\\$/g, '__ESC_DOLLAR__')
-            .replace(/\\\{/g, '__ESC_LBRACE__')
-            .replace(/\\\}/g, '__ESC_RBRACE__')
-            .replace(/\\\t/g, '__ESC_INDENT__')
-            .replace(/\\\n/g, '__ESC_RETURN__');
-    };
-
-    this.restoreMarkers = function(text) {
-        return text
-            .replace(/__ESC_BACKSLASH__/g, '\\')
-            .replace(/__ESC_DOLLAR__/g, '$')
-            .replace(/__ESC_LBRACE__/g, '{')
-            .replace(/__ESC_RBRACE__/g, '}')
-            .replace(/__ESC_INDENT__/g, Utility.getRepeatedStr(' ', Editor.ChangeTabWidth(0)))
-            .replace(/__ESC_RETURN__/g, Utility.getLineCode() + Utility.getRepeatedStr(' ', this.nestDepth));
-    };
-
     this.getEvaluatedText = function() {
-        var escText = this.escapeMarkers(this.normSnip);
+        var escText = SnipEscape.escape(this.normSnip);
         var elements = this.parseRawText(escText);
+
         var evalText = '';
         for (key in elements) { evalText = evalText + elements[key].getEvaluatedText(); }
-        var restText = this.restoreMarkers(evalText);
+        var restText = SnipEscape.restore(evalText);
+        restText = SnipEscape.evalIndent(restText);
+        restText = SnipEscape.evalReturn(restText);
         return restText;
     };
 

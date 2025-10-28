@@ -35,10 +35,10 @@ function ExpandSnippet() {
             if (snippet.body.constructor === Array) {
                 body[0] = cur.getLineTextBeforeCursor() + body[0];
                 var normSnip = '';
-                for (key in body) { normSnip = normSnip + '\n' + body[key] + '\n'; }
-                normSnip = normSnip.substring(1);
+                for (key in body) { normSnip = normSnip + body[key] + '\\n'; }
+                // normSnip = normSnip.substring(2);
             } else {
-                var normSnip = cur.getLineTextBeforeCursor() + body + '\n';
+                var normSnip = cur.getLineTextBeforeCursor() + body + '\\n';
             }
 
             // var cookie = new SnipCookie(parser.getCookie());

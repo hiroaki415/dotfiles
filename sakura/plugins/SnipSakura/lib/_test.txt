@@ -1,6 +1,0 @@
-\abc\\abc\abc\\abc
-$abc\$abc$abc\$abc
-{abc\{abc{abc\{abc
-}abc\}abc}abc\}abc
-tabc\tabctabc\tabc
-nabc\nabcnabc\nabc

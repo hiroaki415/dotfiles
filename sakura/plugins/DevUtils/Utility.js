@@ -26,6 +26,7 @@ Utility.getLineCode = function() {
     }
 };
 
+
 Utility.getRepeatedStr = function(str, rep) {
     var ret = '';
     for (var i = 0; i < rep; i++) { ret += str; }
@@ -82,15 +83,6 @@ Utility.deleteNullOrEmpty = function(array) {
     return newArr;
 };
 
-Utility.stringifyDict = function(dict) {
-    var str = "";
-    for (var key in dict) {
-        str += key + " : " + dict[key] + "\r\n";
-    }
-    return str;
-};
-
-
 Utility.generateUUIDv4 = function() {
     function randomHexDigit() {
         return Math.floor(Math.random() * 16).toString(16);
@@ -117,6 +109,23 @@ Utility.generateUUIDv4 = function() {
     }
     return uuid;
 }
+
+
+Utility.stringifyObj = function(obj, nest, str) {
+    if (typeof(nest) === 'undefined') { nest = 0; }
+    if (typeof(str) === 'undefined') { str = ''; }
+    for (var key in obj) {
+        str += Utility.getRepeatedStr(' ', nest);
+        str += key + " : ";
+        if (typeof(obj[key]) === 'object') {
+            str += '\r\n';
+            str = Utility.stringifyObj(obj[key], nest + 4, str);
+        } else {
+            str += obj[key] + "\r\n";
+        }
+    }
+    return str;
+};
 
 Utility.TraceOutArray = function(array) {
     for (var key in array) {
