@@ -18,9 +18,6 @@ function SnipElement(rawText) {
     this.rawText = rawText;
 
 
-    this.choices = [];
-    this.evalutedVariable;
-
     this.typeEnum = {
         tabstop: 'tabstop',
         placeholder: 'placeholder',
@@ -164,89 +161,55 @@ function SnipElement(rawText) {
     };
 
 
-    this.getEvaluatedText = function() {
+    this.getEvaluatedText = function(targets) {
+
+        var id = this.getID();
         var type = this.getType();
+
+        if (id > 0 && typeof(targets) !== 'undefeined') {
+            var val = targets[id].value;
+        } else {
+            var val = null;
+        }
+
         switch (type) {
             case this.typeEnum.tabstop:
-                return '';
+                if (val === null) {
+                    return '';
+                } else {
+                    return val;
+                }
                 break;
+
             case this.typeEnum.placeholder:
-                return this.getDefaultField();
+                if (val === null) {
+                    return this.getDefaultField();
+                } else {
+                    return val;
+                }
                 break;
+
             case this.typeEnum.choice:
-                return '_CHOICE_';
+                if (val === null) {
+                    return '_CHOICE_';
+                } else {
+                    return val;
+                }
                 break;
+
             case this.typeEnum.variable:
-                return this.evalutedVariable;
+                if (val === null) {
+                    return '_VARIABLE_'; // under construtction
+                } else {
+                    return val;
+                }
                 break;
+
             case this.typeEnum.text:
                 return this.rawText;
                 break;
+
         }
     };
-
-
-    // this._parseElement = function() {
-
-    //     if (/^\$\d+$/.test(this.rawText)) {
-
-    //         this.type = this.typeEnum.tabstop;
-    //         this.id = Number(this.rawText.substring(1));
-
-    //     } else if (/^\$[A-Z_]+$/.test(this.rawText)) {
-
-    //         this.type = this.typeEnum.text;
-    //         var token = this.rawText.substring(1);
-    //         var varVal = SnipFuncs.evaluateVariable(token);
-    //         if (varVal !== '') {
-    //             this.rawText = varVal;
-    //         }
-
-    //     } else {
-
-    //         if (/^\$\{\d+\}$/.test(this.rawText)) {
-
-    //             this.type = this.typeEnum.tabstop;
-    //             this.id = Number(this.rawText.substring(2, this.rawText.length - 1));
-
-    //         } else if (/^\$\{\d+\:\w+\}$/.test(this.rawText)) {
-
-    //             this.type = this.typeEnum.placeholder;
-    //             var index = this.rawText.indexOf(':');
-    //             this.id = Number(this.rawText.substring(2, index));
-    //             var staticField = this.rawText.substring(index + 1, this.rawText.length - 1);
-
-    //             var regex = /(\$\d+|\$\{[\d\u]+.*\})/g;
-    //             if (regex.exec(staticField) !== null) {
-    //                 this.children = SnipFuncs.parseRawText(staticField);
-    //             }
-
-    //         } else if (/^\$\{\d+\|.+(.+\,)+.+\|\}$/.test(this.rawText)) {
-
-    //             this.type = this.typeEnum.choice;
-    //             var index = this.rawText.indexOf('|');
-    //             this.id = Number(this.rawText.substring(2, index));
-    //             this.choices = this.rawText.substring(index + 1, this.rawText.length - 2).split(',');
-
-    //         } else if (/^\$\{[A-Z_]+\:.+\}$/.test(this.rawText)) {
-
-    //             this.type = this.typeEnum.text;
-    //             var index = this.rawText.indexOf(':');
-    //             var defaultText = this.rawText.substring(index + 1, this.rawText.length - 1);
-    //             var token = this.rawText.substring(2, index - 1);
-    //             var varVal = SnipFuncs.evaluateVariable(token);
-    //             if (varVal !== '') {
-    //                 this.rawText = varVal;
-    //             }
-
-    //         } else {
-
-    //             this.type = this.typeEnum.text;
-
-    //         }
-
-    //     }
-
-    // };
 
 }

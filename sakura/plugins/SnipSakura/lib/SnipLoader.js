@@ -12,76 +12,78 @@ eval(loadModule('/plugins/SnipSakura/lib/SnipEscape.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
-var SnipLoader = {};
+var SnipLoader = {
 
-SnipLoader.DIRECTORY = '/plugins/SnipSakura/snippets';
+    SNIP_DIRECTORY : '/plugins/SnipSakura/snippets',
 
-SnipLoader.getRegexFileName = function (ext) {
-    return RegExp('(^' + ext + '(_[a-zA-Z0-9_]*)?\.(json)|(JSON)|(txt)|(TXT)|(code\-snippets)$)|' +
-                    '(^global(_[a-zA-Z0-9_]*)?\.(json)|(JSON)|(txt)|(TXT)|(code\-snippets)$)');
-};
-
-
-SnipLoader.getSnippet = function (str, ext) {
-    if (typeof(ext) === 'undefined') { ext = Editor.ExpandParameter('$b'); }
-    return SnipLoader._runSearch(str, ext, SnipLoader.mode.equal);
-};
-
-SnipLoader.getPrefixesBeginWith = function (str, ext) {
-    if (typeof(ext) === 'undefined') { ext = Editor.ExpandParameter('$b'); }
-    return SnipLoader._runSearch(str, ext, SnipLoader.mode.beginWith);
-};
+    getRegexFileName : function (ext) {
+        return RegExp('(^' + ext + '(_[a-zA-Z0-9_]*)?\.(json)|(JSON)|(txt)|(TXT)|(code\-snippets)$)|' +
+                        '(^global(_[a-zA-Z0-9_]*)?\.(json)|(JSON)|(txt)|(TXT)|(code\-snippets)$)');
+    },
 
 
-SnipLoader.mode = {
-    equal: 'equal',
-    beginWith: 'beginWith'
-};
+    getSnippet : function (str, ext) {
+        if (typeof(ext) === 'undefined') { ext = Editor.ExpandParameter('$b'); }
+        return SnipLoader._runSearch(str, ext, SnipLoader.mode.equal);
+    },
 
-SnipLoader._runSearch = function (str, ext, mode) {
+    getPrefixesBeginWith : function (str, ext) {
+        if (typeof(ext) === 'undefined') { ext = Editor.ExpandParameter('$b'); }
+        return SnipLoader._runSearch(str, ext, SnipLoader.mode.beginWith);
+    },
 
-    var prefixes = [];
 
-    var fso = new ActiveXObject("Scripting.FileSystemObject");
-    var folder = fso.GetFolder(Utility.getRootDir() + SnipLoader.DIRECTORY);
-    var files = new Enumerator(folder.Files);
+    mode : {
+        equal: 'equal',
+        beginWith: 'beginWith'
+    },
 
-    for (; !files.atEnd(); files.moveNext()) {
+    _runSearch : function (str, ext, mode) {
 
-        var file = files.item();
-        var regexFile = new SnipLoader.getRegexFileName(ext);
+        var prefixes = [];
 
-        if (regexFile.test(file.Name)) {
-            var snipRaw = loadModule(SnipLoader.DIRECTORY + '/' + file.Name);
-            snipRaw = SnipEscape.duplicateBackSlash(snipRaw);
-            var snippets = eval('(' + snipRaw + ')');
-            for (key in snippets){
+        var fso = new ActiveXObject("Scripting.FileSystemObject");
+        var folder = fso.GetFolder(Utility.getRootDir() + SnipLoader.SNIP_DIRECTORY);
+        var files = new Enumerator(folder.Files);
 
-                var prefix = snippets[key].prefix;
+        for (; !files.atEnd(); files.moveNext()) {
 
-                if (mode === SnipLoader.mode.equal && str === prefix) {
-                    fso = null;
-                    return snippets[key];
-                }
+            var file = files.item();
+            var regexFile = new SnipLoader.getRegexFileName(ext);
 
-                if (mode === SnipLoader.mode.beginWith) {
-                    var normPrefix = prefix.replace(/^[^\w_]+/, "");
-                    if (RegExp('^' + str + ".*").test(normPrefix)) {
-                        prefixes.push(prefix);
+            if (regexFile.test(file.Name)) {
+                var snipRaw = loadModule(SnipLoader.SNIP_DIRECTORY + '/' + file.Name);
+                snipRaw = SnipEscape.duplicateBackSlash(snipRaw);
+                var snippets = Utility.evalAsObject(snipRaw);
+                for (key in snippets){
+
+                    var prefix = snippets[key].prefix;
+
+                    if (mode === SnipLoader.mode.equal) {
+                        if (str === prefix) {
+                            fso = null;
+                            return snippets[key];
+                        }
+                    } else if (mode === SnipLoader.mode.beginWith) {
+                        var normPrefix = prefix.replace(/^[^\w_]+/, "");
+                        if (RegExp('^' + str + ".*").test(normPrefix)) {
+                            prefixes.push(prefix);
+                        }
                     }
-                }
 
+                }
             }
+
         }
 
-    }
+        fso = null;
 
-    fso = null;
+        if (mode === SnipLoader.mode.equal) {
+            return null;
+        } else if (mode === SnipLoader.mode.beginWith) {
+            return prefixes;
+        }
 
-    if (mode === SnipLoader.mode.equal) {
-        return null;
-    } else if (mode === SnipLoader.mode.beginWith) {
-        return prefixes;
     }
 
 };

@@ -17,5 +17,5 @@ C[3]=SnipSakura.js
 C[3].Label=JumpPrev
 
 [Plug]
-ComplementGlobal=CompSakura.js
-ComplementGlobal.Label=CompSakura
+ComplementGlobal=CompSnip.js
+ComplementGlobal.Label=CompSnip

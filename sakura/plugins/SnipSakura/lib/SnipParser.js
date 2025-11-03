@@ -9,61 +9,128 @@ fso = null;
 
 eval(loadModuleRaw);
 eval(loadModule('/plugins/SnipSakura/lib/SnipElement.js'));
+eval(loadModule('/plugins/SnipSakura/lib/SnipFuncs.js'));
 eval(loadModule('/plugins/SnipSakura/lib/SnipEscape.js'));
 eval(loadModule('/plugins/SnipSakura/lib/SnipRegex.js'));
 eval(loadModule('/plugins/SnipSakura/lib/SnipVariable.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
-function SnipParser(normSnip, nestDepth) {
+function SnipParser() {
 
-    this.normSnip = normSnip;
-    this.nestDepth = nestDepth;
+    this.prefix = null;
+    this.nestDepth = 0;
+    this.basePosition = null;
 
-    this.parseRawText = function(rawText) {
+    this.currentTarget = -1;
+    this.targets = [];
 
-        var regex = new RegExp('(' + SnipRegex.tabstop + '|' + SnipRegex.placeholder + '|' +
-                                    SnipRegex.choice + '|' + SnipRegex.variable + ')', 'g');
-        var elements = [];
-        var lastIndex = 0;
-        var match;
+    this.init = function(prefix, nestDepth, basePosition) {
 
-        while ((match = regex.exec(rawText)) !== null) {
+        this.prefix = prefix;
+        this.nestDepth = nestDepth;
+        this.basePosition = basePosition;
 
-            if (match.index > lastIndex) {
-                var slicedText = rawText.substring(lastIndex, match.index);
-                elements.push(new SnipElement(slicedText));
+        this.currentTarget = -1;
+        this.targets = [];
+
+        var elements = this.getEscapedElements();
+
+        for (key in elements) {
+            var id = elements[key].getID();
+            var etype = elements[key].getType();
+            if (id > 0 && typeof(this.targets[id]) === 'undefined') {
+                this.targets[id] = {
+                    type: etype,
+                    value: null
+                };
+                this.targets[id].value = elements[key].getEvaluatedText(this.targets);
+            } else if (etype === elements[key].typeEnum.variable) {
+                // 
             }
-
-            var token = match[0];
-            elements.push(new SnipElement(token));
-
-            lastIndex = regex.lastIndex;
-
         }
 
-        if (lastIndex < rawText.length) {
-            var slicedText = rawText.substring(lastIndex);
-            elements.push(new SnipElement(slicedText));
-        }
+    };
 
-        return elements;
 
+    this.getEscapedElements = function() {
+        var jsnip = this.getJoinedSnippet();
+        jsnip = SnipEscape.escape(jsnip);
+        return SnipFuncs.devideIntoElements(jsnip);
     };
 
     this.getEvaluatedText = function() {
-        var escText = SnipEscape.escape(this.normSnip);
-        var elements = this.parseRawText(escText);
+
+        var elements = this.getEscapedElements();
 
         var evalText = '';
-        for (key in elements) { evalText = evalText + elements[key].getEvaluatedText(); }
-        var restText = SnipEscape.restore(evalText);
-        restText = SnipEscape.evalIndent(restText);
-        restText = SnipEscape.evalReturn(restText);
-        return restText;
+        for (key in elements) {
+            evalText += elements[key].getEvaluatedText(this.targets);
+        }
+
+        evalText = SnipEscape.restore(evalText);
+        evalText = SnipEscape.evalIndent(evalText);
+        evalText = SnipEscape.evalReturn(evalText);
+
+        return evalText;
+
     };
 
-    this.initCookie = function() {
+    this.getPosition = function(elementID) {
+
+        var evalText = '';
+        var elements = this.getEscapedElements();
+
+        for (var i = 0; i < elementID; i++) { evalText += elements[i].getEvaluatedText(); }
+
+        evalText = SnipEscape.restore(evalText);
+        evalText = SnipEscape.evalIndent(evalText);
+
+        var lines = evalText.split(RegExp(SnipEscape.markers.eReturn.escape));
+        var elmText = elements[i].getEvaluatedText(this.targets);
+
+        var pos = {
+            line: lines.length - 1,
+            col: lines[lines.length - 1].length + 1,
+            stateSelection: 0,
+            viewTop: this.basePosition.viewTop
+        };
+
+        if (elmText.length === 0) {
+            return pos;
+        } else {
+            pos.stateSelection = 1;
+            pos.lineFrom = pos.line;
+            pos.colFrom = pos.col;
+            pos.lineTo = pos.line;
+            pos.colTo = pos.col + elmText.length
+            return pos;
+        }
+
+    };
+
+    this.getJoinedSnippet = function() {
+        var snippet = SnipLoader.getSnippet(this.prefix)
+        var body = snippet.body;
+        if (Utility.isArray(body)) {
+            var jsnip = '';
+            for (key in body) {
+                if (Utility.isFirstKey(key, body) === false) {
+                    jsnip += Utility.getRepeatedStr(' ', this.nestDepth);
+                }
+                jsnip += body[key] + '\\n';
+            }
+        } else {
+            var jsnip = body + '\\n';
+        }
+        return jsnip;
+    };
+
+    this.getNextTarget = function() {
+        // 
+    };
+
+    this.getPrevTarget = function() {
         // 
     };
 

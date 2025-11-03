@@ -102,6 +102,26 @@ function Config() {
 
     };
 
+    this.getTab = function() {
+
+        var ext = Editor.ExpandParameter('$b');
+
+        for (var i = 0;  i < Math.pow(2, 8);  i++) {
+            var exts = this._dict['[Types(' + i + ')]']['szTypeExts'];
+            if (Utility.existsInArray(ext, exts)) {
+                if (this._dict['[Types(' + i + ')]']['bInsSpace'][0] === '0') {
+                    return '\t';
+                } else if (this._dict['[Types(' + i + ')]']['bInsSpace'][0] === '1') {
+                    return Utility.getRepeatedStr(' ', Editor.ChangeTabWidth(0));
+                }
+            }
+            if (typeof(this._dict['[Types(' + (i + 1) + ')]']) === "undefined") { break; }
+        }
+
+        return '';
+
+    };
+
 
     this.load();
 

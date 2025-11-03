@@ -12,50 +12,37 @@ eval(loadModule('/plugins/SnipSakura/lib/SnipElement.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
-var SnipFuncs = {};
+var SnipFuncs = {
 
-SnipFuncs.parseRawText = function(rawText) {
+    devideIntoElements : function(rawText) {
 
-    var regex = /(\$\d+|\$\{[\d\u]+.*\})/g;
-    var elements = [];
-    var lastIndex = 0;
-    var match;
+        var regex = new RegExp('(' + SnipRegex.tabstop + '|' + SnipRegex.placeholder + '|' +
+                                    SnipRegex.choice + '|' + SnipRegex.variable + ')', 'g');
+        var elements = [];
+        var lastIndex = 0;
+        var match;
 
-    while ((match = regex.exec(rawText)) !== null) {
+        while ((match = regex.exec(rawText)) !== null) {
 
-        if (match.index > lastIndex) {
-            var slicedText = rawText.substring(lastIndex, match.index);
+            if (match.index > lastIndex) {
+                var slicedText = rawText.substring(lastIndex, match.index);
+                elements.push(new SnipElement(slicedText));
+            }
+
+            var token = match[0];
+            elements.push(new SnipElement(token));
+
+            lastIndex = regex.lastIndex;
+
+        }
+
+        if (lastIndex < rawText.length) {
+            var slicedText = rawText.substring(lastIndex);
             elements.push(new SnipElement(slicedText));
         }
 
-        var token = match[0];
-        elements.push(new SnipElement(token));
-
-        lastIndex = regex.lastIndex;
+        return elements;
 
     }
 
-    if (lastIndex < rawText.length) {
-        var slicedText = rawText.substring(lastIndex);
-        elements.push(new SnipElement(slicedText));
-    }
-
-    return elements;
-
-};
-
-SnipFuncs.escapeMarkers = function(text) {
-    return text
-        .replace(/\\\\/g, "__ESC_BACKSLASH__")
-        .replace(/\\\$/g, "__ESC_DOLLAR__")
-        .replace(/\\\{/g, "__ESC_LBRACE__")
-        .replace(/\\\}/g, "__ESC_RBRACE__");
-};
-
-SnipFuncs.restoreMarkers = function(text) {
-    return text
-        .replace(/__ESC_DOLLAR__/g, "$")
-        .replace(/__ESC_LBRACE__/g, "{")
-        .replace(/__ESC_RBRACE__/g, "}")
-        .replace(/__ESC_BACKSLASH__/g, "\\");
 };

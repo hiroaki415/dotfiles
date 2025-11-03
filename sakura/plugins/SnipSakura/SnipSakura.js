@@ -21,34 +21,18 @@ function ExpandSnippet() {
     var cur = new Cursor();
     var originCur = cur.getProperty();
 
-    cur.searchPrev('<.+>:snip\\$', 0x1804);
+    cur.searchPrev('<[^<>:\$]+>:snip\\$', 0x1804);
 
     if (cur.lineTo === originCur.line && cur.colTo === originCur.col ) {
 
         var str = cur.selectedText;
         var prefix = str.substring(1, str.length - 7);
-        var snippet = SnipLoader.getSnippet(prefix);
 
-        if (snippet !== null) {
-
-            var body = snippet.body;
-            if (snippet.body.constructor === Array) {
-                body[0] = cur.getLineTextBeforeCursor() + body[0];
-                var normSnip = '';
-                for (key in body) { normSnip = normSnip + body[key] + '\\n'; }
-                // normSnip = normSnip.substring(2);
-            } else {
-                var normSnip = cur.getLineTextBeforeCursor() + body + '\\n';
-            }
-
-            // var cookie = new SnipCookie(parser.getCookie());
-            // cookie.clear(); // delete previous session
-            // cookie.save();
-
-            cur.clearLine();
-            var parser = new SnipParser(normSnip, cur.getNestDepth());
+        if (SnipLoader.getSnippet(prefix) !== null) {
+            cur.deleteBack();
+            var parser = new SnipParser();
+            parser.init(prefix, cur.getNestDepth(), cur.getProperty());
             cur.insertText(parser.getEvaluatedText());
-
         } else {
             cur.loadProperty(originCur);
             var msg = '[Info]Snip$akura: not found prefix<' + prefix + '>'
