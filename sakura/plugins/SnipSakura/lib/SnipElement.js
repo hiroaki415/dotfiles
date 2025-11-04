@@ -148,6 +148,26 @@ function SnipElement(rawText) {
     };
 
 
+    this.getEvaluatedVariable = function() {
+
+        if (this.getType() === this.typeEnum.variable) {
+
+            if (RegExp('^'+'\\$'+SnipRegex.reVar+'$').test(this.rawText)) {
+                var token = this.rawText.substring(1);
+            } else {
+                // under construction
+                match = RegExp('\\}', 'g').exec(this.rawText);
+                var token = this.rawText.substring(1, match.index);
+            }
+
+            return SnipVariable.evaluate(token);
+
+        } else {
+            return null;
+        }
+    };
+
+
     this.getChildren = function() {
 
         var children = [];
@@ -161,55 +181,45 @@ function SnipElement(rawText) {
     };
 
 
+    this.getInitialText = function() {
+        var type = this.getType();
+        switch (type) {
+            case this.typeEnum.tabstop:
+                return '';
+                break;
+            case this.typeEnum.placeholder:
+                return this.getDefaultField();
+                break;
+            case this.typeEnum.choice:
+                return '_CHOICE_';
+                break;
+            case this.typeEnum.variable:
+                return this.getEvaluatedVariable();
+                break;
+            case this.typeEnum.text:
+                return this.rawText;
+                break;
+        }
+    };
+
+
     this.getEvaluatedText = function(targets) {
+        if (typeof(targets) === 'undefeined') {
+            return this.getInitialText();
+        }
 
         var id = this.getID();
         var type = this.getType();
 
-        if (id > 0 && typeof(targets) !== 'undefeined') {
-            var val = targets[id].value;
-        } else {
-            var val = null;
+        if (type === this.typeEnum.text) {
+            return this.rawText;
+        } else if (id > 0) {
+            // case variable????
+            return targets[id].value;
         }
 
-        switch (type) {
-            case this.typeEnum.tabstop:
-                if (val === null) {
-                    return '';
-                } else {
-                    return val;
-                }
-                break;
+        return this.getInitialText();
 
-            case this.typeEnum.placeholder:
-                if (val === null) {
-                    return this.getDefaultField();
-                } else {
-                    return val;
-                }
-                break;
-
-            case this.typeEnum.choice:
-                if (val === null) {
-                    return '_CHOICE_';
-                } else {
-                    return val;
-                }
-                break;
-
-            case this.typeEnum.variable:
-                if (val === null) {
-                    return '_VARIABLE_'; // under construtction
-                } else {
-                    return val;
-                }
-                break;
-
-            case this.typeEnum.text:
-                return this.rawText;
-                break;
-
-        }
     };
 
 }

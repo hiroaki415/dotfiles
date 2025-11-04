@@ -18,6 +18,8 @@ eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 function SnipParser() {
 
+    this.COOKIE_NAME = 'SnipSakura';
+
     this.prefix = null;
     this.nestDepth = 0;
     this.basePosition = null;
@@ -42,11 +44,10 @@ function SnipParser() {
             if (id > 0 && typeof(this.targets[id]) === 'undefined') {
                 this.targets[id] = {
                     type: etype,
-                    value: null
+                    value: elements[key].getInitialText();
                 };
-                this.targets[id].value = elements[key].getEvaluatedText(this.targets);
             } else if (etype === elements[key].typeEnum.variable) {
-                // 
+                // under construction
             }
         }
 
@@ -135,15 +136,35 @@ function SnipParser() {
     };
 
     this.saveCookie = function() {
-        // 
+
+        var prop = {
+            prefix: this.prefix,
+            nestDepth: this.nestDepth,
+            basePosition: this.basePosition,
+            currentTarget: this.currentTarget,
+            targets: this.targets
+        };
+
+        var cookie = Utility.stringifyObject(prop);
+        Editor.SetCookie('document', this.COOKIE_NAME, cookie);
+
     };
 
     this.loadCookie = function() {
-        // 
+
+        var cookie = Editor.GetCookie('document', this.COOKIE_NAME);
+        var prop = Utility.evalAsObject(cookie);
+
+        this.prefix = prop.prefix;
+        this.nestDepth = prop.nestDepth;
+        this.basePosition = prop.basePosition;
+        this.currentTarget = prop.currentTarget;
+        this.targets = prop.targets;
+
     };
 
     this.deleteCookie = function() {
-        // 
+        Editor.DeleteCookie('document', this.COOKIE_NAME);
     };
 
 }
