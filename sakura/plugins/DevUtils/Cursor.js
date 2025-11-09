@@ -37,13 +37,14 @@ function Cursor() {
 
 
     this.getProperty = function() {
-        var copy = {};
-        for (var key in this) {
-            if (this.hasOwnProperty(key)) {
-                copy[key] = this[key];
-            }
-        }
-        return copy;
+        // var copy = {};
+        // for (var key in this) {
+        //     if (this.hasOwnProperty(key)) {
+        //         copy[key] = this[key];
+        //     }
+        // }
+        // return copy;
+        return Utility.transformObjectIntoPlain(this);
     };
 
     this.read = function() {
@@ -109,7 +110,7 @@ function Cursor() {
 
         if (typeof(offsetCol) === "undefined") { offsetCol = 0; }
 
-        if (prop.stateSelection === prop.stateEnum.notSelected) {
+        if (prop.stateSelection === this.stateEnum.notSelected) {
             this.move(prop.line, prop.col + offsetCol, 0);
         } else {
             if (prop.lineFrom !== prop.lineTo) {

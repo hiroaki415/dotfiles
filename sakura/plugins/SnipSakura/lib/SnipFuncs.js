@@ -14,7 +14,7 @@ eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 var SnipFuncs = {
 
-    devideIntoElements : function(rawText) {
+    devideTextIntoElements : function(rawText) {
 
         var regex = new RegExp('(' + SnipRegex.tabstop + '|' + SnipRegex.placeholder + '|' +
                                     SnipRegex.choice + '|' + SnipRegex.variable + ')', 'g');

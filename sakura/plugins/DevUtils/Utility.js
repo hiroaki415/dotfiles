@@ -50,31 +50,51 @@ var Utility = {
         return obj && obj.constructor === Object;
     },
 
-    getMaxInArray : function(array) {
-        if (array.length === 0) return null;
-        var max = array[0];
-        for (var i = 1; i < array.length; i++) {
-            if (array[i] > max) {
-                max = array[i];
+
+    getMaxInArray : function(arr) {
+        if (arr.length === 0) return null;
+        var max = arr[0];
+        for (var i = 1; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
             }
         }
         return max;
     },
 
-    getMinInArray : function(array) {
-        if (array.length === 0) return null;
-        var min = array[0];
-        for (var i = 1; i < array.length; i++) {
-            if (array[i] < min) {
-                min = array[i];
+    getMinInArray : function(arr) {
+        if (arr.length === 0) return null;
+        var min = arr[0];
+        for (var i = 1; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
             }
         }
         return min;
     },
 
-    existsInArray : function(target, array) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] === target) {
+    existsInArray : function(target, arr) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === target) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+
+    existsInObject : function(val, obj) {
+        for (var k in obj) {
+            if (obj[k] === val) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    existsAsKey : function(key, obj) {
+        for (var k in obj) {
+            if (k === key) {
                 return true;
             }
         }
@@ -84,7 +104,7 @@ var Utility = {
     getIndexOfKey : function(key, obj) {
         var i = 0;
         for (var k in obj) {
-            if (key === k) {
+            if (k === key) {
                 return i;
             };
             i++;
@@ -95,9 +115,10 @@ var Utility = {
     isFirstKey : function(key, obj) {
         var keys = [];
         for (var k in obj) {
-            keys.push(k);
+            return k === key;
+            break;
         }
-        return key === keys[0];
+        return false;
     },
 
     isLastKey : function(key, obj) {
@@ -108,15 +129,16 @@ var Utility = {
         return key === keys[keys.length - 1];
     },
 
-    deleteNullOrEmpty : function(array) {
-        var newArr = [];
-        for (var key in array) {
-            if (array[key] !== null && array[key] !== '') {
-                newArr.push(array[key]);
+    deleteNullOrEmpty : function(obj) {
+        var newObj = [];
+        for (var key in obj) {
+            if (obj[key] !== null && obj[key] !== '') {
+                newObj.push(obj[key]);
             }
         }
-        return newArr;
+        return newObj;
     },
+
 
     generateUUIDv4 : function() {
         function randomHexDigit() {
@@ -150,6 +172,20 @@ var Utility = {
         return eval('(' + str + ')');
     },
 
+    transformObjectIntoPlain : function(obj) {
+        var pobj = {};
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key) && (
+                    typeof(obj[key]) === 'string' || typeof(obj[key]) === 'number' ||
+                    Utility.isArray(obj[key]) || Utility.isPlainObject(obj[key])
+                )
+            ) {
+                pobj[key] = obj[key];
+            }
+        }
+        return pobj;
+    },
+
     stringifyObject : function(obj, nest, str) {
         if (typeof(nest) === 'undefined') { nest = 0; }
         if (typeof(str) === 'undefined') { str = ''; }
@@ -177,10 +213,10 @@ var Utility = {
             if (typeof(obj[key]) === 'object') {
                 if (Utility.isArray(obj)) {
                     str = str.substring(0, str.length - nest - 4);
-                    str = Utility.stringifyObj(obj[key], nest + 4, str);
+                    str = Utility.stringifyObject(obj[key], nest + 4, str);
                 } else if (Utility.isPlainObject(obj)) {
                     str += '\r\n';
-                    str = Utility.stringifyObj(obj[key], nest + 8, str);
+                    str = Utility.stringifyObject(obj[key], nest + 8, str);
                 }
             } else if (typeof(obj[key]) === 'string') {
                 str += '"' + obj[key] + '"';
@@ -188,7 +224,7 @@ var Utility = {
                 str += obj[key];
             }
 
-            if (Utility.isLastKey(key, obj) !== true) {
+            if (!Utility.isLastKey(key, obj)) {
                 str += ',';
             }
 

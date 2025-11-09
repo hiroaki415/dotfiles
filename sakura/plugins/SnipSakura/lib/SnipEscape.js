@@ -64,12 +64,12 @@ var SnipEscape = {
     //     return convStr;
     // },
 
-    evalIndent: function (str, tab) {
-        if (typeof(tabw) === 'undefined') {
+    evalIndent: function (str, ind) {
+        if (typeof(ind) === 'undefined') {
             var conf = new Config();
-            tab = conf.getTab();
+            ind = conf.getIndent();
         }
-        return str.replace( RegExp( SnipEscape.markers.indent.origin ,'g'), tab);
+        return str.replace( RegExp( SnipEscape.markers.indent.origin ,'g'), ind);
     },
 
     evalReturn: function (str, code) {

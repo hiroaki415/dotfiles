@@ -102,7 +102,7 @@ function Config() {
 
     };
 
-    this.getTab = function() {
+    this.getIndent = function() {
 
         var ext = Editor.ExpandParameter('$b');
 

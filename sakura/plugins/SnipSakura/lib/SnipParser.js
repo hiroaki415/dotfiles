@@ -24,8 +24,10 @@ function SnipParser() {
     this.nestDepth = 0;
     this.basePosition = null;
 
-    this.currentTarget = -1;
-    this.targets = [];
+    this.currentTarget = 0;
+    this.targets = {};
+
+    this.snippet = null;
 
     this.init = function(prefix, nestDepth, basePosition) {
 
@@ -33,31 +35,98 @@ function SnipParser() {
         this.nestDepth = nestDepth;
         this.basePosition = basePosition;
 
-        this.currentTarget = -1;
-        this.targets = [];
+        this.currentTarget = 0;
+        this.targets = {};
+
+        this.snippet = SnipLoader.getSnippet(this.prefix);
 
         var elements = this.getEscapedElements();
 
         for (key in elements) {
             var id = elements[key].getID();
             var etype = elements[key].getType();
-            if (id > 0 && typeof(this.targets[id]) === 'undefined') {
+            if (id >= 0 && typeof(this.targets[id]) === 'undefined') {
                 this.targets[id] = {
                     type: etype,
-                    value: elements[key].getInitialText();
+                    value: elements[key].getInitialText()
                 };
             } else if (etype === elements[key].typeEnum.variable) {
                 // under construction
             }
         }
 
+        this.loadPositions();
+
     };
 
+    this.loadPositions = function() {
+
+        var elmText = '';
+        var evalText = '';
+        var tmpText = '';
+        var elements = this.getEscapedElements();
+
+        for (key in elements) {
+
+            elmText = elements[key].getEvaluatedText(this.targets);
+            evalText += elmText;
+            var id = elements[key].getID();
+
+            if (typeof(this.targets[id]) !== 'undefined') {
+                if (typeof(this.targets[id]['position']) === 'undefined') {
+
+                    tmpText = evalText;
+                    tmpText = SnipEscape.restore(tmpText);
+                    tmpText = SnipEscape.evalIndent(tmpText);
+
+                    var lines = tmpText.split(RegExp(SnipEscape.markers.eReturn.origin));
+
+                    var pos = {
+                        line: lines.length - 1,
+                        col: lines[lines.length - 1].length - elmText.length + 1,
+                        stateSelection: 0,
+                        viewTop: this.basePosition.viewTop
+                    };
+
+                    if (elmText.length === 0) {
+                        this.targets[id]['position'] = pos;
+                    } else {
+                        pos.stateSelection = 1;
+                        pos.lineFrom = pos.line;
+                        pos.colFrom = pos.col;
+                        pos.lineTo = pos.line;
+                        pos.colTo = pos.col + elmText.length
+                        this.targets[id]['position'] = pos;
+                    }
+
+                }
+            }
+
+        }
+
+    };
+
+
+    this.getJoinedSnippet = function() {
+        var body = this.snippet.body;
+        if (Utility.isArray(body)) {
+            var jsnip = '';
+            for (key in body) {
+                if (Utility.isFirstKey(key, body) === false) {
+                    jsnip += Utility.getRepeatedStr(' ', this.nestDepth);
+                }
+                jsnip += body[key] + '\\n';
+            }
+        } else {
+            var jsnip = body + '\\n';
+        }
+        return jsnip;
+    };
 
     this.getEscapedElements = function() {
         var jsnip = this.getJoinedSnippet();
         jsnip = SnipEscape.escape(jsnip);
-        return SnipFuncs.devideIntoElements(jsnip);
+        return SnipFuncs.devideTextIntoElements(jsnip);
     };
 
     this.getEvaluatedText = function() {
@@ -73,67 +142,58 @@ function SnipParser() {
         evalText = SnipEscape.evalIndent(evalText);
         evalText = SnipEscape.evalReturn(evalText);
 
+        // var pobj = Utility.transformObjectIntoPlain(this);
+        // TraceOut(Utility.stringifyObject(pobj));
+
         return evalText;
 
     };
 
-    this.getPosition = function(elementID) {
 
-        var evalText = '';
-        var elements = this.getEscapedElements();
+    this.getPosition = function() {
 
-        for (var i = 0; i < elementID; i++) { evalText += elements[i].getEvaluatedText(); }
+        var pos = this.targets[this.currentTarget].position;
 
-        evalText = SnipEscape.restore(evalText);
-        evalText = SnipEscape.evalIndent(evalText);
-
-        var lines = evalText.split(RegExp(SnipEscape.markers.eReturn.escape));
-        var elmText = elements[i].getEvaluatedText(this.targets);
-
-        var pos = {
-            line: lines.length - 1,
-            col: lines[lines.length - 1].length + 1,
-            stateSelection: 0,
-            viewTop: this.basePosition.viewTop
-        };
-
-        if (elmText.length === 0) {
-            return pos;
-        } else {
-            pos.stateSelection = 1;
-            pos.lineFrom = pos.line;
-            pos.colFrom = pos.col;
-            pos.lineTo = pos.line;
-            pos.colTo = pos.col + elmText.length
-            return pos;
-        }
-
-    };
-
-    this.getJoinedSnippet = function() {
-        var snippet = SnipLoader.getSnippet(this.prefix)
-        var body = snippet.body;
-        if (Utility.isArray(body)) {
-            var jsnip = '';
-            for (key in body) {
-                if (Utility.isFirstKey(key, body) === false) {
-                    jsnip += Utility.getRepeatedStr(' ', this.nestDepth);
-                }
-                jsnip += body[key] + '\\n';
+        if (pos.line === 0) {
+            pos.col += this.basePosition.col - 1;
+            if (pos.stateSelection === 1) {
+                pos.colFrom += this.basePosition.col - 1;
+                pos.colTo += this.basePosition.col - 1;
             }
-        } else {
-            var jsnip = body + '\\n';
         }
-        return jsnip;
+
+        pos.line += this.basePosition.line;
+        if (pos.stateSelection === 1) {
+            pos.lineFrom += this.basePosition.line;
+            pos.lineTo += this.basePosition.line;
+        }
+
+        return pos;
+
     };
 
-    this.getNextTarget = function() {
-        // 
+    this.nextTarget = function() {
+        for (var i = this.currentTarget + 1; i < Math.pow(2, 8); i++) {
+            if (typeof(this.targets[i]) !== 'undefined') {
+                this.currentTarget = i;
+                return null;
+            }
+        }
+        if (typeof(this.targets[0]) !== 'undefined') {
+            this.currentTarget = 0;
+            return null;
+        }
     };
 
-    this.getPrevTarget = function() {
-        // 
+    this.prevTarget = function() {
+        for (var i = this.currentTarget - 1; i > 0; i--) {
+            if (typeof(this.targets[i]) !== 'undefined') {
+                this.currentTarget = i;
+                return null;
+            }
+        }
     };
+
 
     this.saveCookie = function() {
 
@@ -160,6 +220,8 @@ function SnipParser() {
         this.basePosition = prop.basePosition;
         this.currentTarget = prop.currentTarget;
         this.targets = prop.targets;
+
+        this.snippet = SnipLoader.getSnippet(this.prefix);
 
     };
 

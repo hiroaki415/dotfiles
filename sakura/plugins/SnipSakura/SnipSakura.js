@@ -29,10 +29,22 @@ function ExpandSnippet() {
         var prefix = str.substring(1, str.length - 7);
 
         if (SnipLoader.getSnippet(prefix) !== null) {
+
             cur.deleteBack();
+
             var parser = new SnipParser();
+            parser.deleteCookie();
             parser.init(prefix, cur.getNestDepth(), cur.getProperty());
             cur.insertText(parser.getEvaluatedText());
+
+            parser.nextTarget();
+            var pos = parser.getPosition();
+            cur.loadProperty(pos);
+            parser.saveCookie();
+
+            var msg = '[Info]Snip$akura: expand snippet prefix<' + prefix + '>'
+            return msg;
+
         } else {
             cur.loadProperty(originCur);
             var msg = '[Info]Snip$akura: not found prefix<' + prefix + '>'
@@ -47,7 +59,12 @@ function ExpandSnippet() {
 
 function JumpNext() {
     var cur = new Cursor();
-    cur.searchNext('<[a-zA-Z0-9_]+>:snip\\$', 0x1804);
+    var parser = new SnipParser();
+    parser.loadCookie();
+    parser.nextTarget();
+    var pos = parser.getPosition();
+    cur.loadProperty(pos);
+    parser.saveCookie();
 }
 
 function JumpPrev() {
