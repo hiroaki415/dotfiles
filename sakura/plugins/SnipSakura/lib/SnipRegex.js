@@ -14,11 +14,13 @@ eval(loadModule('/plugins/SnipSakura/lib/SnipVariable.js'));
 var SnipRegex = {};
 var _sr = {}; // alias
 
-SnipRegex.reRegex = "[^\\}]+";
+// SnipRegex.reRegex = "[^\\}]+";
+SnipRegex.reRegex = "(..*?)";
 SnipRegex.reOptions = "[dgimsuvy]*";
 SnipRegex.reVar = SnipVariable.getListRegex();
 SnipRegex.reInt = "[0-9]+";
-SnipRegex.reText = "[^\\}]*";
+// SnipRegex.reText = "[^\\}]*";
+SnipRegex.reText = "(.*?)";
 SnipRegex.reIf = SnipRegex.reText;
 SnipRegex.reElse = SnipRegex.reText;
 

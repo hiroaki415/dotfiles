@@ -42,17 +42,31 @@ function SnipParser() {
 
         var elements = this.getEscapedElements();
 
+        var node_i = 1;
+
         for (key in elements) {
+
             var id = elements[key].getID();
             var etype = elements[key].getType();
+
             if (id >= 0 && typeof(this.targets[id]) === 'undefined') {
                 this.targets[id] = {
+                    node: node_i,
                     type: etype,
                     value: elements[key].getInitialText()
                 };
             } else if (etype === elements[key].typeEnum.variable) {
                 // under construction
             }
+
+            if (
+                etype === elements[key].typeEnum.tabstop ||
+                etype === elements[key].typeEnum.placeholder ||
+                etype === elements[key].typeEnum.choice
+            ) {
+                node_i++;
+            }
+
         }
 
         this.loadPositions();
@@ -149,10 +163,63 @@ function SnipParser() {
 
     };
 
+    this.getCaptureRegex = function() {
 
-    this.getPosition = function() {
+        var elements = this.getEscapedElements();
 
-        var pos = this.targets[this.currentTarget].position;
+        var evalText = '';
+        for (key in elements) {
+            var etype = elements[key].getType();
+            if (
+                etype === elements[key].typeEnum.tabstop ||
+                etype === elements[key].typeEnum.placeholder ||
+                etype === elements[key].typeEnum.choice
+            ) {
+                evalText += '(.*?)';
+            } else {
+                evalText += elements[key].getEvaluatedText(this.targets);
+            }
+        }
+
+        evalText = SnipEscape.restore(evalText);
+        evalText = SnipEscape.evalIndent(evalText);
+        evalText = SnipEscape.evalReturn(evalText);
+
+        return evalText;
+
+    };
+
+    this.captureValues = function(eText) {
+
+        var regex = new RegExp('^' + this.getCaptureRegex() + '$');
+        var match = regex.exec(eText);
+
+        for (var key in match) {
+            if (/\d+/.test(key)) {
+                var node = number(key);
+                var id = this.getTargetIDFromNode(node);
+                if (id >= 0) {
+                    this.targets[id].value = match[key];
+                }
+            }
+        }
+
+    };
+
+    this.getTargetIDFromNode = function(node) {
+        for (var key in this.targets) {
+            if (this.targets[key].node === node) {
+                return key;
+            }
+        }
+        return -1;
+    };
+
+
+    this.getPosition = function(id) {
+        if (typeof(id) === 'undefined') { id = this.currentTarget; }
+
+        var pos = this.targets[id].position;
 
         if (pos.line === 0) {
             pos.col += this.basePosition.col - 1;

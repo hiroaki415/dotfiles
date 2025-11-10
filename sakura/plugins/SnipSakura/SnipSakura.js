@@ -69,22 +69,13 @@ function JumpNext() {
 
 function JumpPrev() {
     var cur = new Cursor();
-    cur.searchPrev('<[a-zA-Z0-9_]+>:snip\\$', 0x1804);
-    // cur.jumpMatch(/(\$\d+)|(\$\{\d+\:.+\})|(\$\{\d+\|.+(.+\,)+.+\|\})/, false);
-
-    // var str = '${TM_CURRENT_LINE/fg/dfg/g}'
-    // var regex = new RegExp('^' + SnipRegex.variable + '$');
-    // if ((match = regex.exec(str)) !== null) {
-    //     MessageBox('match!');
-    // } else {
-    //     MessageBox('failed...');
-    // }
-
-    // var se = new SnipElement('${76:gs sesysres rtts4}');
-    // MessageBox(se.getDefaultField());
-
-    // TraceOut(SnipRegex.variable);
-
+    var parser = new SnipParser();
+    parser.loadCookie();
+    parser.prevTarget();
+    var pos = parser.getPosition();
+    MessageBox(Utility.stringifyObject(pos)); // ?
+    cur.loadProperty(pos);
+    parser.saveCookie();
 }
 
 
