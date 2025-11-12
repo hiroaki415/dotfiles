@@ -112,6 +112,15 @@ var Utility = {
         return null;
     },
 
+    getKeyFromValue : function(val, obj) {
+        for (var k in obj) {
+            if (obj[k] === val) {
+                return k;
+            };
+        }
+        return null;
+    },
+
     isFirstKey : function(key, obj) {
         var keys = [];
         for (var k in obj) {

@@ -30,7 +30,8 @@ _sr = SnipRegex;
 SnipRegex.format = "(" +
                       '\\$'+_sr.reInt + "|" + '\\$\\{'+_sr.reInt+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':'+"("+'\\/upcase'+"|"+'\\/downcase'+"|"+'\\/capitalize'+"|" +
-                                                  +'\\/camelcase'+"|"+'\\/pascalcase'+")"+'\\}' + "|" +
+                                                  '\\/camelcase'+"|"+'\\/pascalcase'+"|" +
+                                                  '\\/snakecase'+"|"+'\\/kebabcase'+")"+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':\\+'+_sr.reIf+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':\\?'+_sr.reIf+':'+_sr.reElse+'\\}' + "|" +
                       '\\$\\{'+_sr.reInt+':\\-'+_sr.reElse+'\\}' + "|" + '\\$\\{'+_sr.reInt+':'+_sr.reElse+'\\}' +

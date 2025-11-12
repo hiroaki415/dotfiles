@@ -29,7 +29,7 @@ function SnipElement(rawText) {
 
     this.getID = function() {
         if (RegExp('^'+SnipRegex.haveID+'$').test(this.rawText)) {
-            var match = /\d+/g.exec(this.rawText);
+            var match = /(\d+?)/g.exec(this.rawText);
             return Number(match[0]);
         } else {
             return -1;
