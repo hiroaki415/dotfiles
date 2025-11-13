@@ -1,6 +1,7 @@
+if (typeof(root) === 'undefined') {
+    var root = Editor.ExpandParameter('$I').replace(/\\[^\\]*$/, '').replace(/\\/g, '/');
+}
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var pluginDir = Plugin.GetPluginDir();
-var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
 var file = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js', 1);
 var loadModuleRaw = file.ReadAll();
 file.Close();
@@ -8,8 +9,10 @@ file = null;
 fso = null;
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/SnipSakura/lib/SnipEscape.js'));
-eval(loadModule('/plugins/DevUtils/Utility.js'));
+eval('var root = "' + root + '";' +
+    loadModule(root + '/plugins/SnipSakura/lib/SnipEscape.js') +
+    loadModule(root + '/plugins/DevUtils/Utility.js')
+);
 
 
 var SnipLoader = {
@@ -52,7 +55,7 @@ var SnipLoader = {
             var regexFile = new SnipLoader.getRegexFileName(ext);
 
             if (regexFile.test(file.Name)) {
-                var snipRaw = loadModule(SnipLoader.SNIP_DIRECTORY + '/' + file.Name);
+                var snipRaw = loadModule(Utility.getRootDir() + SnipLoader.SNIP_DIRECTORY + '/' + file.Name);
                 snipRaw = SnipEscape.duplicateBackSlash(snipRaw);
                 var snippets = Utility.evalAsObject(snipRaw);
                 for (key in snippets){

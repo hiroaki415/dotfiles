@@ -147,6 +147,3 @@ var FormatCase = {
     }
 
 };
-
-var str = 'down-Case-dayo-Yeah';
-WScript.Echo(FormatCase.toSnakeCase(str, FormatCase.options.capitalized));

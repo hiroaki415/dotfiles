@@ -1,6 +1,7 @@
+if (typeof(root) === 'undefined') {
+    var root = Editor.ExpandParameter('$I').replace(/\\[^\\]*$/, '').replace(/\\/g, '/');
+}
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var pluginDir = Plugin.GetPluginDir();
-var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
 var file = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js', 1);
 var loadModuleRaw = file.ReadAll();
 file.Close();
@@ -8,12 +9,14 @@ file = null;
 fso = null;
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/SnipSakura/lib/SnipParser.js'));
-eval(loadModule('/plugins/SnipSakura/lib/SnipRegex.js'));
-eval(loadModule('/plugins/SnipSakura/lib/SnipLoader.js'));
-eval(loadModule('/plugins/DevUtils/Decorator.js'));
-eval(loadModule('/plugins/DevUtils/Cursor.js'));
-eval(loadModule('/plugins/DevUtils/Utility.js'));
+eval('var root = "' + root + '";' +
+    loadModule(root + '/plugins/SnipSakura/lib/SnipParser.js') +
+    loadModule(root + '/plugins/SnipSakura/lib/SnipRegex.js') +
+    loadModule(root + '/plugins/SnipSakura/lib/SnipLoader.js') +
+    loadModule(root + '/plugins/DevUtils/Decorator.js') +
+    loadModule(root + '/plugins/DevUtils/Cursor.js') +
+    loadModule(root + '/plugins/DevUtils/Utility.js')
+);
 
 
 function ExpandSnippet() {

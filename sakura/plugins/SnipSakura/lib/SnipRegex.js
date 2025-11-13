@@ -1,6 +1,7 @@
+if (typeof(root) === 'undefined') {
+    var root = Editor.ExpandParameter('$I').replace(/\\[^\\]*$/, '').replace(/\\/g, '/');
+}
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var pluginDir = Plugin.GetPluginDir();
-var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
 var file = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js', 1);
 var loadModuleRaw = file.ReadAll();
 file.Close();
@@ -8,7 +9,10 @@ file = null;
 fso = null;
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/SnipSakura/lib/SnipVariable.js'));
+eval('var root = "' + root + '";' +
+    loadModule(root + '/plugins/SnipSakura/lib/SnipVariable.js') +
+    loadModule(root + '/plugins/DevUtils/Utility.js')
+);
 
 
 var SnipRegex = {};
