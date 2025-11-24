@@ -19,9 +19,36 @@ eval('var root = "' + root + '";' +
 var SnipTransform = {
 
     transform: function (val, re, format, opt) {
+
         var regex = new RegExp(re, opt);
-        var match = regex.exec(val);
-        // to be continue
+        var elements = SnipTransform.devideTextIntoElements(format);
+        var lastIndex = 0;
+        var match;
+
+        var transText = '';
+
+        while ((match = regex.exec(val)) !== null) {
+
+            if (match.index > lastIndex) {
+                transText += val.substring(lastIndex, match.index);
+            }
+
+            for (var key in elements) {
+                transText += elements[key].getEvaluatedText(match);
+            }
+
+            lastIndex = regex.lastIndex;
+
+            if (regex.global === false) { break; }
+
+        }
+
+        if (lastIndex < val.length) {
+            transText += val.substring(lastIndex);
+        }
+
+        return transText;
+
     },
 
     devideTextIntoElements: function (rawText) {
@@ -61,52 +88,111 @@ function SnipFormatElement(rawText) {
 
     this.getID = function() {
         var match = /(\d+?)/g.exec(this.rawText);
-        return Number(match[0]);
+        if (match !== null) {
+            return Number(match[0]);
+        } else {
+            return -1;
+        }
     };
 
     this.getEvaluatedText = function(reMatch) {
 
         if (reMatch === null) { return ''; } // ????
 
-        var rawVal = reMatch[this.getID()];
+        var id = this.getID();
 
-        if (RegExp("^(" + '\\$'+SnipRegex.reInt + "|" + '\\$\\{'+SnipRegex.reInt+'\\}' + ")$").test(this.rawText)) {
-            return rawVal;
-        } else if (RegExp("^" + '\\$'+SnipRegex.reInt+':'+'\\/upcase'+'\\}' + "$").test(this.rawText)) {
-            return FormatCase.toUpCase(rawVal);
-        } else if (RegExp("^" + '\\$'+SnipRegex.reInt+':'+'\\/downcase'+'\\}' + "$").test(this.rawText)) {
-            return FormatCase.toDownCase(rawVal);
-        } else if (RegExp("^" + '\\$'+SnipRegex.reInt+':'+'\\/capitalize'+'\\}' + "$").test(this.rawText)) {
-            return FormatCase.toCapitalized(rawVal);
-        } else if (RegExp("^" + '\\$'+SnipRegex.reInt+':'+'\\/camelcase'+'\\}' + "$").test(this.rawText)) {
-            return FormatCase.toCamelCase(rawVal);
-        } else if (RegExp("^" + '\\$'+SnipRegex.reInt+':'+'\\/pascalcase'+'\\}' + "$").test(this.rawText)) {
-            return FormatCase.toPascalCase(rawVal);
-        } else if (RegExp("^" + '\\$'+SnipRegex.reInt+':'+'\\/snakecase'+'\\}' + "$").test(this.rawText)) {
-            return FormatCase.toSnakeCase(rawVal);
-        } else if (RegExp("^" + '\\$'+SnipRegex.reInt+':'+'\\/kebabcase'+'\\}' + "$").test(this.rawText)) {
-            return FormatCase.toKebabCase(rawVal);
-        } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':\\+'+SnipRegex.reIf+'\\}' + "$").test(this.rawText)) {
-            if (typeof(rawVal) !== 'undefined') {
-                // 
-            } else {
-                return '';
+        if (id >= 0) {
+
+            var rawVal = reMatch[id];
+
+            if (RegExp("^(" + '\\$'+SnipRegex.reInt + "|" + '\\$\\{'+SnipRegex.reInt+'\\}' + ")$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return rawVal;
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+'\\/upcase'+'\\}' + "$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return FormatCase.toUpCase(rawVal);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+'\\/downcase'+'\\}' + "$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return FormatCase.toDownCase(rawVal);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+'\\/capitalize'+'\\}' + "$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return FormatCase.toCapitalized(rawVal);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+'\\/camelcase'+'\\}' + "$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return FormatCase.toCamelCase(rawVal);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+'\\/pascalcase'+'\\}' + "$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return FormatCase.toPascalCase(rawVal);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+'\\/snakecase'+'\\}' + "$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return FormatCase.toSnakeCase(rawVal);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+'\\/kebabcase'+'\\}' + "$").test(this.rawText)) {
+                if (typeof(rawVal) !== 'undefined') {
+                    return FormatCase.toKebabCase(rawVal);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':\\+'+SnipRegex.reIf+'\\}' + "$").test(this.rawText)) {
+                if (rawVal !== '') {
+                    var regex = new RegExp('\\+');
+                    regex.exec(this.rawText);
+                    return this.rawText.substring(regex.lastIndex, this.rawText.length - 1);
+                } else {
+                    return '';
+                }
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':\\?'+SnipRegex.reIf+':'+SnipRegex.reElse+'\\}' + "$").test(this.rawText)) {
+
+                var regex = new RegExp(':', 'g');
+                regex.exec(this.rawText);
+                var qIndex = regex.lastIndex + 1;
+                regex.exec(this.rawText);
+                var colIndex = regex.lastIndex;
+
+                var ifStr = this.rawText.substring(qIndex, colIndex - 1);
+                var elseStr = this.rawText.substring(colIndex, this.rawText.length - 1);
+
+                if (rawVal !== '') {
+                    return ifStr;
+                } else {
+                    return elseStr;
+                }
+
+            } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+"(\\-)?"+SnipRegex.reElse+'\\}' + "$").test(this.rawText)) {
+                if (rawVal !== '') {
+                    return '';
+                } else {
+                    var regex = new RegExp(':(\\-)?');
+                    regex.exec(this.rawText);
+                    return this.rawText.substring(regex.lastIndex, this.rawText.length - 1);
+                }
             }
-        } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':\\?'+SnipRegex.reIf+':'+SnipRegex.reElse+'\\}' + "$").test(this.rawText)) {
-            if (typeof(rawVal) !== 'undefined') {
-                // 
-            } else {
-                // 
-            }
-        } else if (RegExp("^" + '\\$\\{'+SnipRegex.reInt+':'+"(\\-)?"+SnipRegex.reElse+'\\}' + "$").test(this.rawText)) {
-            if (typeof(rawVal) !== 'undefined') {
-                return '';
-            } else {
-                // 
-            }
+
+            return this.rawText;
+
+        } else {
+            return this.rawText;
         }
-
-        return '';
 
     };
 

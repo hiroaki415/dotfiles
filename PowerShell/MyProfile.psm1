@@ -2,7 +2,7 @@ $theme = "slimfat.omp.json"
 oh-my-posh init pwsh --config $env:POSH_THEMES_PATH$theme | Invoke-Expression
 
 
-function Enter-VSDevShell {
+function Enter-VsDevMode {
     $dll_path = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
     Import-Module $dll_path
     Enter-VsDevShell bd50a617

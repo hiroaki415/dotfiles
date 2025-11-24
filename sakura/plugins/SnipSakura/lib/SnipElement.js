@@ -1,5 +1,6 @@
 if (typeof(root) === 'undefined') {
-    var root = Editor.ExpandParameter('$I').replace(/\\[^\\]*$/, '').replace(/\\/g, '/');
+    // var root = Editor.ExpandParameter('$I').replace(/\\[^\\]*$/, '').replace(/\\/g, '/');
+    var root = 'C:/Users/hiroa/dotfiles/sakura';
 }
 var fso = new ActiveXObject('Scripting.FileSystemObject');
 var file = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js', 1);
@@ -12,6 +13,7 @@ eval(loadModuleRaw);
 eval('var root = "' + root + '";' +
     loadModule(root + '/plugins/SnipSakura/lib/SnipRegex.js') +
     loadModule(root + '/plugins/SnipSakura/lib/SnipVariable.js') +
+    loadModule(root + '/plugins/SnipSakura/lib/SnipTransform.js') +
     loadModule(root + '/plugins/DevUtils/Utility.js')
 );
 
@@ -77,33 +79,9 @@ function SnipElement(rawText) {
             lastIndex = regex.lastIndex;
 
             tfOptions = this.rawText.substring(lastIndex, this.rawText.length - 1);
-            
-            // switch (tfFormat) {
-            //     case '/upcase':
-            //         return function(str) {};
-            //         break;
-            //     case '/downcase':
-            //         return function(str) {};
-            //         break;
-            //     case '/capitalize':
-            //         return function(str) {};
-            //         break;
-            //     case '/camelcase':
-            //         return function(str) {};
-            //         break;
-            //     case '/pascalcase':
-            //         return function(str) {};
-            //         break;
-            //     default:
-            //         return function(str) {
-            //             var regex = new RegExp(tfRegex, tfOptions);
-            //             return str.replace(regex, tfFormat);
-            //         };
-            //         break;
-            // }
 
             return function(str) {
-                return str;  // do nothing
+                return SnipTransform.transform(str, tfRegex, tfFormat, tfOptions);
             };
 
         } else {
@@ -159,14 +137,14 @@ function SnipElement(rawText) {
                 var token = this.rawText.substring(1);
             } else {
                 // under construction
-                match = RegExp('\\}', 'g').exec(this.rawText);
-                var token = this.rawText.substring(1, match.index);
+                var match = RegExp('[:/\\}]').exec(this.rawText);
+                var token = this.rawText.substring(2, match.index);
             }
 
             return SnipVariable.evaluate(token);
 
         } else {
-            return null;
+            return '';
         }
     };
 
