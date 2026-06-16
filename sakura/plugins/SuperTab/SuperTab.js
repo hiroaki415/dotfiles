@@ -25,10 +25,9 @@ function SuperTab() {
     var originCur = cur.getProperty();
     var tabw = Editor.ChangeTabWidth(0);
 
-    if (cur.stateSelection === cur.stateEnum.notSelected) {
+    if (cur.getStateSelection() === cur.stateEnum.notSelected) {
         if (cur.isBeginOfLine() === false && /[\w_]/.test(cur.getPrevChar())) {
             Editor.Complete();
-            cur.read();
         } else {
             Editor.SetDrawSwitch(0);
             var nestDep = cur.getNestDepth(originCur.line - 1);
@@ -59,8 +58,8 @@ function ShiftTab() {
     var originCur = cur.getProperty();
     var tabw = Editor.ChangeTabWidth(0);
 
-    if (cur.stateSelection === cur.stateEnum.notSelected) {
-        cur.move(cur.line, cur.col - 1, 1);
+    if (cur.getStateSelection() === cur.stateEnum.notSelected) {
+        cur.move(cur.getLine(), cur.getCol() - 1, 1);
         cur.unindent();
     } else {
         cur.unindent();

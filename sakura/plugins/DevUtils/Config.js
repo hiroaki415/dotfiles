@@ -126,6 +126,18 @@ function Config() {
 
     };
 
+    this.getNewLineCode = function() {
+        switch (Editor.GetLineCode()) {
+            case 0:
+                return '\r\n';
+            case 1:
+                return '\r';
+            case 2:
+                return '\n';
+            default:
+                return '\r\n';
+        }
+    };
 
     this.load();
 

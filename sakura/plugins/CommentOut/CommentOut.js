@@ -23,14 +23,17 @@ function CommentOut() {
     var cur = new Cursor();
     var originCur = cur.getProperty();
 
+    var conf = new Config();
+    var comDelim = conf.getLineCommentDelimiter();
+
     var offset = 0;
 
-    if (cur.stateSelection === cur.stateEnum.notSelected) {
+    if (cur.getStateSelection() === cur.stateEnum.notSelected) {
         if (cur.isCommentLine() === false) {
             var nestDep = cur.getNestDepth();
-            var offset = originCur.col > (nestDep + 1) ? cur.comDelim.length + 1 : 0
+            var offset = originCur.col > (nestDep + 1) ? comDelim.length + 1 : 0
             cur.move(originCur.line, nestDep + 1, 0);
-            cur.insertText(cur.comDelim + ' ');
+            cur.insertText(comDelim + ' ');
             cur.loadProperty(originCur, offset);
         } else {
             UnComment();
@@ -49,7 +52,7 @@ function CommentOut() {
             for (var i = originCur.lineFrom;  i <= originCur.lineTo;  i++) {
                 if (cur.isBlankLine(i) === false) { 
                     cur.move(i, minDep + 1, 0);
-                    cur.insertText(cur.comDelim + ' ');
+                    cur.insertText(comDelim + ' ');
                 }
             }
             cur.loadProperty(originCur);
@@ -64,7 +67,7 @@ function UnComment() {
     var cur = new Cursor();
     var originCur = cur.getProperty();
 
-    if (cur.stateSelection === cur.stateEnum.notSelected) {
+    if (cur.getStateSelection() === cur.stateEnum.notSelected) {
         cur.deleteCommentDelimiter(originCur.line);
     } else {
         for (var i = originCur.lineFrom;  i <= originCur.lineTo;  i++) {
