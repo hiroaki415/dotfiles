@@ -1,10 +1,7 @@
 var wsh = new ActiveXObject("WScript.Shell");
 var root = wsh.ExpandEnvironmentStrings("%APPDATA%") + '\\sakura';
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var file = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js', 1);
-var loadModuleRaw = file.ReadAll();
-file.Close();
-file = null;
+var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js').ReadAll();
 fso = null;
 wsh = null;
 
