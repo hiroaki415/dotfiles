@@ -119,7 +119,7 @@ var FormatCase = {
     },
 
     toSnakeCase: function (str, opt) {
-        if (typeof(opt) === 'undefined') { opt = FormatCase.options.downcase; }
+        if (opt === undefined) { opt = FormatCase.options.downcase; }
         if (FormatCase.isSplittable(str)) {
             var newStr = '';
             var words = FormatCase.splitStringIntoWords(str);
@@ -133,7 +133,7 @@ var FormatCase = {
     },
 
     toKebabCase: function (str, opt) {
-        if (typeof(opt) === 'undefined') { opt = FormatCase.options.downcase; }
+        if (opt === undefined) { opt = FormatCase.options.downcase; }
         if (FormatCase.isSplittable(str)) {
             var newStr = '';
             var words = FormatCase.splitStringIntoWords(str);

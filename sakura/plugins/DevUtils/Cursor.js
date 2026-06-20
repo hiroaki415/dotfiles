@@ -45,38 +45,38 @@ function Cursor() {
 
     this.move = function(line, col, opt) { Editor.MoveCursor(line, col, opt); };
     this.moveLeft = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         this.move(this.getLine(), this.getCol() - 1, opt);
     };
     this.moveRight = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         this.move(this.getLine(), this.getCol() + 1, opt);
     };
     this.moveUp = function() {this.move(this.getLine() - 1, this.getCol(), 0); };
     this.moveDown = function() { this.move(this.getLine() + 1, this.getCol(), 0); };
     this.selectCurrentWord = function() { Editor.SelectWord(); }
     this.moveWordLeft = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         Editor.WordLeft(opt);
     };
     this.moveWordRight = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         Editor.WordRight(opt);
     };
     this.goLineTop = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         Editor.GoLineTop(opt);
     };
     this.goLineEnd = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         Editor.GoLineEnd(opt);
     };
     this.goFileTop = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         Editor.GoFileTop(opt);
     };
     this.goFileEnd = function(opt) {
-        if (typeof(opt) === 'undefined') { opt = 0; }
+        if (opt === undefined) { opt = 0; }
         Editor.GoFileEnd(opt);
     };
 
@@ -123,7 +123,7 @@ function Cursor() {
         return ret;
     };
     this.loadProperty = function(prop, offsetCol) {
-        if (typeof(offsetCol) === "undefined") { offsetCol = 0; }
+        if (offsetCol === undefined) { offsetCol = 0; }
         if (prop.stateSelection === this.stateEnum.notSelected) {
             this.move(prop.line, prop.col + offsetCol, 0);
         } else {
@@ -143,7 +143,7 @@ function Cursor() {
     this.isSelectedAsBox = function() { return this.getStateSelection() === this.stateEnum.selectedAsBox; };
     this.isFirstLine = function() { return this.getLine() === 1; };
     this.isLastLine = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         return line === Editor.GetLineCount(0);
     };
     this.isBeginOfLine = function() { return this.getCol() === 1; };
@@ -152,18 +152,18 @@ function Cursor() {
         return this.getCol() === (lineStr.length + 1);
     };
     this.beginWith = function(str, line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var lineStr = this.getLineTextWithoutIndent(line);
         return lineStr.substring(0, str.length) === str;
     };
     this.isCommentLine = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var conf = new Config();
         var comDelim = conf.getLineCommentDelimiter();
         return this.beginWith(comDelim, line);
     };
     this.isBlankLine = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var lineStr = this.getLineText(line);
         return /^\s*$/.test(lineStr);
     };
@@ -176,11 +176,11 @@ function Cursor() {
         return word;
     }
     this.getLineText = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         return Editor.GetLineStr(line).replace(/[\r\n]/g, '');
     }
     this.getLineTextWithoutIndent = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var lineStr = this.getLineText(line);
         var match = lineStr.match(/^\s*(.*)/);
         return match ? match[1] : lineStr;
@@ -194,7 +194,7 @@ function Cursor() {
         return lineStr.substring(0, this.getCol() - 1);
     }
     this.getNestDepth = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var originCur = this.getProperty();
         var lineStr = this.getLineText(line);
         var match = lineStr.match(/^(\s*)/);
@@ -224,7 +224,7 @@ function Cursor() {
     };
 
     this.searchNext = function(str, option) {
-        if (typeof(option) === 'undefined') { option = 0; }
+        if (option === undefined) { option = 0; }
         Editor.SearchNext(str, option);
         var tmpCur = this.getProperty();
         Editor.CancelMode(0);
@@ -232,7 +232,7 @@ function Cursor() {
         this.loadProperty(tmpCur);
     };
     this.searchPrev = function(str, option) {
-        if (typeof(option) === 'undefined') { option = 0; }
+        if (option === undefined) { option = 0; }
         Editor.SearchPrev(str, option);
         var tmpCur = this.getProperty();
         Editor.CancelMode(0);
@@ -240,13 +240,13 @@ function Cursor() {
         this.loadProperty(tmpCur);
     };
     this.getWordList = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var words = Utility.deleteNullOrEmpty(this.getLineText(line).split(' '));
         return words;
     };
 
     this.deleteLine = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var originCur = this.getProperty();
         this.move(line, 1);
         this.deleteCurrentLine();
@@ -260,19 +260,19 @@ function Cursor() {
         this.loadProperty(originCur);
     };
     this.clearLine = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         var originCur = this.getProperty();
         this.move(line, 1);
         this.deleteCurrentLineToEnd();
         this.loadProperty(originCur);
     };
     this.addCommentDelimiter = function(line, position) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         if (this.isCommentLine(line) === true) {
             var conf = new Config();
             var comDelim = conf.getLineCommentDelimiter();
             var originCur = this.getProperty();
-            if (typeof(position) === 'undefined') { position = this.getNestDepth(line) + 1; }
+            if (position === undefined) { position = this.getNestDepth(line) + 1; }
             var offset = (originCur.line === line) && (originCur.col > position) ? comDelim.length : 0;
             this.move(line, position, 0);
             for (var i = 0; i < (comDelim.length); i++) { this.deleteWithoutBack(); }
@@ -282,7 +282,7 @@ function Cursor() {
         }
     };
     this.deleteCommentDelimiter = function(line) {
-        if (typeof(line) === 'undefined') { line = this.getLine(); }
+        if (line === undefined) { line = this.getLine(); }
         if (this.isCommentLine(line) === true) {
             var conf = new Config();
             var comDelim = conf.getLineCommentDelimiter();
