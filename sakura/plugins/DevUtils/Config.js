@@ -68,4 +68,12 @@ function Config() {
         }
     };
 
+    this.getRootDir = function() {
+        var fso = new ActiveXObject('Scripting.FileSystemObject');
+        var pluginDir = Plugin.GetPluginDir();
+        var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
+        fso = null;
+        return root;
+    };
+
 }
