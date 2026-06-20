@@ -249,6 +249,12 @@ var Utility = {
 
         return str;
 
-    }
+    },
+
+    escapeRegExp : function(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+
+    dummy : null
 
 };
