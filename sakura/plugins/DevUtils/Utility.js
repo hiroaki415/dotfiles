@@ -7,25 +7,12 @@ var Utility = {
         return home;
     },
 
-    getRootDir : function() {
-        var fso = new ActiveXObject('Scripting.FileSystemObject');
-        var pluginDir = Plugin.GetPluginDir();
-        var root = fso.GetParentFolderName(fso.GetParentFolderName(pluginDir));
-        fso = null;
-        return root;
+    getTempDir : function() {
+        var shell = new ActiveXObject('WScript.Shell');
+        var temp = shell.ExpandEnvironmentStrings('%TEMP%');
+        shell = null;
+        return temp;
     },
-
-    getLineCode : function() {
-        switch (Editor.GetLineCode()) {
-            case 0:
-                return '\r\n';
-            case 1:
-                return '\r';
-            case 2:
-                return '\n';
-        }
-    },
-
 
     getRepeatedStr : function(str, rep) {
         var ret = '';
@@ -195,60 +182,43 @@ var Utility = {
         return pobj;
     },
 
-    stringifyObject : function(obj, nest, str) {
-        if (typeof(nest) === 'undefined') { nest = 0; }
-        if (typeof(str) === 'undefined') { str = ''; }
-
-        str += Utility.getRepeatedStr(' ', nest);
-        if (Utility.isArray(obj)) {
-            str += '[';
-        } else if (Utility.isPlainObject(obj)) {
-            str += '{';
+    stringifyObject : function(obj, depth) {
+        if (obj === null) { return 'null'; }
+        if (obj === undefined) { return 'undefined'; }
+        if (depth === undefined) { depth = 0; };
+        var type = typeof obj;
+        if (type === 'number' || type === 'boolean') { return obj.toString(); }
+        if (type === 'string') {
+            return '"' + obj.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
         }
-        str += '\r\n';
-
-        for (var key in obj) {
-
-            if (typeof(obj[key]) !== 'string' && typeof(obj[key]) !== 'number' &&
-                !Utility.isArray(obj[key]) && !Utility.isPlainObject(obj[key])) {
-                break;
+        if (obj instanceof Array || Object.prototype.toString.call(obj) === '[object Array]') {
+            var arr = [];
+            for (var i = 0; i < obj.length; i++) {
+                arr.push(
+                    Utility.getRepeatedStr(' ', (depth + 1) * 4) + 
+                    Utility.JsonStringify(obj[i], depth + 1)
+                );
             }
-
-            str += Utility.getRepeatedStr(' ', nest + 4);
-            if (Utility.isPlainObject(obj)) {
-                str += '"' + key + '"' + " : ";
-            }
-
-            if (typeof(obj[key]) === 'object') {
-                if (Utility.isArray(obj)) {
-                    str = str.substring(0, str.length - nest - 4);
-                    str = Utility.stringifyObject(obj[key], nest + 4, str);
-                } else if (Utility.isPlainObject(obj)) {
-                    str += '\r\n';
-                    str = Utility.stringifyObject(obj[key], nest + 8, str);
+            var ret = '[\n';
+            ret += arr.join(',\n') + '\n' + Utility.getRepeatedStr(' ', depth * 4) + ']';
+            return ret;
+        }
+        if (type === 'object') {
+            var pairs = [];
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    pairs.push(
+                        Utility.getRepeatedStr(' ', (depth + 1) * 4) + 
+                        '"' + key + '":' + Utility.JsonStringify(obj[key], depth + 1)
+                    );
                 }
-            } else if (typeof(obj[key]) === 'string') {
-                str += '"' + obj[key] + '"';
-            } else if (typeof(obj[key]) === 'number') {
-                str += obj[key];
             }
-
-            if (!Utility.isLastKey(key, obj)) {
-                str += ',';
-            }
-
-            str += '\r\n';
+            var ret = '{\n';
+            ret += pairs.join(',\n');
+            ret += '\n' + Utility.getRepeatedStr(' ', depth * 4) + '}';
+            return ret;
         }
-
-        str += Utility.getRepeatedStr(' ', nest);
-        if (Utility.isArray(obj)) {
-            str += ']';
-        } else if (Utility.isPlainObject(obj)) {
-            str += '}';
-        }
-
-        return str;
-
+        return 'null';
     },
 
     escapeRegExp : function(str) {
