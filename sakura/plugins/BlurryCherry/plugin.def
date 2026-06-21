@@ -1,4 +1,3 @@
-;プラグイン定義ファイルv1
 [Plugin]
 Id=BlurryCherry
 Name=BlurryCherry
@@ -14,7 +13,7 @@ DocumentOpen.Label=BlurryCherry
 
 [Option]
 O[1].Section=Option
-O[1].Label=透過度(最大255)
+O[1].Label=透過度(最大値255)
 O[1].Key=alpha
 O[1].Type=Int
 O[1].Default=230
