@@ -1,0 +1,18 @@
+{
+
+    "modules": [
+        "/plugins/AutoPairs/AutoPairs.js",
+        "/plugins/DevUtils/Utility.js"
+    ],
+
+    "\r":  [
+        "function(){}",
+        "function(){}"
+    ],
+
+    "a":  [
+        "function(){}",
+        "function(){}"
+    ]
+
+}

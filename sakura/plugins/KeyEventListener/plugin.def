@@ -1,0 +1,12 @@
+[Plugin]
+Id=KeyEventListener
+Name=KeyEventListener
+Description=KeyEventListener
+Type=wsh
+Version=1.0
+Url=
+Author=hiro
+
+[Plug]
+SmartIndent=KeyEventListener.js
+SmartIndent.Label=KeyEventListener
