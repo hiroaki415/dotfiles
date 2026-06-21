@@ -57,27 +57,87 @@ function Cursor() {
     this.selectCurrentWord = function() { Editor.SelectWord(); }
     this.moveWordLeft = function(opt) {
         if (opt === undefined) { opt = 0; }
-        Editor.WordLeft(opt);
+        switch (opt) {
+            case 0:
+                Editor.WordLeft(0);
+                break;
+            case 1:
+                Editor.WordLeft_Sel(0);
+                break;
+            case 2:
+                Editor.WordLeft_BoxSel(1);
+                break;
+        }
     };
     this.moveWordRight = function(opt) {
         if (opt === undefined) { opt = 0; }
-        Editor.WordRight(opt);
+        switch (opt) {
+            case 0:
+                Editor.WordRight(0);
+                break;
+            case 1:
+                Editor.WordRight_Sel(0);
+                break;
+            case 2:
+                Editor.WordRight_BoxSel(1);
+                break;
+        }
     };
     this.goLineTop = function(opt) {
         if (opt === undefined) { opt = 0; }
-        Editor.GoLineTop(opt);
+        switch (opt) {
+            case 0:
+                Editor.GoLineTop(0);
+                break;
+            case 1:
+                Editor.GoLineTop_Sel(0);
+                break;
+            case 2:
+                Editor.GoLineTop_BoxSel(0, 1);
+                break;
+        }
     };
     this.goLineEnd = function(opt) {
         if (opt === undefined) { opt = 0; }
-        Editor.GoLineEnd(opt);
+        switch (opt) {
+            case 0:
+                Editor.GoLineEnd(0);
+                break;
+            case 1:
+                Editor.GoLineEnd_Sel(0);
+                break;
+            case 2:
+                Editor.GoLineEnd_BoxSel(0, 1);
+                break;
+        }
     };
     this.goFileTop = function(opt) {
         if (opt === undefined) { opt = 0; }
-        Editor.GoFileTop(opt);
+        switch (opt) {
+            case 0:
+                Editor.GoFileTop(0);
+                break;
+            case 1:
+                Editor.GoFileTop_Sel(0);
+                break;
+            case 2:
+                Editor.GoFileTop_BoxSel(1);
+                break;
+        }
     };
     this.goFileEnd = function(opt) {
         if (opt === undefined) { opt = 0; }
-        Editor.GoFileEnd(opt);
+        switch (opt) {
+            case 0:
+                Editor.GoFileEnd(0);
+                break;
+            case 1:
+                Editor.GoFileEnd_Sel(0);
+                break;
+            case 2:
+                Editor.GoFileEnd_BoxSel(1);
+                break;
+        }
     };
 
     this.insertText = function(str) { Editor.InsText(str); };
@@ -94,6 +154,7 @@ function Cursor() {
     this.indent = function() { Editor.IndentTab(0); };
     this.unindent = function() { Editor.UnindentTab(0); };
     this.enter = function() { Editor.Char(13); };
+    this.escape = function() { Editor.CancelMode(0); };
 
     this.getProperty = function() {
         var prop = {};

@@ -14,15 +14,8 @@ eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
 function testCommand() {
-    // Write Test Script Here
-    // Editor.MessageBox('Hello World!');
-    // Editor.StatusMsg('Hello World!');
-    // Editor.TraceOut('Hello World!');
-
-    var conf = new Config();
-
-    MessageBox(conf.getLineCommentDelimiter());
-
+    var input = Editor.InputBox('Input Command', '', 255);
+    Editor.MessageBox(input);
 }
 
 
