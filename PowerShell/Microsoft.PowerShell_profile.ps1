@@ -1,1 +1,1 @@
-Import-Module $HOME\dotfiles\PowerShell\MyProfile.psm1
+. $HOME\dotfiles\PowerShell\MyProfile.ps1

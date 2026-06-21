@@ -2,20 +2,20 @@
 
 
 #NeoVim
-if (-! (Test-Path "$ENV:USERPROFILE\AppData\Local\nvim")) {
-    git clone https://github.com/NvChad/starter $ENV:USERPROFILE\AppData\Local\nvim && nvim
+if (-! (Test-Path $env:LOCALAPPDATA\nvim)) {
+    git clone https://github.com/LazyVim/starter $env:LOCALAPPDATA\nvim
 }
 
-$target = "$HOME\dotfiles\NeoVim\core.lua"
-$path = "$HOME\AppData\Local\nvim\lua\plugins\core.lua"
+$target = "$HOME\dotfiles\NeoVim\colorscheme.lua"
+$path = "$env:LOCALAPPDATA\nvim\lua\plugins\colorscheme.lua"
 if (Test-Path $path) {
-    Remove-Item -Path $dest
+    Remove-Item -Path $path
 }
 New-Item -ItemType SymbolicLink -Path $path -Value $target
 
 $target = "$HOME\dotfiles\NeoVim\options.lua"
-$path = "$HOME\AppData\Local\nvim\lua\options.lua"
+$path = "$env:LOCALAPPDATA\nvim\lua\config\options.lua"
 if (Test-Path $path) {
-    Remove-Item -Path $dest
+    Remove-Item -Path $path
 }
 New-Item -ItemType SymbolicLink -Path $path -Value $target

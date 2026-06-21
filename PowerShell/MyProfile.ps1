@@ -2,6 +2,20 @@ $theme = "slimfat.omp.json"
 oh-my-posh init pwsh --config $env:POSH_THEMES_PATH$theme | Invoke-Expression
 
 
+# ScriptBlock to Load Module with Variable
+# ex) > . $UsingModule $HOME\Documents\MyModule\MyModule.psm1
+$UsingModule = {
+    Param (
+        [parameter(Mandatory)]
+        [string]
+        $ModuleName
+    )
+    $scriptBody = "using module $ModuleName"
+    $script = [ScriptBlock]::Create($scriptBody)
+    . $script
+}
+
+
 function Enter-VsDevMode {
     $dll_path = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
     Import-Module $dll_path

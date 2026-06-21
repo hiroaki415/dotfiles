@@ -1,15 +1,11 @@
---  ~/.config/nvim/lua/options.lua
--- $HOME\AppData\Local\nvim\lua\options.lua
+-- Options are automatically loaded before lazy.nvim startup
+-- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+-- Add any additional options here
 
-require "nvchad.options"
+--  ~/.config/nvim/lua/config/options.lua
+-- $env:LOCALAPPDATA\nvim\lua\config\options.lua
 
--- add yours here!
 local home = os.getenv("USERPROFILE")
-package.path = package.path
-    .. ";" .. home .. "/dotfiles/NeoVim/?.lua"
-    .. ";" .. home .. "" -- any path you wish to add
+package.path = package.path .. ";" .. home .. "/dotfiles/NeoVim/?.lua" .. ";" .. home .. "" -- any path you wish to add
 
-require "my_init"
-
--- local o = vim.o
--- o.cursorlineopt ='both' -- to enable cursorline!
+require("my_init")
