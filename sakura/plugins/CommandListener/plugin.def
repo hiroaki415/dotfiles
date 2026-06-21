@@ -1,0 +1,12 @@
+[Plugin]
+Id=CommandListener
+Name=CommandListener
+Description=CommandListener
+Type=wsh
+Version=1.0
+Url=
+Author=hiro
+
+[Command]
+C[1]=CommandListener.js
+C[1].Label=CommandListener
