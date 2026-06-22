@@ -7,36 +7,36 @@ wsh = null;
 
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/DevUtils/Decorator.js'));
-eval(loadModule('/plugins/DevUtils/Cursor.js'));
-eval(loadModule('/plugins/DevUtils/Config.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
-switch (Indent.GetChar()) {
-    case '\r':
-        CommandDecorator(function() {
-            var cur = new Cursor();
-            var prevLine = cur.getLine() - 1;
-            var prevLineText = cur.getLineText(prevLine);
-            var prevChar = prevLineText.slice(-1);
-            if (prevChar === '[' || prevChar === '(' || prevChar === '{' || prevChar === ':') {
-                var nextChar = cur.getNextChar();
-                cur.enter();
-                switch (prevChar) {
-                    case '{':
-                        if (nextChar !== '}') { cur.insertText('}'); }
-                        break;
-                    case '(':
-                        if (nextChar !== ')') { cur.insertText(')'); }
-                        break;
-                    case '[':
-                        if (nextChar !== ']') { cur.insertText(']'); }
-                        break;
-                }
-                cur.moveUp();
-                cur.indent();
+function KeyEventListener() {
+    var chr = Indent.GetChar();
+    var comConf = Utility.evalAsObject(loadModule('/plugins/KeyEventListener/KeyEventListenerConfig.json'));
+    if (Utility.isArray(comConf.externals)) {
+        for (var i = 0; i < comConf.externals.length; i++) {
+            var tmpConf = Utility.evalAsObject(loadModule(comConf.externals[i]));
+            comConf.modules = comConf.modules.concat(tmpConf.modules);
+            comConf.preload = comConf.preload.concat(tmpConf.preload);
+            comConf.handlers = comConf.handlers.concat(tmpConf.handlers);
+        }
+    }
+    if (Utility.existsAsKey(chr, comConf.handlers)) {
+        for (var i = 0; i < comConf.modules.length; i++) {
+            eval(loadModule(comConf.modules[i]));
+        }
+        for (var i = 0; i < comConf.preloads.length; i++) {
+            eval(comConf.preloads[i]);
+        }
+        if (typeof(comConf.handlers[chr]) === 'string') {
+            eval(comConf.handlers[chr]);
+        } else if (Utility.isArray(comConf.handlers[chr])) {
+            for (var i = 0; i < comConf.handlers[chr].length; i++) {
+                eval(comConf.handlers[chr][i]);
             }
-        })();
-        break;
+        }
+    }
 }
+
+
+KeyEventListener();
