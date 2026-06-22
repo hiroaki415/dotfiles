@@ -7,8 +7,8 @@
     ],
     "commands": {
             "0": "cur.goLineTop();",
-            "^": "cur.goLineTop();",
-            "$": "cur.goLineEnd();",
+            "\\^": "cur.goLineTop();",
+            "\\$": "cur.goLineEnd();",
             "gg": "cur.goFileTop();",
             "G": "cur.goFileEnd();",
             "w": "cur.selectCurrentWord();",
@@ -16,15 +16,28 @@
             "dd": "cur.deleteCurrentLine();",
             "dw": "cur.deleteCurrentWord();",
             "d0": "cur.deleteCurrentLineToStart();",
-            "d$": "cur.deleteCurrentLineToEnd();",
-            "dgg": "cur.goFileTop(1); cur.deleteBack();",
-            "dG": "cur.goFileEnd(1); cur.deleteBack();",
+            "d\\$": "cur.deleteCurrentLineToEnd();",
+            "dgg": [
+                "cur.goFileTop(1);",
+                "cur.deleteBack();"
+            ],
+            "dG": [
+                "cur.goFileEnd(1);",
+                "cur.deleteBack();"
+            ],
 
-            "u": "Editor.Undo(0);",
-            "r": "Editor.Redo(0);",
+            "u": "cur.undo();",
+            "r": "cur.redo();",
 
             "y": "Editor.Copy(0);",
-            "yy": "var tmpCur = cur.getProperty(); cur.goLineTop(0); cur.goLineEnd(1); Editor.Copy(0); cur.loadProperty(tmpCur);",
+            "yy": [
+                "var tmpCur = cur.getProperty();",
+                "cur.goLineTop(0);",
+                "cur.goLineEnd(1);",
+                "Editor.Copy(0);",
+                "cur.loadProperty(tmpCur);"
+            ],
             "p": "Editor.Paste(0);"
-    }
+    },
+    "externals" : []
 }
