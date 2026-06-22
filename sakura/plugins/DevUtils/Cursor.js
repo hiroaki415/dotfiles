@@ -155,6 +155,8 @@ function Cursor() {
     this.unindent = function() { Editor.UnindentTab(0); };
     this.enter = function() { Editor.Char(13); };
     this.escape = function() { Editor.CancelMode(0); };
+    this.undo = function() { Editor.Undo(0); };
+    this.redo = function() { Editor.Redo(0); };
 
     this.getProperty = function() {
         var prop = {};
