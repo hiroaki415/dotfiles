@@ -14,57 +14,56 @@ eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 function SuperTab() {
 
-    Editor.AddRefUndoBuffer();
-
     var cur = new Cursor();
-    var originCur = cur.getProperty();
-    var tabw = Editor.ChangeTabWidth(0);
 
-    if (cur.getStateSelection() === cur.stateEnum.notSelected) {
-        if (cur.isBeginOfLine() === false && /[\w_]/.test(cur.getPrevChar())) {
-            Editor.Complete();
-        } else {
-            Editor.SetDrawSwitch(0);
-            var nestDep = cur.getNestDepth(originCur.line - 1);
-            var moveNum = (nestDep - originCur.col >= 0) ? nestDep - originCur.col + 1: tabw
-            cur.insertText(Utility.getRepeatedStr(' ', moveNum));
-            cur.loadProperty(originCur, moveNum);
-            Editor.SetDrawSwitch(1);
-            Editor.ReDraw(0);
-        }
-    } else {
-        Editor.SetDrawSwitch(0);
-        cur.indent();
-        cur.loadProperty(originCur, tabw);
-        Editor.SetDrawSwitch(1);
-        Editor.ReDraw(0);
+    if (/[a-zA-Z_]/.test(cur.getPrevChar())) {
+        Editor.Complete();
+        return;
     }
 
-    Editor.SetUndoBuffer();
+    var originCur = cur.getProperty();
+    var conf = new Config();
+    var offset = conf.getIndent().length;
+
+    if (cur.isNotSelected()) {
+        Editor.AddRefUndoBuffer();
+        Editor.SetDrawSwitch(0);
+        cur.indent();
+        cur.loadProperty(originCur, offset);
+        Editor.SetDrawSwitch(1);
+        Editor.ReDraw(0);
+        Editor.SetUndoBuffer();
+        return;
+    }
+
+    if (cur.isSelected()) {
+        Editor.AddRefUndoBuffer();
+        Editor.SetDrawSwitch(0);
+        cur.indent();
+        cur.loadProperty(originCur, offset);
+        Editor.SetDrawSwitch(1);
+        Editor.ReDraw(0);
+        Editor.SetUndoBuffer();
+        return;
+    }
 
 }
 
 function ShiftTab() {
-
-    Editor.AddRefUndoBuffer();
-    Editor.SetDrawSwitch(0);
-
     var cur = new Cursor();
     var originCur = cur.getProperty();
-    var tabw = Editor.ChangeTabWidth(0);
-
-    if (cur.getStateSelection() === cur.stateEnum.notSelected) {
+    var conf = new Config();
+    var offset = conf.getIndent().length;
+    if (cur.isNotSelected()) {
         cur.move(cur.getLine(), cur.getCol() - 1, 1);
         cur.unindent();
-    } else {
-        cur.unindent();
+        cur.loadProperty(originCur, -offset);
+        return;
     }
-    cur.loadProperty(originCur, -tabw);
-
-    Editor.SetDrawSwitch(1);
-    Editor.ReDraw(0);
-    Editor.SetUndoBuffer();
-
+    if (cur.isSelected()) {
+        cur.unindent();
+        return;
+    }
 }
 
 
@@ -75,7 +74,7 @@ function ShiftTab() {
         SuperTab();
         break;
     case 2:
-        ShiftTab();
+        CommandDecorator(ShiftTab)();
         break;
     }
 })();
