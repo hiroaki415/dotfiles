@@ -83,62 +83,83 @@ function Cursor() {
                 break;
         }
     };
-    this.goLineTop = function(opt) {
+    this.goLineTop = function(opt, ignoreIndent, logical) {
         if (opt === undefined) { opt = 0; }
+        if (ignoreIndent === undefined) { ignoreIndent = false; }
+        if (logical === undefined) { logical = true; }
+        var bitFlag = 0x00;
+        if (ignoreIndent) { bitFlag |= 0x01; }
+        if (logical) { bitFlag |= 0x08; }
         switch (opt) {
             case 0:
-                Editor.GoLineTop(0);
+                Editor.GoLineTop(bitFlag);
                 break;
             case 1:
-                Editor.GoLineTop_Sel(0);
+                Editor.GoLineTop_Sel(bitFlag);
                 break;
             case 2:
-                Editor.GoLineTop_BoxSel(0, 1);
+                Editor.GoLineTop_BoxSel(bitFlag);
                 break;
         }
     };
-    this.goLineEnd = function(opt) {
+    this.goLineEnd = function(opt, ignoreIndent, logical) {
         if (opt === undefined) { opt = 0; }
+        if (ignoreIndent === undefined) { ignoreIndent = false; }
+        if (logical === undefined) { logical = true; }
+        var bitFlag = 0x00;
+        if (ignoreIndent) { bitFlag |= 0x01; }
+        if (logical) { bitFlag |= 0x08; }
         switch (opt) {
             case 0:
-                Editor.GoLineEnd(0);
+                Editor.GoLineEnd(bitFlag);
                 break;
             case 1:
-                Editor.GoLineEnd_Sel(0);
+                Editor.GoLineEnd_Sel(bitFlag);
                 break;
             case 2:
-                Editor.GoLineEnd_BoxSel(0, 1);
+                Editor.GoLineEnd_BoxSel(bitFlag);
                 break;
         }
     };
-    this.goFileTop = function(opt) {
+    this.goFileTop = function(opt, ignoreIndent, logical) {
         if (opt === undefined) { opt = 0; }
+        if (ignoreIndent === undefined) { ignoreIndent = false; }
+        if (logical === undefined) { logical = true; }
+        var bitFlag = 0x00;
+        if (ignoreIndent) { bitFlag |= 0x01; }
+        if (logical) { bitFlag |= 0x08; }
         switch (opt) {
             case 0:
-                Editor.GoFileTop(0);
+                Editor.GoFileTop(bitFlag);
                 break;
             case 1:
-                Editor.GoFileTop_Sel(0);
+                Editor.GoFileTop_Sel(bitFlag);
                 break;
             case 2:
-                Editor.GoFileTop_BoxSel(1);
+                Editor.GoFileTop_BoxSel(bitFlag);
                 break;
         }
     };
-    this.goFileEnd = function(opt) {
+    this.goFileEnd = function(opt, ignoreIndent, logical) {
         if (opt === undefined) { opt = 0; }
+        if (ignoreIndent === undefined) { ignoreIndent = false; }
+        if (logical === undefined) { logical = true; }
+        var bitFlag = 0x00;
+        if (ignoreIndent) { bitFlag |= 0x01; }
+        if (logical) { bitFlag |= 0x08; }
         switch (opt) {
             case 0:
-                Editor.GoFileEnd(0);
+                Editor.GoFileEnd(bitFlag);
                 break;
             case 1:
-                Editor.GoFileEnd_Sel(0);
+                Editor.GoFileEnd_Sel(bitFlag);
                 break;
             case 2:
-                Editor.GoFileEnd_BoxSel(1);
+                Editor.GoFileEnd_BoxSel(bitFlag);
                 break;
         }
     };
+    this.goMatchedPair = function() { Editor.BracketPair() };
 
     this.insertText = function(str) { Editor.InsText(str); };
     this.deleteWithoutBack = function() { Editor.Delete(0); };
@@ -157,6 +178,8 @@ function Cursor() {
     this.escape = function() { Editor.CancelMode(0); };
     this.undo = function() { Editor.Undo(0); };
     this.redo = function() { Editor.Redo(0); };
+    this.copy = function() { Editor.Copy(0); };
+    this.paste = function() { Editor.Paste(0); };
 
     this.getProperty = function() {
         var prop = {};
