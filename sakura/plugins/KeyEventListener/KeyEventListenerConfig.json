@@ -1,24 +1,40 @@
 {
     "modules": [
-        "/plugins/DevUtils/Decorator.js",
-        "/plugins/KeyEventListener/FormatEnter.js",
-        "/plugins/KeyEventListener/AutoPairs.js"
+        "/plugins/KeyEventListener/FormatEnter.js"
     ],
     "preloads": [
         "var cur = new Cursor();"
     ],
     "handlers": {
-        "\r":  "CommandDecorator(FormatEnter)();",
-        "(":  "CommandDecorator(AutoPairs)(')');",
-        ")":  "CommandDecorator(AutoPairsClosing)(')');",
-        "[":  "CommandDecorator(AutoPairs)(']');",
-        "]":  "CommandDecorator(AutoPairsClosing)(']');",
-        "{":  "CommandDecorator(AutoPairs)('}');",
-        "}":  "CommandDecorator(AutoPairsClosing)('}');",
-        "<:diisable":  "CommandDecorator(AutoPairs)('>');",
-        ">:diisable":  "CommandDecorator(AutoPairsClosing)('>');",
-        "'":  "CommandDecorator(AutoPairs)('\\'');",
-        "\"":  "CommandDecorator(AutoPairs)('\"');"
+        "\r": "FormatEnter();",
+        "(": [
+            "cur.insertText(')');",
+            "cur.moveLeft();"
+        ],
+        ")": "if (cur.getNextChar() === ')') { cur.deleteWithoutBack(); }",
+        "[": [
+            "cur.insertText(']');",
+            "cur.moveLeft();"
+        ],
+        "]": "if (cur.getNextChar() === ']') { cur.deleteWithoutBack(); };",
+        "{": [
+            "cur.insertText('}');",
+            "cur.moveLeft();"
+        ],
+        "}": "if (cur.getNextChar() === '}') { cur.deleteWithoutBack(); }",
+        "<:diisable": [
+            "cur.insertText('>');",
+            "cur.moveLeft();"
+        ],
+        ">:diisable": "if (cur.getNextChar() === '>') { cur.deleteWithoutBack(); }",
+        "'": [
+            "cur.insertText('\\'');",
+            "cur.moveLeft();"
+        ],
+        "\"": [
+            "cur.insertText('\"');",
+            "cur.moveLeft();"
+        ]
     },
-    "externals" : []
+    "externals": []
 }

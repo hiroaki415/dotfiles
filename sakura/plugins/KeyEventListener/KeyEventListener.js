@@ -7,6 +7,7 @@ wsh = null;
 
 
 eval(loadModuleRaw);
+eval(loadModule('/plugins/DevUtils/Decorator.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
 
 
@@ -17,7 +18,7 @@ function KeyEventListener() {
         for (var i = 0; i < comConf.externals.length; i++) {
             var tmpConf = Utility.evalAsObject(loadModule(comConf.externals[i]));
             comConf.modules = comConf.modules.concat(tmpConf.modules);
-            comConf.preload = comConf.preload.concat(tmpConf.preload);
+            comConf.preloads = comConf.preloads.concat(tmpConf.preloads);
             comConf.handlers = comConf.handlers.concat(tmpConf.handlers);
         }
     }
@@ -39,4 +40,4 @@ function KeyEventListener() {
 }
 
 
-KeyEventListener();
+CommandDecorator(KeyEventListener)();
