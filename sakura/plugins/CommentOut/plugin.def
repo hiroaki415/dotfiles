@@ -8,7 +8,7 @@ Url=
 Author=hiro
 
 [Command]
-C[1]=CommentOut.js
+C[1]=Entry.js
 C[1].Label=CommentOut
-C[2]=CommentOut.js
-C[2].Label=UnComment
+C[2]=Entry.js
+C[2].Label=Uncomment
