@@ -8,5 +8,3 @@ Url=
 Author=hiro
 
 [Command]
-C[1]=TestCommand.js
-C[1].Label=TestCommand
