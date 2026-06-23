@@ -1,0 +1,28 @@
+{
+    "modules": [
+        "/plugins/CommentOut/CommentOut.js"
+    ],
+    "preloads": [],
+    "commands": [
+        {
+            "command": "gc",
+            "handler": "CommentOut();",
+            "description": ""
+        },
+        {
+            "command": "gcc",
+            "handler": "CommentOut();",
+            "description": ""
+        },
+        {
+            "command": "gcgc",
+            "handler": "Uncomment();",
+            "description": ""
+        },
+        {
+            "command": "gcu",
+            "handler": "Uncomment();",
+            "description": ""
+        }
+    ]
+}

@@ -17,28 +17,30 @@ function CommandListener() {
         for (var i = 0; i < comConf.externals.length; i++) {
             var tmpConf = Utility.evalAsObject(loadModule(comConf.externals[i]));
             comConf.modules = comConf.modules.concat(tmpConf.modules);
-            comConf.preload = comConf.preload.concat(tmpConf.preload);
-            comConf.handlers = comConf.handlers.concat(tmpConf.handlers);
+            comConf.preloads = comConf.preloads.concat(tmpConf.preloads);
+            comConf.commands = comConf.commands.concat(tmpConf.commands);
         }
     }
     for (var i = 0; i < comConf.modules.length; i++) {
         eval(loadModule(comConf.modules[i]));
     }
-    for (var i = 0; i < comConf.preload.length; i++) {
-        eval(comConf.preload[i]);
+    for (var i = 0; i < comConf.preloads.length; i++) {
+        eval(comConf.preloads[i]);
     }
-    var cmd = Editor.InputBox('Input Command', '', 255);
-    for (var key in comConf.commands) {
-        var matches = cmd.match(new RegExp('^' + key + '$'));
+    var inCmd = Editor.InputBox('Input Command', '', 255);
+    for (var i = 0; i < comConf.commands.length; i++) {
+        var cmd = comConf.commands[i].command;
+        var handler = comConf.commands[i].handler;
+        var matches = inCmd.match(new RegExp('^' + cmd + '$'));
         if (matches) {
-            if (typeof(comConf.commands[key]) === 'string') {
-                eval(comConf.commands[key]);
-            } else if (Utility.isArray(comConf.commands[key])) {
-                for (var i = 0; i < comConf.commands[key].length; i++) {
-                    eval(comConf.commands[key][i]);
+            if (typeof(handler) === 'string') {
+                eval(handler);
+            } else if (Utility.isArray(handler)) {
+                for (var i = 0; i < handler.length; i++) {
+                    eval(handler[i]);
                 }
             }
-            eval(comConf.commands[key]);
+            break;
         }
     }
 }

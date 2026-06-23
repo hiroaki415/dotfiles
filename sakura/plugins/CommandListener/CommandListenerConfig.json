@@ -2,42 +2,194 @@
     "modules": [
         "/plugins/DevUtils/Cursor.js"
     ],
-    "preload": [
+    "preloads": [
         "var cur = new Cursor();"
     ],
-    "commands": {
-            "0": "cur.goLineTop();",
-            "\\^": "cur.goLineTop();",
-            "\\$": "cur.goLineEnd();",
-            "gg": "cur.goFileTop();",
-            "G": "cur.goFileEnd();",
-            "w": "cur.selectCurrentWord();",
+    "commands": [
+        {
+            "command": "0",
+            "handler": "cur.goLineTop(0, true);",
+            "description": ""
+        },
+        {
+            "command": "\\^",
+            "handler": "cur.goLineTop(0, false);",
+            "description": ""
+        },
+        {
+            "command": "\\$",
+            "handler": "cur.goLineEnd();",
+            "description": ""
+        },
 
-            "dd": "cur.deleteCurrentLine();",
-            "dw": "cur.deleteCurrentWord();",
-            "d0": "cur.deleteCurrentLineToStart();",
-            "d\\$": "cur.deleteCurrentLineToEnd();",
-            "dgg": [
+        {
+            "command": "gg",
+            "handler": "cur.goFileTop();",
+            "description": ""
+        },
+        {
+            "command": "G",
+            "handler": "cur.goFileEnd();",
+            "description": ""
+        },
+        {
+            "command": "(\\d+)gg",
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.move(line, cur.getCol());"
+            ],
+            "description": ""
+        },
+        {
+            "command": "(\\d+)G",
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.move(line, cur.getCol());"
+            ],
+            "description": ""
+        },
+        {
+            "command": ":(\\d+)",
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.move(line, cur.getCol());"
+            ],
+            "description": ""
+        },
+        {
+            "command": "/(.+)",
+            "handler": [
+                "var word = matches[1];",
+                "cur.searchNext(word);"
+            ],
+            "description": ""
+        },
+        {
+            "command": "\\?(.+)",
+            "handler": [
+                "var word = matches[1];",
+                "cur.searchPrev(word);"
+            ],
+            "description": ""
+        },
+        {
+            "command": "\\*",
+            "handler": [
+                "var word = cur.getCurrentWord();",
+                "cur.searchNext(word);"
+            ],
+            "description": ""
+        },
+        {
+            "command": "#",
+            "handler": [
+                "var word = cur.getCurrentWord();",
+                "cur.searchPrev(word);"
+            ],
+            "description": ""
+        },
+
+        {
+            "command": "%",
+            "handler": "cur.goMatchedPair();",
+            "description": ""
+        },
+
+        {
+            "command": "dd",
+            "handler": "cur.deleteCurrentLine();",
+            "description": ""
+        },
+        {
+            "command": "D",
+            "handler": [
+                "var tmpCur = cur.getProperty();",
+                "cur.escape();",
+                "cur.goLineEnd(1);",
+                "cur.deleteBack();",
+                "cur.loadProperty(tmpCur);"
+            ],
+            "description": ""
+        },
+        {
+            "command": "diw",
+            "handler": "cur.deleteCurrentWord();",
+            "description": ""
+        },
+        {
+            "command": ":(\\d+)d",
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.deleteLine(line);"
+            ],
+            "description": ""
+        },
+        {
+            "command": "d0",
+            "handler": "cur.deleteCurrentLineToStart();",
+            "description": ""
+        },
+        {
+            "command": "d\\^",
+            "handler": "cur.deleteCurrentLineToStart();",
+            "description": ""
+        },
+        {
+            "command": "d\\$",
+            "handler": "cur.deleteCurrentLineToEnd();",
+            "description": ""
+        },
+        {
+            "command": "dgg",
+            "handler": [
                 "cur.goFileTop(1);",
                 "cur.deleteBack();"
             ],
-            "dG": [
+            "description": ""
+        },
+        {
+            "command": "dG",
+            "handler": [
                 "cur.goFileEnd(1);",
                 "cur.deleteBack();"
             ],
+            "description": ""
+        },
 
-            "u": "cur.undo();",
-            "r": "cur.redo();",
+        {
+            "command": "u",
+            "handler": "cur.undo();",
+            "description": ""
+        },
+        {
+            "command": "r",
+            "handler": "cur.redo();",
+            "description": ""
+        },
 
-            "y": "Editor.Copy(0);",
-            "yy": [
+        {
+            "command": "y",
+            "handler": "cur.copy();",
+            "description": ""
+        },
+        {
+            "command": "yy",
+            "handler": [
                 "var tmpCur = cur.getProperty();",
                 "cur.goLineTop(0);",
                 "cur.goLineEnd(1);",
                 "Editor.Copy(0);",
                 "cur.loadProperty(tmpCur);"
             ],
-            "p": "Editor.Paste(0);"
-    },
-    "externals" : []
+            "description": ""
+        },
+        {
+            "command": "y",
+            "handler": "cur.copy();",
+            "description": ""
+        }
+    ],
+    "externals" : [
+        "/plugins/CommentOut/CommandListenerConfig.json"
+    ]
 }

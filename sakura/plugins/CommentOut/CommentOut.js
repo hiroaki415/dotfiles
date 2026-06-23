@@ -7,7 +7,6 @@ wsh = null;
 
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/DevUtils/Decorator.js'));
 eval(loadModule('/plugins/DevUtils/Cursor.js'));
 eval(loadModule('/plugins/DevUtils/Config.js'));
 eval(loadModule('/plugins/DevUtils/Utility.js'));
@@ -31,7 +30,7 @@ function CommentOut() {
             cur.insertText(comDelim + ' ');
             cur.loadProperty(originCur, offset);
         } else {
-            UnComment();
+            Uncomment();
         }
     } else {
 
@@ -52,12 +51,12 @@ function CommentOut() {
             }
             cur.loadProperty(originCur);
         } else {
-            UnComment();
+            Uncomment();
         }
     }
 }
 
-function UnComment() {
+function Uncomment() {
 
     var cur = new Cursor();
     var originCur = cur.getProperty();
@@ -72,16 +71,3 @@ function UnComment() {
     }
 
 }
-
-
-(function() {
-    var cmd = Plugin.GetCommandNo();
-    switch (cmd) {
-        case 1:
-            CommandDecorator(CommentOut)();
-            break;
-        case 2:
-            CommandDecorator(UnComment)();
-            break;
-    }
-})();
