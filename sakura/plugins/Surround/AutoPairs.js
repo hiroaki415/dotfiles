@@ -1,0 +1,62 @@
+var wsh = new ActiveXObject("WScript.Shell");
+var root = wsh.ExpandEnvironmentStrings("%APPDATA%") + '\\sakura';
+var fso = new ActiveXObject('Scripting.FileSystemObject');
+var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js').ReadAll();
+fso = null;
+wsh = null;
+
+
+eval(loadModuleRaw);
+eval(loadModule('/plugins/DevUtils/Decorator.js'));
+eval(loadModule('/plugins/DevUtils/Cursor.js'));
+eval(loadModule('/plugins/DevUtils/Utility.js'));
+
+
+function AutoPairs (openStr, closeStr) {
+
+    var cur = new Cursor();
+
+    if (cur.getStateSelection() === cur.stateEnum.selected ) {
+
+        var originCur = cur.getProperty();
+
+        cur.move(originCur.lineTo, originCur.colTo, 0);
+        cur.insertText(closeStr);
+        cur.move(originCur.lineFrom, originCur.colFrom, 0);
+        cur.insertText(openStr);
+        cur.loadProperty(originCur, openStr.length);
+
+    } else {
+        cur.insertText(openStr + closeStr);
+        cur.moveLeft();
+    }
+
+}
+
+
+(function() {
+
+    var cmd = Plugin.GetCommandNo();
+
+    switch (cmd) {
+        case 1:  //Pairs
+            CommandDecorator(AutoPairs)('(', ')');
+            break;
+        case 2:  //SquareBrackets
+            CommandDecorator(AutoPairs)('[', ']');
+            break;
+        case 3:  //CurlyBrackets
+            CommandDecorator(AutoPairs)('{', '}');
+            break;
+        case 4:  //AngleBrackets
+            CommandDecorator(AutoPairs)('<', '>');
+            break;
+        case 5:  //SingleQuotes
+            CommandDecorator(AutoPairs)("'", "'");
+            break;
+        case 6:  //DoubleQuotes
+            CommandDecorator(AutoPairs)('"', '"');
+            break;
+    }
+
+})();
