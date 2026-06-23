@@ -16,13 +16,19 @@ function FormatEnter() {
     var cur = new Cursor();
     cur.undo();
     var conf = new Config();
+    var comDelim = conf.getLineCommentDelimiter();
     var nlcode = conf.getNewLineCode();
     var depth = Utility.getRepeatedStr(' ', cur.getNestDepth())
-    var indent = conf.getIndent();
+
+    if (cur.isCommentLine()) {
+        cur.insertText(nlcode);
+        cur.insertText(depth + comDelim + ' ');
+        return;
+    }
+    
     var prevChar = cur.getPrevChar();
     var lineText = cur.getLineTextBeforeCursor();
-    var matches = lineText.match(/<([a-zA-Z_][\w_\.\-]*)(\s+.*)?>$/);
-
+    var matches = lineText.match(/<([a-zA-Z_][\w:.-]*)(?:\s+[^>]*[^>/])*>$/);
     var flag = 
         prevChar === '(' ||
         prevChar === '[' ||
@@ -30,7 +36,6 @@ function FormatEnter() {
         // prevChar === '<' ||
         prevChar === ':' ||
         matches !== null
-
     if (flag) {
         var nextChar = cur.getNextChar();
         var closing = '';
@@ -39,14 +44,17 @@ function FormatEnter() {
         if (prevChar === '{' && nextChar !== '}') { closing = '}' }
         // if (prevChar === '<' && nextChar !== '>') { closing = '>' }
         if (matches) { closing = '</' + matches[1] + '>' }
-
+        var indent = conf.getIndent();
         cur.insertText(nlcode);
         cur.insertText(depth + indent + nlcode);
         cur.insertText(depth + closing);
         cur.moveUp();
         cur.goLineEnd();
-    } else {
-        cur.insertText(nlcode);
-        cur.insertText(depth);
+        return;
     }
+
+    // else
+    cur.insertText(nlcode);
+    cur.insertText(depth);
+    
 }
