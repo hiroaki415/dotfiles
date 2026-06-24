@@ -1,0 +1,80 @@
+{
+    "modules": [],
+    "preloads": [],
+    "commands": {
+        "y": {
+            "handler": "cur.copy();",
+            "description": ""
+        },
+        "yy": {
+            "handler": [
+                "var tmpCur = cur.getProperty();",
+                "cur.goLineTop(0);",
+                "cur.goLineEnd(1);",
+                "Editor.Copy(0);",
+                "cur.loadProperty(tmpCur);"
+            ],
+            "description": ""
+        },
+        "dd": {
+            "handler": "cur.deleteCurrentLine();",
+            "description": ""
+        },
+        "D": {
+            "handler": [
+                "var tmpCur = cur.getProperty();",
+                "cur.escape();",
+                "cur.goLineEnd(1);",
+                "cur.deleteBack();",
+                "cur.loadProperty(tmpCur);"
+            ],
+            "description": ""
+        },
+        "diw": {
+            "handler": "cur.deleteCurrentWord();",
+            "description": ""
+        },
+        ":(\\d+)d": {
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.deleteLine(line);"
+            ],
+            "description": ""
+        },
+        "d0": {
+            "handler": "cur.deleteCurrentLineToStart();",
+            "description": ""
+        },
+        "d\\^": {
+            "handler": "cur.deleteCurrentLineToStart();",
+            "description": ""
+        },
+        "d\\$": {
+            "handler": "cur.deleteCurrentLineToEnd();",
+            "description": ""
+        },
+        "dgg": {
+            "handler": [
+                "cur.goFileTop(1);",
+                "cur.deleteBack();"
+            ],
+            "description": ""
+        },
+        "dG": {
+            "handler": [
+                "cur.goFileEnd(1);",
+                "cur.deleteBack();"
+            ],
+            "description": ""
+        },
+
+        "u": {
+            "handler": "cur.undo();",
+            "description": ""
+        },
+        "r": {
+            "handler": "cur.redo();",
+            "description": ""
+        }
+    }
+}

@@ -18,7 +18,7 @@ function CommandListener() {
             var tmpConf = Utility.evalAsObject(loadModule(comConf.externals[i]));
             comConf.modules = comConf.modules.concat(tmpConf.modules);
             comConf.preloads = comConf.preloads.concat(tmpConf.preloads);
-            comConf.commands = comConf.commands.concat(tmpConf.commands);
+            comConf.commands = Utility.mergeObjects([comConf.commands, tmpConf.commands]);
         }
     }
     for (var i = 0; i < comConf.modules.length; i++) {
@@ -27,10 +27,12 @@ function CommandListener() {
     for (var i = 0; i < comConf.preloads.length; i++) {
         eval(comConf.preloads[i]);
     }
+
     var inCmd = Editor.InputBox('Input Command', '', 255);
-    for (var i = 0; i < comConf.commands.length; i++) {
-        var cmd = comConf.commands[i].command;
-        var handler = comConf.commands[i].handler;
+    var result = null;
+
+    for (var cmd in comConf.commands) {
+        var handler = comConf.commands[cmd].handler;
         var matches = inCmd.match(new RegExp('^' + cmd + '$'));
         if (matches) {
             if (typeof(handler) === 'string') {
@@ -43,6 +45,7 @@ function CommandListener() {
             break;
         }
     }
+    return result;
 }
 
 

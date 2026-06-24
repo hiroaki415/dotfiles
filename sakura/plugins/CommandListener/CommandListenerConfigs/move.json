@@ -1,0 +1,82 @@
+{
+    "modules": [],
+    "preloads": [],
+    "commands": {
+        "0": {
+            "handler": "cur.goLineTop(0, true);",
+            "description": ""
+        },
+        "\\^": {
+            "handler": "cur.goLineTop(0, false);",
+            "description": ""
+        },
+        "\\$": {
+            "handler": "cur.goLineEnd();",
+            "description": ""
+        },
+
+        "gg": {
+            "handler": "cur.goFileTop();",
+            "description": ""
+        },
+        "G": {
+            "handler": "cur.goFileEnd();",
+            "description": ""
+        },
+
+        "(\\d+)gg": {
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.move(line, cur.getCol());"
+            ],
+            "description": ""
+        },
+        "(\\d+)G": {
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.move(line, cur.getCol());"
+            ],
+            "description": ""
+        },
+        ":(\\d+)": {
+            "handler": [
+                "var line = Number(matches[1]);",
+                "cur.move(line, cur.getCol());"
+            ],
+            "description": ""
+        },
+        "%": {
+            "handler": "cur.goMatchedPair();",
+            "description": ""
+        },
+
+        "/(.+)": {
+            "handler": [
+                "var word = matches[1];",
+                "cur.searchNext(word);"
+            ],
+            "description": ""
+        },
+        "\\?(.+)": {
+            "handler": [
+                "var word = matches[1];",
+                "cur.searchPrev(word);"
+            ],
+            "description": ""
+        },
+        "\\*": {
+            "handler": [
+                "var word = cur.getCurrentWord();",
+                "cur.searchNext(word);"
+            ],
+            "description": ""
+        },
+        "#": {
+            "handler": [
+                "var word = cur.getCurrentWord();",
+                "cur.searchPrev(word);"
+            ],
+            "description": ""
+        }
+    }
+}

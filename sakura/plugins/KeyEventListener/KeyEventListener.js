@@ -23,6 +23,7 @@ function KeyEventListener() {
         }
     }
     if (Utility.existsAsKey(chr, comConf.handlers)) {
+        var result = null;
         for (var i = 0; i < comConf.modules.length; i++) {
             eval(loadModule(comConf.modules[i]));
         }
@@ -36,6 +37,7 @@ function KeyEventListener() {
                 eval(comConf.handlers[chr][i]);
             }
         }
+        return result;
     }
 }
 
