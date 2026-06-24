@@ -14,10 +14,8 @@ var Utility = {
         return temp;
     },
 
-    getRepeatedStr : function(str, rep) {
-        var ret = '';
-        for (var i = 0; i < rep; i++) { ret += str; }
-        return ret;
+    repeatString : function(str, num) {
+        return Array(num + 1).join(str);
     },
 
     padLeft : function(num, digits) {
@@ -37,28 +35,6 @@ var Utility = {
         return obj && obj.constructor === Object;
     },
 
-
-    getMaxInArray : function(arr) {
-        if (arr.length === 0) return null;
-        var max = arr[0];
-        for (var i = 1; i < arr.length; i++) {
-            if (arr[i] > max) {
-                max = arr[i];
-            }
-        }
-        return max;
-    },
-
-    getMinInArray : function(arr) {
-        if (arr.length === 0) return null;
-        var min = arr[0];
-        for (var i = 1; i < arr.length; i++) {
-            if (arr[i] < min) {
-                min = arr[i];
-            }
-        }
-        return min;
-    },
 
     existsInArray : function(target, arr) {
         for (var i = 0; i < arr.length; i++) {
@@ -195,12 +171,12 @@ var Utility = {
             var arr = [];
             for (var i = 0; i < obj.length; i++) {
                 arr.push(
-                    Utility.getRepeatedStr(' ', (depth + 1) * 4) + 
+                    Utility.repeatString(' ', (depth + 1) * 4) + 
                     Utility.JsonStringify(obj[i], depth + 1)
                 );
             }
             var ret = '[\n';
-            ret += arr.join(',\n') + '\n' + Utility.getRepeatedStr(' ', depth * 4) + ']';
+            ret += arr.join(',\n') + '\n' + Utility.repeatString(' ', depth * 4) + ']';
             return ret;
         }
         if (type === 'object') {
@@ -208,14 +184,14 @@ var Utility = {
             for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
                     pairs.push(
-                        Utility.getRepeatedStr(' ', (depth + 1) * 4) + 
+                        Utility.repeatString(' ', (depth + 1) * 4) + 
                         '"' + key + '":' + Utility.JsonStringify(obj[key], depth + 1)
                     );
                 }
             }
             var ret = '{\n';
             ret += pairs.join(',\n');
-            ret += '\n' + Utility.getRepeatedStr(' ', depth * 4) + '}';
+            ret += '\n' + Utility.repeatString(' ', depth * 4) + '}';
             return ret;
         }
         return 'null';

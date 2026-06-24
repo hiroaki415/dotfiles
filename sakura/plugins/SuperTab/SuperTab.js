@@ -15,17 +15,11 @@ eval(loadModule('/plugins/DevUtils/Utility.js'));
 function SuperTab() {
 
     var cur = new Cursor();
-
-    if (/[a-zA-Z_]/.test(cur.getPrevChar())) {
-        Editor.Complete();
-        return;
-    }
-
     var originCur = cur.getProperty();
     var conf = new Config();
-    var offset = conf.getIndent().length;
+    var offset = conf.getIndentBlock().length;
 
-    if (cur.isNotSelected()) {
+    if (cur.isSelected()) {
         Editor.AddRefUndoBuffer();
         Editor.SetDrawSwitch(0);
         cur.indent();
@@ -36,7 +30,12 @@ function SuperTab() {
         return;
     }
 
-    if (cur.isSelected()) {
+    if (/[a-zA-Z_]/.test(cur.getPrevChar())) {
+        Editor.Complete();
+        return;
+    }
+
+    if (cur.isNotSelected()) {
         Editor.AddRefUndoBuffer();
         Editor.SetDrawSwitch(0);
         cur.indent();

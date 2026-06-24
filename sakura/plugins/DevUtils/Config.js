@@ -51,9 +51,20 @@ function Config() {
         if (flag === '0') {
             return '\t';
         } else {
-            return Utility.getRepeatedStr(' ', this.getTabWidth());
+            return ' ';
         }
-        return Utility.getRepeatedStr(' ', this.getTabWidth());
+        return ' ';
+    };
+    this.getIndentBlock = function() {
+        var typeNum = this.getTypeNumber();
+        if (typeNum < 0) { return null; }
+        var flag = this.ini.get('Types(' + typeNum + ')', 'bInsSpace');
+        if (flag === '0') {
+            return '\t';
+        } else {
+            return Utility.repeatString(' ', this.getTabWidth());
+        }
+        return Utility.repeatString(' ', this.getTabWidth());
     };
     this.getNewLineCode = function() {
         switch (Editor.GetLineCode()) {

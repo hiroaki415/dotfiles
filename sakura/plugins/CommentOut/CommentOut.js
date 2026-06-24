@@ -42,7 +42,7 @@ function CommentOut() {
         }
 
         if (cur.isCommentLine(originCur.line) === false) {
-            var minDep = Utility.getMinInArray(nestDeps);
+            var minDep = Math.min.apply(null, nestDeps);
             for (var i = originCur.lineFrom;  i <= originCur.lineTo;  i++) {
                 if (cur.isBlankLine(i) === false) { 
                     cur.move(i, minDep + 1, 0);

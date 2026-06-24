@@ -18,7 +18,7 @@ function FormatEnter() {
     var conf = new Config();
     var comDelim = conf.getLineCommentDelimiter();
     var nlcode = conf.getNewLineCode();
-    var depth = Utility.getRepeatedStr(' ', cur.getNestDepth())
+    var depth = Utility.repeatString(' ', cur.getNestDepth())
 
     if (cur.isCommentLine()) {
         cur.insertText(nlcode);
@@ -44,7 +44,7 @@ function FormatEnter() {
         if (prevChar === '{' && nextChar !== '}') { closing = '}' }
         // if (prevChar === '<' && nextChar !== '>') { closing = '>' }
         if (matches) { closing = '</' + matches[1] + '>' }
-        var indent = conf.getIndent();
+        var indent = conf.getIndentBlock();
         cur.insertText(nlcode);
         cur.insertText(depth + indent + nlcode);
         cur.insertText(depth + closing);
