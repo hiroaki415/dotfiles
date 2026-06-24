@@ -144,6 +144,21 @@ var Utility = {
         return eval('(' + str + ')');
     },
 
+    mergeObjects: function (objs, overWrite) {
+        if (overWrite === undefined) { overWrite = false; }
+        var result = {};
+        for (var i = 0; i < objs.length; i++) {
+            for (var key in objs[i]) {
+                if (objs[i].hasOwnProperty(key)) {
+                    if (!Utility.existsAsKey(key, result) || overWrite) {
+                        result[key] = objs[i][key];
+                    }
+                }
+            }
+        }
+        return result;
+    },
+
     transformObjectIntoPlain : function(obj) {
         var pobj = {};
         for (var key in obj) {
