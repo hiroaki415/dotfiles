@@ -17,34 +17,44 @@ function SuperTab() {
     var cur = new Cursor();
     var originCur = cur.getProperty();
     var conf = new Config();
+    var indent = conf.getIndent();
     var offset = conf.getIndentBlock().length;
+    var prevChar = cur.getPrevChar();
 
     if (cur.isSelected()) {
-        Editor.AddRefUndoBuffer();
-        Editor.SetDrawSwitch(0);
-        cur.indent();
-        cur.loadProperty(originCur, offset);
-        Editor.SetDrawSwitch(1);
-        Editor.ReDraw(0);
-        Editor.SetUndoBuffer();
+        CommandDecorator(function() {
+            cur.indent();
+            cur.loadProperty(originCur, offset);
+        })();
         return;
     }
 
-    if (/[a-zA-Z_]/.test(cur.getPrevChar())) {
+    if ((prevChar === ' ' || prevChar === null) && cur.isBlankLine()) {
+        CommandDecorator(function() {
+            cur.goLineEnd();
+            var dep = cur.getNestDepth();
+            var prevDep = cur.getPrevNestDepth();
+            if (dep < prevDep) {
+                cur.insertText(Utility.repeatString(indent, prevDep - dep));
+            } else {
+                cur.indent();
+                cur.loadProperty(originCur, offset);
+            }
+        })();
+        return;
+    }
+
+    if (prevChar !== null && /[a-zA-Z_]/.test(prevChar)) {
         Editor.Complete();
         return;
     }
 
-    if (cur.isNotSelected()) {
-        Editor.AddRefUndoBuffer();
-        Editor.SetDrawSwitch(0);
+    // else
+    CommandDecorator(function() {
         cur.indent();
         cur.loadProperty(originCur, offset);
-        Editor.SetDrawSwitch(1);
-        Editor.ReDraw(0);
-        Editor.SetUndoBuffer();
-        return;
-    }
+    })();
+    return;
 
 }
 
@@ -52,7 +62,7 @@ function ShiftTab() {
     var cur = new Cursor();
     var originCur = cur.getProperty();
     var conf = new Config();
-    var offset = conf.getIndent().length;
+    var offset = conf.getIndentBlock().length;
     if (cur.isNotSelected()) {
         cur.move(cur.getLine(), cur.getCol() - 1, 1);
         cur.unindent();
@@ -61,6 +71,7 @@ function ShiftTab() {
     }
     if (cur.isSelected()) {
         cur.unindent();
+        cur.loadProperty(originCur, -offset);
         return;
     }
 }

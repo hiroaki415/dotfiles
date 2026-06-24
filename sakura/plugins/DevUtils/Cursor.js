@@ -286,6 +286,19 @@ function Cursor() {
         var match = lineStr.match(/^(\s*)/);
         return match ? match[1].length : 0;
     };
+    this.getPrevNestDepth = function() {
+        var originCur = this.getProperty();
+        var dep = this.getNestDepth();
+        while (!this.isFirstLine()) {
+            this.moveUp();
+            if (!this.isBlankLine()) {
+                dep = this.getNestDepth();
+                break;
+            }
+        }
+        this.loadProperty(originCur);
+        return dep;
+    };
     this.getPrevChar = function() {
         var chr = null;
         if (!this.isBeginOfLine()) {
