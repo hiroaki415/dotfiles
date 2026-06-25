@@ -1,18 +1,16 @@
 var wsh = new ActiveXObject("WScript.Shell");
 var root = wsh.ExpandEnvironmentStrings("%APPDATA%") + '\\sakura';
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js').ReadAll();
+var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevLib/src/LoadModule.js').ReadAll();
 fso = null;
 wsh = null;
 
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/DevUtils/Decorator.js'));
-eval(loadModule('/plugins/DevUtils/Utility.js'));
+eval(loadModule('/plugins/DevLib/src/Utility.js'));
 
 
-function KeyEventListener() {
-    var chr = Indent.GetChar();
+function KeyEventListener(chr) {
     var comConf = Utility.evalAsObject(loadModule('/plugins/KeyEventListener/KeyEventListenerConfig.json'));
     if (Utility.isArray(comConf.externals)) {
         for (var i = 0; i < comConf.externals.length; i++) {
@@ -40,6 +38,3 @@ function KeyEventListener() {
         return result;
     }
 }
-
-
-CommandDecorator(KeyEventListener)();

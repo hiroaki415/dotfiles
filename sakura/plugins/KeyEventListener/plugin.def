@@ -7,6 +7,9 @@ Version=1.0
 Url=
 Author=hiro
 
+[Wsh]
+UseCache=0
+
 [Plug]
-SmartIndent=KeyEventListener.js
+SmartIndent=PluginEntry.js
 SmartIndent.Label=KeyEventListener

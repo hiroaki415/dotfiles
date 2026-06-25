@@ -7,13 +7,20 @@ Version=1.0
 Url=
 Author=hiro
 
+[Wsh]
+UseCache=0
+
 [Plug]
-DocumentOpen=BlurryCherry.js
+DocumentOpen=PluginEntry.js
 DocumentOpen.Label=BlurryCherry
+
+[Command]
+C[1]=PluginEntry.js
+C[1].Label=Blur
 
 [Option]
 O[1].Section=Option
-O[1].Label=ìßâﬂìx(ç≈ëÂíl255)
+O[1].Label=ìßâﬂìx(30-255)
 O[1].Key=alpha
 O[1].Type=Int
 O[1].Default=230

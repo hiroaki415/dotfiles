@@ -7,6 +7,9 @@ Version=1.0
 Url=
 Author=hiro
 
+[Wsh]
+UseCache=0
+
 [Command]
 C[1]=AutoPairs.js
 C[1].Label=Pairs

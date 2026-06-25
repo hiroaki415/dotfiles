@@ -1,11 +1,14 @@
 [Plugin]
-Id=CommentOut
-Name=CommentOut
-Description=CommentOut
+Id=Commentary
+Name=Commentary
+Description=Commentary
 Type=wsh
 Version=1.0
 Url=
 Author=hiro
+
+[Wsh]
+UseCache=0
 
 [Command]
 C[1]=PluginEntry.js

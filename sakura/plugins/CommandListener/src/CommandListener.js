@@ -1,17 +1,16 @@
 var wsh = new ActiveXObject("WScript.Shell");
 var root = wsh.ExpandEnvironmentStrings("%APPDATA%") + '\\sakura';
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js').ReadAll();
+var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevLib/src/LoadModule.js').ReadAll();
 fso = null;
 wsh = null;
 
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/DevUtils/Decorator.js'));
-eval(loadModule('/plugins/DevUtils/Utility.js'));
+eval(loadModule('/plugins/DevLib/src/Utility.js'));
 
 
-function CommandListener() {
+function CommandListener(inCmd) {
     var comConf = Utility.evalAsObject(loadModule('/plugins/CommandListener/CommandListenerConfig.json'));
     if (Utility.isArray(comConf.externals)) {
         for (var i = 0; i < comConf.externals.length; i++) {
@@ -28,9 +27,7 @@ function CommandListener() {
         eval(comConf.preloads[i]);
     }
 
-    var inCmd = Editor.InputBox('Input Command', '', 255);
     var result = null;
-
     for (var cmd in comConf.commands) {
         var handler = comConf.commands[cmd].handler;
         var matches = inCmd.match(new RegExp('^' + cmd + '$'));
@@ -47,6 +44,3 @@ function CommandListener() {
     }
     return result;
 }
-
-
-CommandDecorator(CommandListener)();

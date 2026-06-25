@@ -1,15 +1,15 @@
 var wsh = new ActiveXObject("WScript.Shell");
 var root = wsh.ExpandEnvironmentStrings("%APPDATA%") + '\\sakura';
 var fso = new ActiveXObject('Scripting.FileSystemObject');
-var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevUtils/LoadModule.js').ReadAll();
+var loadModuleRaw = fso.OpenTextFile(root + '/plugins/DevLib/src/LoadModule.js').ReadAll();
 fso = null;
 wsh = null;
 
 
 eval(loadModuleRaw);
-eval(loadModule('/plugins/DevUtils/Decorator.js'));
-eval(loadModule('/plugins/DevUtils/Cursor.js'));
-eval(loadModule('/plugins/DevUtils/Utility.js'));
+eval(loadModule('/plugins/DevLib/src/Cursor.js'));
+eval(loadModule('/plugins/DevLib/src/Config.js'));
+eval(loadModule('/plugins/DevLib/src/Utility.js'));
 
 
 function SuperTab() {
@@ -75,16 +75,3 @@ function ShiftTab() {
         return;
     }
 }
-
-
-(function() {
-    var cmd = Plugin.GetCommandNo();
-    switch (cmd) {
-    case 1:
-        SuperTab();
-        break;
-    case 2:
-        CommandDecorator(ShiftTab)();
-        break;
-    }
-})();

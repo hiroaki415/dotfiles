@@ -7,6 +7,13 @@ var Utility = {
         return home;
     },
 
+    getAppDir : function() {
+        var shell = new ActiveXObject('WScript.Shell');
+        var home = shell.ExpandEnvironmentStrings('%APPDATA%');
+        shell = null;
+        return home;
+    },
+
     getTempDir : function() {
         var shell = new ActiveXObject('WScript.Shell');
         var temp = shell.ExpandEnvironmentStrings('%TEMP%');

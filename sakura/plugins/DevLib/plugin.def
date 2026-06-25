@@ -1,0 +1,11 @@
+[Plugin]
+Id=DevLib
+Name=DevLib
+Description=DevLib
+Type=wsh
+Version=1.0
+Url=
+Author=hiro
+
+[Wsh]
+UseCache=0

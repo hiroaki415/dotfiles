@@ -1,6 +1,6 @@
 {
     "modules": [
-        "/plugins/CommentOut/CommentOut.js"
+        "/plugins/Commentary/src/Commentary.js"
     ],
     "preloads": [],
     "commands": [

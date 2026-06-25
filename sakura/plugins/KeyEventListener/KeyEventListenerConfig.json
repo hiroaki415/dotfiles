@@ -1,6 +1,6 @@
 {
     "modules": [
-        "/plugins/KeyEventListener/FormatEnter.js"
+        "/plugins/KeyEventListener/src/FormatEnter.js"
     ],
     "preloads": [
         "var cur = new Cursor();"

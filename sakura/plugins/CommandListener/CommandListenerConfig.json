@@ -7,13 +7,13 @@
     ],
     "commands": {
         "Commands_Regular_Expression": {
-            "handler": "// write command's process here",
+            "handler": "// write command's process here.",
             "description": "This is Command Sample."
         }
     },
     "externals" : [
         "/plugins/CommandListener/CommandListenerConfigs/move.json",
         "/plugins/CommandListener/CommandListenerConfigs/edit.json",
-        "/plugins/CommentOut/CommandListenerConfigs/CommentOut.json"
+        "/plugins/Commentary/CommandListenerConfigs/Commentary.json"
     ]
 }
