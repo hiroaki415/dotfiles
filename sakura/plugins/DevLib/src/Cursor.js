@@ -55,7 +55,8 @@ function Cursor() {
     this.moveUp = function() {this.move(this.getLine() - 1, this.getCol(), 0); };
     this.moveDown = function() { this.move(this.getLine() + 1, this.getCol(), 0); };
     this.selectCurrentWord = function() { Editor.SelectWord(); }
-    this.moveWordLeft = function(opt) {
+
+    this.goWordLeft = function(opt) {
         if (opt === undefined) { opt = 0; }
         switch (opt) {
             case 0:
@@ -69,7 +70,7 @@ function Cursor() {
                 break;
         }
     };
-    this.moveWordRight = function(opt) {
+    this.goWordRight = function(opt) {
         if (opt === undefined) { opt = 0; }
         switch (opt) {
             case 0:
@@ -321,33 +322,98 @@ function Cursor() {
         }
         return chr;
     };
-
-    this.searchNext = function(str, option) {
-        if (option === undefined) { option = 0; }
-        Editor.SearchNext(str, option);
-        var tmpCur = this.getProperty();
-        Editor.CancelMode(0);
-        Editor.SearchClearMark();
-        this.loadProperty(tmpCur);
-    };
-    this.searchPrev = function(str, option) {
-        if (option === undefined) { option = 0; }
-        Editor.SearchPrev(str, option);
-        var tmpCur = this.getProperty();
-        Editor.CancelMode(0);
-        Editor.SearchClearMark();
-        this.loadProperty(tmpCur);
-    };
     this.getWordList = function(line) {
         if (line === undefined) { line = this.getLine(); }
         var words = Utility.deleteNullOrEmpty(this.getLineText(line).split(' '));
         return words;
     };
 
+    this.searchNext = function(str, clearMark, option) {
+        if (clearMark === undefined) { clearMark = true; }
+        if (option === undefined) { option = 0x802; }
+        Editor.SearchNext(str, option);
+        var tmpCur = this.getProperty();
+        this.escape();
+        if (clearMark) { Editor.SearchClearMark(); }
+        this.loadProperty(tmpCur);
+    };
+    this.searchPrev = function(str, clearMark, option) {
+        if (clearMark === undefined) { clearMark = true; }
+        if (option === undefined) { option = 0x802; }
+        Editor.SearchPrev(str, option);
+        var tmpCur = this.getProperty();
+        this.escape();
+        if (clearMark) { Editor.SearchClearMark(); }
+        this.loadProperty(tmpCur);
+    };
+    this.selectLine = function(line) {
+        if (line === undefined) { line = this.getLine(); }
+        var originCur = this.getProperty();
+        this.move(line, 1);
+        if (this.getLine() !== line) {
+            this.loadProperty(originCur);
+            return '[Cursor]Info: line ' + line + ' does not exist.';
+        }
+        this.goLineEnd(1);
+    };
+    this.selectInsidePairs = function(pairChar) {
+        if (pairChar === '(' || pairChar === ')') { var opening = '(';var closing = ')'; }
+        if (pairChar === '[' || pairChar === ']') { var opening = '[';var closing = ']'; }
+        if (pairChar === '{' || pairChar === '}') { var opening = '{';var closing = '}'; }
+        if (pairChar === '<' || pairChar === '>') { var opening = '<';var closing = '>'; }
+        var originCur = this.getProperty();
+        this.searchPrev(opening);
+        var opCur = this.getProperty();
+        this.goMatchedPair();
+        var clCur = this.getProperty();
+        if (originCur.line > clCur.line || (originCur.line === clCur.line && originCur.col > clCur.col)) {
+            this.loadProperty(originCur);
+            return '[Cursor]Info: Cursor is not inside ' + opening + closing + ' currently.';
+        }
+        this.move(opCur.line, opCur.col + 1, 1);
+    };
+    this.selectInsideQuotes = function(quoteChar) {
+        var originCur = this.getProperty();
+        while (true) {
+            var tmpCur = this.getProperty();
+            this.searchPrev(quoteChar);
+            if (this.getLine() === tmpCur.line && this.getCol() === tmpCur.col) {
+                this.loadProperty(originCur);
+                return '[Cursor]Info: Cursor is not inside ' + quoteChar + quoteChar + ' currently.';
+            }
+            if (this.getPrevChar() !== '\\') {
+                var opCur = this.getProperty();
+                break;
+            }
+        }
+        while (true) {
+            var tmpCur = this.getProperty();
+            this.searchNext(quoteChar);
+            if (this.getLine() === tmpCur.line && this.getCol() === tmpCur.col) {
+                this.loadProperty(originCur);
+                return '[Cursor]Info: Cursor is not inside ' + quoteChar + quoteChar + ' currently.';
+            }
+            if (this.getPrevChar() !== '\\') {
+                this.escape();
+                var clCur = this.getProperty();
+                break;
+            }
+        }
+        if (originCur.line > clCur.line || (originCur.line === clCur.line && originCur.col > clCur.col)) {
+            this.loadProperty(originCur);
+            return '[Cursor]Info: Cursor is not inside ' + quoteChar + quoteChar + ' currently.';
+        }
+        this.move(opCur.line, opCur.col + 1, 1);
+    };
+
     this.deleteLine = function(line) {
         if (line === undefined) { line = this.getLine(); }
         var originCur = this.getProperty();
         this.move(line, 1);
+        if (this.getLine() !== line) {
+            this.loadProperty(originCur);
+            return '[Cursor]Info: line ' + line + ' does not exist.';
+        }
         this.deleteCurrentLine();
         if (originCur.line > line) {
             originCur.line = originCur.line -1;
@@ -362,6 +428,10 @@ function Cursor() {
         if (line === undefined) { line = this.getLine(); }
         var originCur = this.getProperty();
         this.move(line, 1);
+        if (this.getLine() !== line) {
+            this.loadProperty(originCur);
+            return '[Cursor]Info: line ' + line + ' does not exist.';
+        }
         this.deleteCurrentLineToEnd();
         this.loadProperty(originCur);
     };
@@ -396,6 +466,23 @@ function Cursor() {
             }
             this.loadProperty(originCur, offset);
         }
+    };
+    this.toggleCaseInSelected = function() {
+        if (this.isSelected()) {
+            var originCur = this.getProperty();
+            var text = this.getSelectedText();
+            var toggledText = Utility.toggleCase(text);
+            this.deleteBack();
+            this.insertText(toggledText);
+            this.loadProperty(originCur);
+        }
+    };
+    this.toggleCaseOnLine = function(line) {
+        if (line === undefined) { line = this.getLine(); }
+        var originCur = this.getProperty();
+        this.selectLine(line);
+        this.toggleCaseInSelected();
+        this.loadProperty(originCur);
     };
 
 }
