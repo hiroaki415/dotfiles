@@ -1,6 +1,6 @@
 {
     "modules": [
-        "/plugins/DevUtils/Cursor.js"
+        "/plugins/DevLib/src/Cursor.js"
     ],
     "preloads": [
         "var cur = new Cursor();"
