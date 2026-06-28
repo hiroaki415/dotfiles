@@ -1,0 +1,85 @@
+{
+    "modules": [
+        "/plugins/DevLib/src/Cursor.js"
+    ],
+    "preloads": [
+        "var cur = new Cursor();"
+    ],
+    "operators": {
+        "y": "cur.copy();",
+        "d": "cur.deleteBack();",
+        "v": "",
+        "gU": "",
+        "gu": "",
+        "g~": ""
+    },
+    "motions": {
+        "h": "cur.moveLeft();",
+        "j": "cur.moveDown();",
+        "k": "cur.moveUp();",
+        "l": "cur.moveRight();",
+        "0": "cur.goLineTop(0, true);",
+        "\\^": "cur.goLineTop(0, false);",
+        "\\$": "cur.goLineEnd();",
+        "gg": "cur.goFileTop();",
+        "G": "cur.goFileEnd();",
+        "%": "cur.goMatchedPair();",
+        "w": "cur.goWordRight();",
+        "b": "cur.goWordLeft();",
+        "}": "Editor.GoNextParagraph();",
+        "{": "Editor.GoPrevParagraph();",
+        "f(.)": [
+            "var word = matches[1];",
+            "cur.searchNext(word, false, 0x0A);"
+        ],
+        "F(.)": [
+            "var word = matches[1];",
+            "cur.searchPrev(word, false, 0x0A);"
+        ],
+        "\\/(.+)": [
+            "var word = matches[1];",
+            "cur.searchNext(word, false, 0x0A);"
+        ],
+        "\\?(.+)": [
+            "var word = matches[1];",
+            "cur.searchPrev(word, false, 0x0A);"
+        ],
+        "\\*": [
+            "var word = cur.getCurrentWord();",
+            "cur.searchNext(word, false, 0x0A));"
+        ],
+        "#": [
+            "var word = cur.getCurrentWord();",
+            "cur.searchPrev(word, false, 0x0A));"
+        ],
+        ";": [
+            "var word = cur.getSelectedText();",
+            "Editor.SearchNext(word, false, 0x0A);"
+        ],
+        ",": [
+            "var word = cur.getSelectedText();",
+            "Editor.SearchPrev(word, false, 0x0A);"
+        ],
+        "n": [
+            "var word = cur.getSelectedText();",
+            "Editor.SearchNext(word, false, 0x0A);"
+        ],
+        "N": [
+            "var word = cur.getSelectedText();",
+            "Editor.SearchPrev(word, false, 0x0A);"
+        ],
+        "(i|a)w": "cur.selectCurrentWord();",
+        "(i|a)([\\(\\)\\[\\]\\{\\}<>])": [
+            "var chr = matches[1];",
+            "var result = cur.selectInsidePairs(chr);"
+        ],
+        "(i|a)([\\'\"])": [
+            "var chr = matches[1];",
+            "var result = cur.selectInsideQuotes(chr);"
+        ]
+    },
+    "standalones": {
+        
+    },
+    "external" : []
+}
