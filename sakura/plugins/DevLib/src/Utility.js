@@ -62,6 +62,16 @@ var Utility = {
         return false;
     },
 
+    getKeys : function(obj) {
+        var keys = [];
+        for (var k in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, k)) {
+                keys.push(k);
+            }
+        }
+        return keys;
+    },
+
     existsAsKey : function(key, obj) {
         for (var k in obj) {
             if (k === key) {
@@ -221,6 +231,20 @@ var Utility = {
 
     escapeRegExp : function(str) {
         return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+
+    toggleCase : function(str) {
+        var result = '';
+        for (var i = 0; i < str.length; i++) {
+            if (/^[a-z]$/.test(str.charAt(i))) {
+                result += str.charAt(i).toUpperCase();
+            } else if (/^[A-Z]$/.test(str.charAt(i))) {
+                result += str.charAt(i).toLowerCase();
+            } else {
+                result += str.charAt(i);
+            }
+        }
+        return result;
     },
 
     dummy : null
