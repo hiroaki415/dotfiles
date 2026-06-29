@@ -7,6 +7,7 @@ wsh = null;
 
 
 eval(loadModuleRaw);
+eval(loadModule('/plugins/KeyEventListener/src/GetXmlTagClosing.js'));
 eval(loadModule('/plugins/DevLib/src/Cursor.js'));
 eval(loadModule('/plugins/DevLib/src/Config.js'));
 eval(loadModule('/plugins/DevLib/src/Utility.js'));
@@ -27,24 +28,25 @@ function FormatEnter() {
     }
     
     var prevChar = cur.getPrevChar();
-    var lineText = cur.getLineTextBeforeCursor();
-    var matches = lineText.match(/<([a-zA-Z_][\w:.-]*)(?:\s+[^>]*[^>/])*>$/);
+    var lineTextBefore = cur.getLineTextBeforeCursor();
+    var tagClosing = GetXmlTagClosing(lineTextBefore);
     var flag = 
         prevChar === '(' ||
         prevChar === '[' ||
         prevChar === '{' ||
         // prevChar === '<' ||
         prevChar === ':' ||
-        matches !== null
+        tagClosing !== null
     if (flag) {
         var nextChar = cur.getNextChar();
+        var lineTextAfter = cur.getLineTextAfterCursor();
+        var indent = conf.getIndentBlock();
         var closing = '';
         if (prevChar === '(' && nextChar !== ')') { closing = ')' }
         if (prevChar === '[' && nextChar !== ']') { closing = ']' }
         if (prevChar === '{' && nextChar !== '}') { closing = '}' }
         // if (prevChar === '<' && nextChar !== '>') { closing = '>' }
-        if (matches) { closing = '</' + matches[1] + '>' }
-        var indent = conf.getIndentBlock();
+        if (tagClosing && lineTextAfter.substring(0, tagClosing.length) !== tagClosing) { closing = tagClosing }
         cur.insertText(nlcode);
         cur.insertText(depth + indent + nlcode);
         cur.insertText(depth + closing);

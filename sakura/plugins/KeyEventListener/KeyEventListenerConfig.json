@@ -1,6 +1,7 @@
 {
     "modules": [
-        "/plugins/KeyEventListener/src/FormatEnter.js"
+        "/plugins/KeyEventListener/src/FormatEnter.js",
+        "/plugins/KeyEventListener/src/GetXmlTagClosing.js"
     ],
     "preloads": [
         "var cur = new Cursor();"
@@ -26,7 +27,11 @@
             "cur.insertText('>');",
             "cur.moveLeft();"
         ],
-        ">:diisable": "if (cur.getNextChar() === '>') { cur.deleteWithoutBack(); }",
+        ">": [
+            "var lineTextBefore = cur.getLineTextBeforeCursor();",
+            "var tagClosing = GetXmlTagClosing(lineTextBefore);",
+            "if (tagClosing) { cur.insertText(tagClosing); cur.move(cur.getLine(), cur.getCol() - tagClosing.length); }"
+        ],
         "'": [
             "cur.insertText('\\'');",
             "cur.moveLeft();"
