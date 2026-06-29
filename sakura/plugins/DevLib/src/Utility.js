@@ -190,7 +190,7 @@ var Utility = {
         return pobj;
     },
 
-    stringifyObject : function(obj, depth) {
+    JsonStringify : function(obj, depth) {
         if (obj === null) { return 'null'; }
         if (obj === undefined) { return 'undefined'; }
         if (depth === undefined) { depth = 0; };
